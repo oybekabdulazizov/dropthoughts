@@ -16,7 +16,7 @@ import { UserValidation } from '@/lib/validations/user';
 import { Button } from '../ui/button';
 import * as z from 'zod';
 import Image from 'next/image';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { Textarea } from '../ui/textarea';
 
 interface Props {
@@ -32,6 +32,8 @@ interface Props {
 }
 
 export default function AccountProfile({ user, btnTitle }: Props) {
+  const [files, setFiles] = useState<Array<File>>();
+
   const form = useForm({
     resolver: zodResolver(UserValidation),
     defaultValues: {
@@ -43,10 +45,27 @@ export default function AccountProfile({ user, btnTitle }: Props) {
   });
 
   const handleImage = (
-    e: ChangeEvent,
+    e: ChangeEvent<HTMLInputElement>,
     fieldChange: (value: string) => void
   ) => {
     e.preventDefault();
+    const fileReader = new FileReader();
+
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      if (!file.type.includes('image')) {
+        // USE TOAST NOTIFICATION HERE
+        return;
+      }
+      setFiles(Array.from(e.target.files));
+
+      fileReader.onload = async (event) => {
+        const imageDataUrl = event.target?.result?.toString() || '';
+        fieldChange(imageDataUrl);
+      };
+
+      fileReader.readAsDataURL(file);
+    }
   };
 
   const onSubmit = (values: z.infer<typeof UserValidation>) => {
