@@ -7,12 +7,12 @@ export default async function Page() {
   const userInfo = {};
 
   const userData = {
-    id: user?.id,
-    objectId: userInfo?._id!,
-    username: userInfo?.username | user?.username,
-    name: userInfo?.name || user?.firstName || '',
-    bio: userInfo?.bio || '',
-    image: userInfo?.image || user?.imageUrl,
+    id: user?.id!,
+    _id: '',
+    username: user?.username || '',
+    name: user?.firstName || '',
+    bio: '',
+    image: user?.imageUrl || '',
   };
 
   return (

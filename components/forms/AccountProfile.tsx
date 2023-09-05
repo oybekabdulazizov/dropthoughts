@@ -20,11 +20,13 @@ import { ChangeEvent, useState } from 'react';
 import { Textarea } from '../ui/textarea';
 import { isBase64Image } from '@/lib/utils';
 import { useUploadThing } from '@/lib/uploadthing';
+import { usePathname, useRouter } from 'next/navigation';
+import { updateUser } from '@/lib/actions/user.actions';
 
 interface Props {
   user: {
     id: string;
-    objectId: string;
+    _id: string;
     username: string;
     name: string;
     bio: string;
@@ -36,11 +38,13 @@ interface Props {
 export default function AccountProfile({ user, btnTitle }: Props) {
   const [files, setFiles] = useState<Array<File>>([]);
   const { startUpload } = useUploadThing('media');
+  const router = useRouter();
+  const pathname = usePathname();
 
   const form = useForm({
     resolver: zodResolver(UserValidation),
     defaultValues: {
-      profile_photo: user?.image || '',
+      image: user?.image || '',
       name: user?.name || '',
       username: user?.username || '',
       bio: user?.bio || '',
@@ -77,13 +81,13 @@ export default function AccountProfile({ user, btnTitle }: Props) {
   };
 
   const onSubmit = async (values: z.infer<typeof UserValidation>) => {
-    const blob = values.profile_photo;
+    const blob = values.image;
     try {
       const hasImageChanged = isBase64Image(blob);
       if (hasImageChanged) {
         const imgRes = await startUpload(files);
         if (imgRes && imgRes[0].url) {
-          values.profile_photo = imgRes[0].url;
+          values.image = imgRes[0].url;
         }
       }
     } catch (err: any) {
@@ -91,9 +95,17 @@ export default function AccountProfile({ user, btnTitle }: Props) {
       console.log(err);
     }
 
-    // TODO: Update user profile
+    await updateUser({
+      userId: user.id,
+      ...values,
+      path: pathname,
+    });
 
-    console.log(values);
+    if (pathname === '/profile/edit') {
+      router.back();
+    } else {
+      router.push('/');
+    }
   };
 
   return (
@@ -104,7 +116,7 @@ export default function AccountProfile({ user, btnTitle }: Props) {
       >
         <FormField
           control={form.control}
-          name='profile_photo'
+          name='image'
           render={({ field }) => (
             <FormItem className='flex items-center gap-4'>
               <FormLabel className='account-form_image-label'>
