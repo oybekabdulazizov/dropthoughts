@@ -44,3 +44,14 @@ export async function updateUser({
     console.log(err);
   }
 }
+
+export async function fetchUser(userId: string) {
+  try {
+    connectToDB();
+    const user = await User.findOne({ id: userId });
+    return user;
+  } catch (error: any) {
+    console.log('Failed to fetch user.');
+    console.log(error);
+  }
+}
