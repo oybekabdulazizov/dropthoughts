@@ -2,12 +2,12 @@ import { Schema, model, models } from 'mongoose';
 
 const threadSchema = new Schema({
   text: { type: String, required: true },
-  author: {
+  authorId: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
   },
-  community: {
+  communityId: {
     type: Schema.Types.ObjectId,
     ref: 'Community',
   },
@@ -15,10 +15,10 @@ const threadSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  parentId: {
+  parentThreadId: {
     type: String,
   },
-  children: [
+  childrenThreads: [
     {
       type: Schema.Types.ObjectId,
       ref: 'Thread',
