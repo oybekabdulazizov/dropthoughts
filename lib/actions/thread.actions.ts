@@ -83,3 +83,41 @@ export async function fetchThreads({
     throw new Error(`Failed to fetch threads. ${error.message}`);
   }
 }
+
+export async function fetchThread(threadId: string) {
+  try {
+    connectToDB();
+
+    const thread = await Thread.findById(threadId)
+      .populate({
+        path: 'author',
+        model: User,
+        select: '_id id name image',
+      })
+      .populate({
+        path: 'childrenThreads',
+        populate: [
+          {
+            path: 'author',
+            model: User,
+            select: '_id id name parentThreadId image',
+          },
+          {
+            path: 'childrenThreads',
+            model: Thread,
+            populate: {
+              path: 'author',
+              model: User,
+              select: '_id id name parentThreadId image',
+            },
+          },
+        ],
+      });
+
+    return thread;
+  } catch (error: any) {
+    throw new Error(
+      `Failed to fetch the thread with the id ${threadId}. ${error.message}`
+    );
+  }
+}
