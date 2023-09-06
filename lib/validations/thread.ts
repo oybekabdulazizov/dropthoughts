@@ -6,7 +6,7 @@ export const ThreadValidation = z.object({
     .nonempty()
     .min(3, 'A thread must contain minumum 3 characters.')
     .max(500, 'A thread cannot exceed 500 characters'),
-  authorId: z.string(),
+  author: z.string(),
 });
 
 export const CommentValidation = z.object({
@@ -15,5 +15,5 @@ export const CommentValidation = z.object({
     .nonempty()
     .min(3, 'A thread must contain minumum 3 characters.')
     .max(500, 'A thread cannot exceed 500 characters'),
-  authorId: z.string(),
+  author: z.string(),
 });

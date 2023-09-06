@@ -5,36 +5,33 @@ import Thread from '../models/thread.model';
 import User from '../models/user.model';
 import { connectToDB } from '../mongoose';
 
-interface Props {
+interface CreateThread_Props {
   text: string;
-  authorId: string;
-  communityId: string | null;
+  author: string;
+  community: string | null;
   path: string;
 }
 
 export async function createThread({
   text,
-  authorId,
-  communityId,
+  author,
+  community,
   path,
-}: Props): Promise<void> {
+}: CreateThread_Props): Promise<void> {
   try {
     connectToDB();
-    console.log(text, authorId, communityId, path);
+
     const newThread = await Thread.create({
       text,
-      authorId,
-      communityId,
+      author,
+      community,
     });
-    console.log(newThread);
 
-    await User.findByIdAndUpdate(authorId, {
+    await User.findByIdAndUpdate(author, {
       $push: { threads: newThread._id },
     });
   } catch (error: any) {
     throw new Error(`Error creating the thread. ${error.message}`);
-    // console.log('Failed to add a thread.');
-    // console.log(error);
   }
 
   revalidatePath(path);

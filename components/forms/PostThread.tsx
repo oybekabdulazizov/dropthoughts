@@ -30,16 +30,15 @@ export default function PostThread({ userId }: Props) {
     resolver: zodResolver(ThreadValidation),
     defaultValues: {
       thread: '',
-      authorId: userId,
+      author: userId,
     },
   });
 
   const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
-    const vals = JSON.parse(JSON.stringify(values));
     await createThread({
-      text: vals.thread,
-      authorId: vals.authorId,
-      communityId: null,
+      text: values.thread,
+      author: values.author,
+      community: null,
       path: pathname,
     });
 
