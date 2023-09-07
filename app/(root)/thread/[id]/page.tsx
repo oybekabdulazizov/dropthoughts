@@ -52,6 +52,23 @@ export default async function Page({ params }: Props) {
           currentUserName={userFromDB.name!}
         />
       </div>
+      <div className='mt-8'>
+        {thread.childrenThreads.map((childThread: any, i: number) => (
+          <ThreadCard
+            key={childThread._id}
+            threadId={childThread._id}
+            currentUserId={user?.id || ''}
+            parentThreadId={childThread.parentThreadId}
+            content={childThread.text}
+            author={childThread.author}
+            community={childThread.community}
+            createdAt={childThread.createdAt}
+            comments={childThread.childrenThreads}
+            isComment={true}
+            nth={i}
+          />
+        ))}
+      </div>
     </section>
   );
 }

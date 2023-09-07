@@ -24,6 +24,7 @@ type Props = {
     };
   }>;
   isComment?: boolean;
+  nth?: number;
 };
 
 export default function ThreadCard({
@@ -36,10 +37,19 @@ export default function ThreadCard({
   createdAt,
   comments,
   isComment,
+  nth,
 }: Props) {
   return (
-    <article className='flex w-full flex-col rounded-xl bg-dark-2 p-7'>
-      <div className='flex items-start justify-between'>
+    <article
+      className={`flex w-full flex-col rounded-xl ${
+        isComment ? 'px-0 xs:px-7' : 'bg-dark-2 p-7'
+      }`}
+    >
+      <div
+        className={`flex items-start justify-between ${
+          isComment && nth !== 0 && 'mt-6'
+        }`}
+      >
         <div className='flex w-full flex-1 flex-row gap-4'>
           <div className='flex flex-col items-center'>
             <Link
@@ -64,7 +74,7 @@ export default function ThreadCard({
               </h4>
             </Link>
             <p className='text-light-2 mt-2 text-small-regular'>{content}</p>
-            <div className='mt-5 flex flex-col gap-3'>
+            <div className='mt-3 flex flex-col gap-2'>
               <div className='flex gap-3.5'>
                 <Image
                   src='/assets/heart-gray.svg'
