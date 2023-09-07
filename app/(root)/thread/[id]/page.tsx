@@ -4,6 +4,7 @@ import { currentUser } from '@clerk/nextjs';
 import { fetchUser } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
 import { fetchThread } from '@/lib/actions/thread.actions';
+import Comment from '@/components/forms/Comment';
 
 type Props = {
   params: {
@@ -22,29 +23,33 @@ export default async function Page({ params }: Props) {
     redirect('/onboarding');
   }
 
-  const {
-    _id,
-    parentThreadId,
-    text,
-    author,
-    community,
-    createdAt,
-    childrenThreads,
-  } = await fetchThread(params.id);
+  const thread = await fetchThread(params.id);
+
+  if (!thread) {
+    redirect('/');
+  }
 
   return (
     <section className='relative'>
       <div>
         <ThreadCard
-          key={_id}
-          threadId={_id}
+          key={thread._id}
+          threadId={thread._id}
           currentUserId={user?.id || ''}
-          parentThreadId={parentThreadId}
-          content={text}
-          author={author}
-          community={community}
-          createdAt={createdAt}
-          comments={childrenThreads}
+          parentThreadId={thread.parentThreadId}
+          content={thread.text}
+          author={thread.author}
+          community={thread.community}
+          createdAt={thread.createdAt}
+          comments={thread.childrenThreads}
+        />
+      </div>
+      <div className='mt-6'>
+        <Comment
+          threadId={JSON.stringify(thread._id)}
+          currentUserImg={userFromDB.image}
+          currentUserId={JSON.stringify(userFromDB._id)}
+          currentUserName={userFromDB.name!}
         />
       </div>
     </section>

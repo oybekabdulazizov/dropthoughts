@@ -84,6 +84,8 @@ export async function fetchThreads({
   }
 }
 
+// ========================================================================================================
+
 export async function fetchThread(threadId: string) {
   try {
     connectToDB();
@@ -120,4 +122,49 @@ export async function fetchThread(threadId: string) {
       `Failed to fetch the thread with the id ${threadId}. ${error.message}`
     );
   }
+}
+
+// ========================================================================================================
+
+interface AddCommentToThread_Props {
+  threadId: string;
+  commentText: string;
+  author: string;
+  path: string;
+}
+
+export async function addCommentToThread({
+  threadId,
+  commentText,
+  author,
+  path,
+}: AddCommentToThread_Props) {
+  try {
+    connectToDB();
+    const tId = threadId;
+
+    const originalThread = await Thread.findById(tId);
+    if (!originalThread)
+      throw new Error('addCommentToThread(): Thread not found!');
+
+    const newCommentThread = await Thread.create({
+      text: commentText,
+      author: author,
+      community: null,
+      parentThreadId: threadId,
+    });
+
+    originalThread.childrenThreads.push(newCommentThread._id);
+    await originalThread.save();
+
+    await User.findByIdAndUpdate(author, {
+      $push: { threads: newCommentThread._id },
+    });
+  } catch (error: any) {
+    throw new Error(
+      `addCommentToThread(): Failed to add a comment to the thread. ${error.message}`
+    );
+  }
+
+  revalidatePath(path);
 }
