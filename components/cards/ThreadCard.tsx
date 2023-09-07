@@ -50,6 +50,7 @@ export default function ThreadCard({
                 src={author.image}
                 alt={`Profile image of ${author.name}`}
                 fill
+                sizes='normal'
                 className='cursor-pointer rounded-full'
               />
             </Link>
@@ -97,7 +98,7 @@ export default function ThreadCard({
                 />
               </div>
 
-              {isComment && comments.length > 0 && (
+              {comments.length > 0 && (
                 <Link href={`/thread/${threadId}`}>
                   <p className='mt-1 text-subtle-medium text-gray-1'>
                     {comments.length}{' '}
