@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '../ui/input';
-import { UserValidation } from '@/lib/validations/user';
+import { UserValidation } from '@/lib/validations/user.validation';
 import { Button } from '../ui/button';
 import * as z from 'zod';
 import Image from 'next/image';

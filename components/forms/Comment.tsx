@@ -5,7 +5,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form';
 import { useForm } from 'react-hook-form';
 import { Button } from '../ui/button';
 import * as z from 'zod';
-import { CommentValidation } from '@/lib/validations/thread';
+import { CommentValidation } from '@/lib/validations/thread.validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import Image from 'next/image';

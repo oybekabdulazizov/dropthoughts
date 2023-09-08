@@ -1,6 +1,6 @@
 'use client';
 
-import { ThreadValidation } from '@/lib/validations/thread';
+import { ThreadValidation } from '@/lib/validations/thread.validation';
 import { zodResolver } from '@hookform/resolvers/zod/dist/zod.js';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
