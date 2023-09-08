@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
+import { calculateRelativeTimes } from '@/lib/utils';
 
 type Props = {
   threadId: string;
@@ -17,7 +18,7 @@ type Props = {
     name: string;
     image: string;
   } | null;
-  createdAt: string;
+  createdAt: Date;
   comments: Array<{
     author: {
       image: string;
@@ -39,6 +40,8 @@ export default function ThreadCard({
   isComment,
   nth,
 }: Props) {
+  const createdWhen = calculateRelativeTimes(createdAt);
+
   return (
     <article
       className={`flex w-full flex-col rounded-xl ${
@@ -68,11 +71,14 @@ export default function ThreadCard({
           </div>
 
           <div className='flex w-full flex-col'>
-            <Link href={`/profile/${author._id}`} className='w-full'>
-              <h4 className='cursor-pointer text-base-semibold text-light-1'>
-                {author.name}
-              </h4>
-            </Link>
+            <div className='flex flex-row gap-3 items-center'>
+              <Link href={`/profile/${author._id}`} className='w-fit'>
+                <h4 className='cursor-pointer text-base-semibold text-light-1'>
+                  {author.name}
+                </h4>
+              </Link>
+              <p className='text-gray-1 text-small-regular'>{createdWhen}</p>
+            </div>
             <p className='text-light-2 mt-2 text-small-regular'>{content}</p>
             <div className='mt-3 flex flex-col gap-2'>
               <div className='flex gap-3.5'>
