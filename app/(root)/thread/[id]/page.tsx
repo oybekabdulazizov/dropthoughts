@@ -20,7 +20,7 @@ export default async function Page({ params }: Props) {
 
   const userFromDB = await fetchUser(user.id);
   if (!userFromDB?.onboarded) {
-    redirect('/onboarding');
+    redirect('/auth/onboarding');
   }
 
   const thread = await fetchThread(params.id);

@@ -12,6 +12,7 @@ type Props = {
     name: string;
     image: string;
     _id: string;
+    id: string;
   };
   community: {
     _id: string;
@@ -55,10 +56,7 @@ export default function ThreadCard({
       >
         <div className='flex w-full flex-1 flex-row gap-4'>
           <div className='flex flex-col items-center'>
-            <Link
-              href={`/profile/${author._id}`}
-              className='relative h-11 w-11'
-            >
+            <Link href={`/profile/${author.id}`} className='relative h-11 w-11'>
               <Image
                 src={author.image}
                 alt={`Profile image of ${author.name}`}
@@ -72,7 +70,7 @@ export default function ThreadCard({
 
           <div className='flex w-full flex-col'>
             <div className='flex flex-row gap-3 items-center'>
-              <Link href={`/profile/${author._id}`} className='w-fit'>
+              <Link href={`/profile/${author.id}`} className='w-fit'>
                 <h4 className='cursor-pointer text-base-semibold text-light-1'>
                   {author.name}
                 </h4>
