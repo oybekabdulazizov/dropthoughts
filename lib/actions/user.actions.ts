@@ -65,6 +65,7 @@ export async function fetchUserThreads(userId: string) {
       path: 'threads',
       model: Thread,
       options: {
+        author: { $ne: userId },
         sort: { createdAt: 'desc' },
       },
       populate: {
@@ -77,5 +78,32 @@ export async function fetchUserThreads(userId: string) {
     return threadsByUser;
   } catch (error: any) {
     throw new Error(`(fetchUserPosts): ${error.message}`);
+  }
+}
+
+export async function getReplies(authorId: string) {
+  try {
+    connectToDB();
+
+    const userThreads = await Thread.find({ author: authorId });
+
+    const childThreadIds = userThreads.reduce((acc, thread) => {
+      return acc.concat(thread.childrenThreads);
+    }, []);
+
+    const replies = await Thread.find({
+      _id: { $in: childThreadIds },
+      author: { $ne: authorId },
+    })
+      .sort({ createdAt: 'desc' })
+      .populate({
+        path: 'author',
+        model: User,
+        select: '_id id name image',
+      });
+
+    return replies;
+  } catch (error: any) {
+    throw new Error(`(getActivity): ${error.message}`);
   }
 }

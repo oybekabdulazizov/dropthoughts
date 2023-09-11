@@ -7,6 +7,7 @@ import { redirect } from 'next/navigation';
 import React from 'react';
 import Image from 'next/image';
 import ThreadsTab from '@/components/shared/ThreadsTab';
+import RepliesTab from '@/components/shared/RepliesTab';
 
 type Props = {
   params: {
@@ -68,7 +69,7 @@ export default async function Page({ params }: Props) {
             />
           </TabsContent>
           <TabsContent value='replies' className='w-full text-light-1'>
-            <p className='head-text text-light-1'>Replies</p>
+            <RepliesTab currentUserId={user.id} accountId={userFromDB.id} />
           </TabsContent>
           <TabsContent value='tagged' className='w-full text-light-1'>
             <p className='head-text text-light-1'>Tagged</p>
