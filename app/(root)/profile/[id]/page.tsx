@@ -1,11 +1,12 @@
 import ProfileHeader from '@/components/shared/ProfileHeader';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { profileTabs } from '@/constants';
 import { fetchUser } from '@/lib/actions/user.actions';
 import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 import React from 'react';
 import Image from 'next/image';
+import ThreadsTab from '@/components/shared/ThreadsTab';
 
 type Props = {
   params: {
@@ -20,9 +21,11 @@ export default async function Page({ params }: Props) {
   }
 
   const userFromDB = await fetchUser(params.id);
-  if (!userFromDB) redirect('/');
+  if (!userFromDB) {
+    // TODO: toast a message
+    redirect('/');
+  }
 
-  // if (!userFromDB?.onboarded) redirect('/auth/onboarding');
   return (
     <section>
       <ProfileHeader
@@ -56,6 +59,20 @@ export default async function Page({ params }: Props) {
               </TabsTrigger>
             ))}
           </TabsList>
+
+          <TabsContent value='threads' className='w-full text-light-1'>
+            <ThreadsTab
+              currentUserId={user.id}
+              accountId={userFromDB.id}
+              accountType='User'
+            />
+          </TabsContent>
+          <TabsContent value='replies' className='w-full text-light-1'>
+            <p className='head-text text-light-1'>Replies</p>
+          </TabsContent>
+          <TabsContent value='tagged' className='w-full text-light-1'>
+            <p className='head-text text-light-1'>Tagged</p>
+          </TabsContent>
         </Tabs>
       </div>
     </section>
