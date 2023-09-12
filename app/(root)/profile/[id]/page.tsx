@@ -1,7 +1,7 @@
 import ProfileHeader from '@/components/shared/ProfileHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { profileTabs } from '@/constants';
-import { fetchUser } from '@/lib/actions/user.actions';
+import { fetchUser, getReplies } from '@/lib/actions/user.actions';
 import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 import React from 'react';
@@ -27,6 +27,8 @@ export default async function Page({ params }: Props) {
     redirect('/');
   }
 
+  const replies = await getReplies(userFromDB._id);
+
   return (
     <section>
       <ProfileHeader
@@ -41,7 +43,7 @@ export default async function Page({ params }: Props) {
       <div className='mt-6'>
         <Tabs defaultValue='threads' className='w-full'>
           <TabsList className='tab'>
-            {profileTabs.map((tab) => (
+            {profileTabs.slice(0, 2).map((tab) => (
               <TabsTrigger key={tab.label} value={tab.value} className='tab'>
                 <Image
                   src={tab.icon}
@@ -57,6 +59,12 @@ export default async function Page({ params }: Props) {
                     {userFromDB.threads.length}
                   </p>
                 )}
+                {tab.label.toLowerCase() === 'replies' &&
+                  replies.length > 0 && (
+                    <p className='rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2'>
+                      {replies.length}
+                    </p>
+                  )}
               </TabsTrigger>
             ))}
           </TabsList>
@@ -70,9 +78,6 @@ export default async function Page({ params }: Props) {
           </TabsContent>
           <TabsContent value='replies' className='w-full text-light-1'>
             <RepliesTab currentUserId={user.id} accountId={userFromDB.id} />
-          </TabsContent>
-          <TabsContent value='tagged' className='w-full text-light-1'>
-            <p className='head-text text-light-1'>Tagged</p>
           </TabsContent>
         </Tabs>
       </div>
