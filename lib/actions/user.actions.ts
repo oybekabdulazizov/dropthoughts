@@ -104,6 +104,6 @@ export async function getReplies(authorId: string) {
 
     return replies;
   } catch (error: any) {
-    throw new Error(`(getActivity): ${error.message}`);
+    throw new Error(`(getReplies): ${error.message}`);
   }
 }
