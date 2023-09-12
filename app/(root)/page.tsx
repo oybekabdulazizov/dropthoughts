@@ -23,17 +23,19 @@ export default async function Home() {
                 createdAt,
                 childrenThreads,
                 parentThreadId,
+                likes,
               }) => (
                 <ThreadCard
                   key={_id}
                   threadId={_id}
-                  currentUserId={user?.id || ''}
+                  currentUserId={user?.id || null}
                   parentThreadId={parentThreadId}
                   content={text}
                   author={author}
                   community={community}
                   createdAt={createdAt}
                   comments={childrenThreads}
+                  likes={likes}
                 />
               )
             )}

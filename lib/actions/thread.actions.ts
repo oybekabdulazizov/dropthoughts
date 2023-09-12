@@ -168,3 +168,69 @@ export async function addCommentToThread({
 
   revalidatePath(path);
 }
+
+// ========================================================================================================
+
+interface AddLike_Props {
+  threadId: string;
+  userId: string;
+  path: string;
+}
+export async function addLike({ threadId, userId, path }: AddLike_Props) {
+  try {
+    connectToDB();
+
+    await Thread.findByIdAndUpdate(
+      threadId,
+      {
+        $push: { likes: userId },
+      },
+      { new: true, returnOriginal: false }
+    );
+
+    await User.findByIdAndUpdate(
+      userId,
+      {
+        $push: { likedThreads: threadId },
+      },
+      { new: true, returnOriginal: false }
+    );
+  } catch (error: any) {
+    throw new Error(`(addLike): ${error.message}`);
+  }
+
+  revalidatePath(path);
+}
+
+// ========================================================================================================
+
+interface RemoveLike_Props {
+  threadId: string;
+  userId: string;
+  path: string;
+}
+export async function removeLike({ threadId, userId, path }: RemoveLike_Props) {
+  try {
+    connectToDB();
+
+    await Thread.findByIdAndUpdate(
+      threadId,
+      {
+        $pull: { likes: { $in: [userId] } },
+      },
+      { new: true, returnOriginal: false }
+    );
+
+    await User.findByIdAndUpdate(
+      userId,
+      {
+        $pull: { likedThreads: { $in: [threadId] } },
+      },
+      { new: true, returnOriginal: false }
+    );
+  } catch (error: any) {
+    throw new Error(`(removeLike): ${error.message}`);
+  }
+
+  revalidatePath(path);
+}

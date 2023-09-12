@@ -2,10 +2,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
 import { calculateRelativeTimes } from '@/lib/utils';
+import { fetchUser } from '@/lib/actions/user.actions';
+import LikeButton from '../shared/LikeButton';
 
 type Props = {
   threadId: string;
-  currentUserId: string;
+  currentUserId: string | null;
   parentThreadId: string | null;
   content: string;
   author: {
@@ -27,9 +29,10 @@ type Props = {
   }>;
   isComment?: boolean;
   nth?: number;
+  likes: Array<string>;
 };
 
-export default function ThreadCard({
+export default async function ThreadCard({
   threadId,
   currentUserId,
   parentThreadId,
@@ -40,8 +43,18 @@ export default function ThreadCard({
   comments,
   isComment,
   nth,
+  likes,
 }: Props) {
   const createdWhen = calculateRelativeTimes(createdAt);
+
+  const currentUserFromDB = currentUserId
+    ? await fetchUser(currentUserId)
+    : null;
+
+  let likedByCurrentUser: number = -1;
+  if (currentUserFromDB) {
+    likedByCurrentUser = likes.indexOf(currentUserFromDB._id) === 0 ? 1 : 0;
+  }
 
   return (
     <article
@@ -80,12 +93,21 @@ export default function ThreadCard({
             <p className='text-light-2 mt-2 text-small-regular'>{content}</p>
             <div className='mt-3 flex flex-col gap-2'>
               <div className='flex gap-3.5'>
-                <Image
+                {/* <Image
                   src='/assets/heart-gray.svg'
                   height={24}
                   width={24}
                   alt='icon-heart'
                   className='cursor-pointer object-contain'
+                /> */}
+                <LikeButton
+                  likedByCurrentUser={likedByCurrentUser}
+                  currentUserId={
+                    currentUserFromDB
+                      ? JSON.stringify(currentUserFromDB._id)
+                      : null
+                  }
+                  threadId={JSON.stringify(threadId)}
                 />
                 <Link href={`/thread/${threadId}`}>
                   <Image
