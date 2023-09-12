@@ -9,6 +9,7 @@ const userSchema = new Schema({
   threads: [{ type: Schema.Types.ObjectId, ref: 'Thread' }],
   onboarded: { type: Boolean, default: false },
   communities: [{ type: Schema.Types.ObjectId, ref: 'Community' }],
+  likedThreads: [{ type: Schema.Types.ObjectId, ref: 'Thread' }],
 });
 
 const User = models.User || model('User', userSchema);
