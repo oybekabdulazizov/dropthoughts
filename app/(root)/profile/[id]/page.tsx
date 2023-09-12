@@ -60,7 +60,8 @@ export default async function Page({ params }: Props) {
                   </p>
                 )}
                 {tab.label.toLowerCase() === 'replies' &&
-                  replies.length > 0 && (
+                  replies.length > 0 &&
+                  user.id === userFromDB.id && (
                     <p className='rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2'>
                       {replies.length}
                     </p>
@@ -77,7 +78,15 @@ export default async function Page({ params }: Props) {
             />
           </TabsContent>
           <TabsContent value='replies' className='w-full text-light-1'>
-            <RepliesTab currentUserId={user.id} accountId={userFromDB.id} />
+            {user.id === userFromDB.id ? (
+              <RepliesTab currentUserId={user.id} accountId={userFromDB.id} />
+            ) : (
+              <div className='mt-6 flex'>
+                <p className='!text-base-regular text-light-1'>
+                  Nothing to show here
+                </p>
+              </div>
+            )}
           </TabsContent>
         </Tabs>
       </div>
