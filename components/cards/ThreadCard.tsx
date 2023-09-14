@@ -53,7 +53,7 @@ export default async function ThreadCard({
 
   let likedByCurrentUser: number = -1;
   if (currentUserFromDB) {
-    likedByCurrentUser = likes.indexOf(currentUserFromDB._id) === 0 ? 1 : 0;
+    likedByCurrentUser = likes.indexOf(currentUserFromDB._id) > -1 ? 1 : 0;
   }
 
   return (

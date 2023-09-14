@@ -42,6 +42,7 @@ export default async function Page({ params }: Props) {
           community={thread.community}
           createdAt={thread.createdAt}
           comments={thread.childrenThreads}
+          likes={thread.likes}
         />
       </div>
       <div className='mt-6'>
@@ -66,6 +67,7 @@ export default async function Page({ params }: Props) {
             comments={childThread.childrenThreads}
             isComment={true}
             nth={i}
+            likes={childThread.likes}
           />
         ))}
       </div>

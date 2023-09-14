@@ -45,6 +45,7 @@ export default async function ThreadsTab({
             community={thread.community}
             createdAt={thread.createdAt}
             comments={thread.childrenThreads}
+            likes={thread.likes}
           />
         );
         // } else {
