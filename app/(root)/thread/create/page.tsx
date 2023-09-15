@@ -4,12 +4,11 @@ import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 
 export default async function Page() {
-  const user = await currentUser();
-  if (!user) return null;
+  const userFromClerk = await currentUser();
+  if (!userFromClerk) redirect('/auth/sign-in');
 
-  const userFromDB = await fetchUser(user.id);
-
-  if (!userFromDB?.onboarded) {
+  const userFromDB = await fetchUser(userFromClerk.id);
+  if (!userFromDB) {
     redirect('/auth/onboarding');
   }
   return (

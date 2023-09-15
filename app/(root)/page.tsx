@@ -3,7 +3,7 @@ import { fetchThreads } from '@/lib/actions/thread.actions';
 import { currentUser } from '@clerk/nextjs';
 
 export default async function Home() {
-  const user = await currentUser();
+  const userFromClerk = await currentUser();
   const result = await fetchThreads({ pageNumber: 1, pageSize: 30 });
 
   return (
@@ -28,7 +28,7 @@ export default async function Home() {
                 <ThreadCard
                   key={_id}
                   threadId={_id}
-                  currentUserId={user?.id || null}
+                  currentUserId={userFromClerk?.id || null}
                   parentThreadId={parentThreadId}
                   content={text}
                   author={author}

@@ -16,15 +16,15 @@ type Props = {
 };
 
 export default async function Page({ params }: Props) {
-  const user = await currentUser();
-  if (!user) {
-    return null;
+  const userFromClerk = await currentUser();
+  if (!userFromClerk) {
+    redirect('/auth/sign-in');
   }
 
   const userFromDB = await fetchUser(params.id);
   if (!userFromDB) {
     // TODO: toast a message
-    redirect('/');
+    redirect('/auth/onboarding');
   }
 
   const replies = await getReplies(userFromDB._id);
@@ -33,7 +33,7 @@ export default async function Page({ params }: Props) {
     <section>
       <ProfileHeader
         accountId={userFromDB.id}
-        authUserId={user.id}
+        authUserId={userFromClerk.id}
         name={userFromDB.name}
         username={userFromDB.username}
         image={userFromDB.image}
@@ -61,7 +61,7 @@ export default async function Page({ params }: Props) {
                 )}
                 {tab.label.toLowerCase() === 'replies' &&
                   replies.length > 0 &&
-                  user.id === userFromDB.id && (
+                  userFromClerk.id === userFromDB.id && (
                     <p className='rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2'>
                       {replies.length}
                     </p>
@@ -72,14 +72,17 @@ export default async function Page({ params }: Props) {
 
           <TabsContent value='threads' className='w-full text-light-1'>
             <ThreadsTab
-              currentUserId={user.id}
+              currentUserId={userFromClerk.id}
               accountId={userFromDB.id}
               accountType='User'
             />
           </TabsContent>
           <TabsContent value='replies' className='w-full text-light-1'>
-            {user.id === userFromDB.id ? (
-              <RepliesTab currentUserId={user.id} accountId={userFromDB.id} />
+            {userFromClerk.id === userFromDB.id ? (
+              <RepliesTab
+                currentUserId={userFromClerk.id}
+                accountId={userFromDB.id}
+              />
             ) : (
               <div className='mt-6 flex'>
                 <p className='!text-base-regular text-light-1'>
