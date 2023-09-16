@@ -40,6 +40,18 @@ export default function ProfileHeader({
             <p className='text-base-medium text-gray-1'>@{username}</p>
           </div>
         </div>
+
+        {currentUserIdClerk === id && (
+          <Link href='/profile/edit'>
+            <Image
+              src='/assets/edit.svg'
+              alt='edit profile'
+              width={24}
+              height={24}
+              className='object-contain'
+            />
+          </Link>
+        )}
       </section>
 
       {/* TODO: Community is placed here */}
