@@ -75,7 +75,7 @@ export default async function Page({ params }: Props) {
             <ThreadsTab
               currentUserIdClerk={userFromClerk.id}
               userId={userFromDB.id}
-              user_id={userFromDB._id}
+              user_id={JSON.stringify(userFromDB._id)}
               accountType='User'
             />
           </TabsContent>
@@ -84,7 +84,7 @@ export default async function Page({ params }: Props) {
               <RepliesTab
                 currentUserIdClerk={userFromClerk.id}
                 userId={userFromDB.id}
-                user_id={userFromDB._id}
+                user_id={JSON.stringify(userFromDB._id)}
               />
             ) : (
               <div className='mt-6 flex'>

@@ -30,6 +30,7 @@ export default function ProfileHeader({
               src={image}
               alt={`Profile image of ${name}`}
               fill
+              sizes='medium'
               className='rounded-full object-cover shadow-2xl'
             />
           </div>

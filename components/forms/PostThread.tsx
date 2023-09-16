@@ -30,7 +30,7 @@ export default function PostThread({ user_id }: Props) {
     resolver: zodResolver(ThreadValidation),
     defaultValues: {
       thread: '',
-      author: user_id,
+      author: JSON.parse(user_id),
     },
   });
 

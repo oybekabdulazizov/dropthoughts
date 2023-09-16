@@ -3,7 +3,7 @@ import '../globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
 
 export const metadata = {
-  title: 'Threads',
+  title: 'Threads Auth',
   description: 'A Next.js 13 Meta Threads App',
 };
 
