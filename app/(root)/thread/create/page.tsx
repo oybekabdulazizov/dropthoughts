@@ -12,9 +12,9 @@ export default async function Page() {
     redirect('/auth/onboarding');
   }
   return (
-    <>
+    <div>
       <h1 className='head-text'>Create Thread</h1>
-      <PostThread userId={userFromDB._id} />
-    </>
+      <PostThread user_id={userFromDB._id} />
+    </div>
   );
 }

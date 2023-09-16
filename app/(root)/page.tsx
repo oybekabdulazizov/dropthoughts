@@ -1,5 +1,6 @@
 import ThreadCard from '@/components/cards/ThreadCard';
 import { fetchThreads } from '@/lib/actions/thread.actions';
+import { fetchUser } from '@/lib/actions/user.actions';
 import { currentUser } from '@clerk/nextjs';
 
 export default async function Home() {
@@ -14,31 +15,20 @@ export default async function Home() {
           <p className='no-result'>No threads found.</p>
         ) : (
           <>
-            {result.threads.map(
-              ({
-                _id,
-                text,
-                author,
-                community,
-                createdAt,
-                childrenThreads,
-                parentThreadId,
-                likes,
-              }) => (
-                <ThreadCard
-                  key={_id}
-                  threadId={_id}
-                  currentUserId={userFromClerk?.id || null}
-                  parentThreadId={parentThreadId}
-                  content={text}
-                  author={author}
-                  community={community}
-                  createdAt={createdAt}
-                  comments={childrenThreads}
-                  likes={likes}
-                />
-              )
-            )}
+            {result.threads.map((thread) => (
+              <ThreadCard
+                key={thread._id}
+                threadId={thread._id}
+                currentUserIdClerk={userFromClerk?.id || null}
+                parentThreadId={thread.parentThreadId}
+                content={thread.text}
+                author={thread.author}
+                community={thread.community}
+                createdAt={thread.createdAt}
+                comments={thread.childrenThreads}
+                likes={thread.likes}
+              />
+            ))}
           </>
         )}
       </section>

@@ -32,8 +32,9 @@ export default async function Page({ params }: Props) {
   return (
     <section>
       <ProfileHeader
-        accountId={userFromDB.id}
-        authUserId={userFromClerk.id}
+        id={userFromDB.id}
+        _id={userFromDB._id}
+        currentUserIdClerk={userFromClerk.id}
         name={userFromDB.name}
         username={userFromDB.username}
         image={userFromDB.image}
@@ -72,16 +73,18 @@ export default async function Page({ params }: Props) {
 
           <TabsContent value='threads' className='w-full text-light-1'>
             <ThreadsTab
-              currentUserId={userFromClerk.id}
-              accountId={userFromDB.id}
+              currentUserIdClerk={userFromClerk.id}
+              userId={userFromDB.id}
+              user_id={userFromDB._id}
               accountType='User'
             />
           </TabsContent>
           <TabsContent value='replies' className='w-full text-light-1'>
             {userFromClerk.id === userFromDB.id ? (
               <RepliesTab
-                currentUserId={userFromClerk.id}
-                accountId={userFromDB.id}
+                currentUserIdClerk={userFromClerk.id}
+                userId={userFromDB.id}
+                user_id={userFromDB._id}
               />
             ) : (
               <div className='mt-6 flex'>

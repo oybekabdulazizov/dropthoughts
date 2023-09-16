@@ -7,7 +7,7 @@ export default async function Page() {
   if (!userFromClerk) return null;
 
   const user = {
-    id: userFromClerk.id,
+    idFromClerk: userFromClerk.id,
     username: userFromClerk.username || '',
     name: userFromClerk.firstName || '',
     bio: '',

@@ -25,7 +25,7 @@ import { updateUser } from '@/lib/actions/user.actions';
 
 interface Props {
   user: {
-    id: string;
+    idFromClerk: string;
     username: string;
     name: string;
     bio: string;
@@ -95,7 +95,7 @@ export default function AccountProfile({ user, btnTitle }: Props) {
     }
 
     await updateUser({
-      userId: user.id,
+      userId: user.idFromClerk,
       ...values,
       path: pathname,
     });

@@ -19,10 +19,10 @@ import * as z from 'zod';
 import { createThread } from '@/lib/actions/thread.actions';
 
 type Props = {
-  userId: string;
+  user_id: string;
 };
 
-export default function PostThread({ userId }: Props) {
+export default function PostThread({ user_id }: Props) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -30,7 +30,7 @@ export default function PostThread({ userId }: Props) {
     resolver: zodResolver(ThreadValidation),
     defaultValues: {
       thread: '',
-      author: userId,
+      author: user_id,
     },
   });
 

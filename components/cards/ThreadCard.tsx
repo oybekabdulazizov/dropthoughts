@@ -7,7 +7,7 @@ import LikeButton from '../shared/LikeButton';
 
 type Props = {
   threadId: string;
-  currentUserId: string | null;
+  currentUserIdClerk: string | null;
   parentThreadId: string | null;
   content: string;
   author: {
@@ -34,7 +34,7 @@ type Props = {
 
 export default async function ThreadCard({
   threadId,
-  currentUserId,
+  currentUserIdClerk,
   parentThreadId,
   content,
   author,
@@ -47,8 +47,8 @@ export default async function ThreadCard({
 }: Props) {
   const createdWhen = calculateRelativeTimes(createdAt);
 
-  const currentUserFromDB = currentUserId
-    ? await fetchUser(currentUserId)
+  const currentUserFromDB = currentUserIdClerk
+    ? await fetchUser(currentUserIdClerk)
     : null;
 
   let likedByCurrentUser: number = -1;
@@ -93,13 +93,6 @@ export default async function ThreadCard({
             <p className='text-light-2 mt-2 text-small-regular'>{content}</p>
             <div className='mt-3 flex flex-col gap-2'>
               <div className='flex gap-3.5'>
-                {/* <Image
-                  src='/assets/heart-gray.svg'
-                  height={24}
-                  width={24}
-                  alt='icon-heart'
-                  className='cursor-pointer object-contain'
-                /> */}
                 <LikeButton
                   likedByCurrentUser={likedByCurrentUser}
                   currentUserId={
@@ -118,7 +111,7 @@ export default async function ThreadCard({
                     className='cursor-pointer object-contain'
                   />
                 </Link>
-                <Image
+                {/* <Image
                   src='/assets/repost.svg'
                   height={24}
                   width={24}
@@ -131,7 +124,7 @@ export default async function ThreadCard({
                   width={24}
                   alt='icon-share'
                   className='cursor-pointer object-contain'
-                />
+                /> */}
               </div>
 
               {comments.length > 0 && (

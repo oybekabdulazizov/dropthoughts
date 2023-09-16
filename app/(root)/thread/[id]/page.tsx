@@ -35,7 +35,7 @@ export default async function Page({ params }: Props) {
         <ThreadCard
           key={thread._id}
           threadId={thread._id}
-          currentUserId={userFromClerk.id || ''}
+          currentUserIdClerk={userFromClerk.id || null}
           parentThreadId={thread.parentThreadId}
           content={thread.text}
           author={thread.author}
@@ -58,7 +58,7 @@ export default async function Page({ params }: Props) {
           <ThreadCard
             key={childThread._id}
             threadId={childThread._id}
-            currentUserId={userFromClerk?.id || ''}
+            currentUserIdClerk={userFromClerk?.id || null}
             parentThreadId={childThread.parentThreadId}
             content={childThread.text}
             author={childThread.author}

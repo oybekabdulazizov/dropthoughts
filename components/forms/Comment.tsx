@@ -26,7 +26,6 @@ export default function Comment({
   currentUserId,
   currentUserName,
 }: Props) {
-  const router = useRouter();
   const pathname = usePathname();
 
   const form = useForm({

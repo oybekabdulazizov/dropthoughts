@@ -1,9 +1,11 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 interface Props {
-  accountId: string;
-  authUserId: string;
+  id: string;
+  _id: string;
+  currentUserIdClerk: string;
   name: string;
   username: string;
   image: string;
@@ -11,8 +13,9 @@ interface Props {
 }
 
 export default function ProfileHeader({
-  accountId,
-  authUserId,
+  id,
+  _id,
+  currentUserIdClerk,
   name,
   username,
   image,
