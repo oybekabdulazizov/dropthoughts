@@ -38,7 +38,6 @@ export default function PostThread({ user_id }: Props) {
     await createThread({
       text: values.thread,
       author: values.author,
-      community: null,
       path: pathname,
     });
 

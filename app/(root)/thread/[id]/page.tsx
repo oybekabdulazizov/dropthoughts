@@ -39,7 +39,6 @@ export default async function Page({ params }: Props) {
           parentThreadId={thread.parentThreadId}
           content={thread.text}
           author={thread.author}
-          community={thread.community}
           createdAt={thread.createdAt}
           comments={thread.childrenThreads}
           likes={thread.likes}
@@ -62,7 +61,6 @@ export default async function Page({ params }: Props) {
             parentThreadId={childThread.parentThreadId}
             content={childThread.text}
             author={childThread.author}
-            community={childThread.community}
             createdAt={childThread.createdAt}
             comments={childThread.childrenThreads}
             isComment={true}

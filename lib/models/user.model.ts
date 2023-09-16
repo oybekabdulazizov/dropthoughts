@@ -8,7 +8,6 @@ const userSchema = new Schema({
   bio: String,
   threads: [{ type: Schema.Types.ObjectId, ref: 'Thread' }],
   onboarded: { type: Boolean, default: false },
-  communities: [{ type: Schema.Types.ObjectId, ref: 'Community' }],
   likedThreads: [{ type: Schema.Types.ObjectId, ref: 'Thread' }],
 });
 

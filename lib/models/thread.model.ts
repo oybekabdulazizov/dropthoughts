@@ -7,10 +7,6 @@ const threadSchema = new Schema({
     ref: 'User',
     required: true,
   },
-  community: {
-    type: Schema.Types.ObjectId,
-    ref: 'Community',
-  },
   createdAt: {
     type: Date,
     default: Date.now,

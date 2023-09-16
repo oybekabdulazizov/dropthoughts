@@ -16,11 +16,6 @@ type Props = {
     _id: string;
     id: string;
   };
-  community: {
-    _id: string;
-    name: string;
-    image: string;
-  } | null;
   createdAt: Date;
   comments: Array<{
     author: {
@@ -38,7 +33,6 @@ export default async function ThreadCard({
   parentThreadId,
   content,
   author,
-  community,
   createdAt,
   comments,
   isComment,

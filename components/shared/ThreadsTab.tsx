@@ -42,7 +42,6 @@ export default async function ThreadsTab({
                   _id: thread.author._id,
                 }
           }
-          community={thread.community}
           createdAt={thread.createdAt}
           comments={thread.childrenThreads}
           likes={thread.likes}

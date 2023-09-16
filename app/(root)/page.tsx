@@ -23,7 +23,6 @@ export default async function Home() {
                 parentThreadId={thread.parentThreadId}
                 content={thread.text}
                 author={thread.author}
-                community={thread.community}
                 createdAt={thread.createdAt}
                 comments={thread.childrenThreads}
                 likes={thread.likes}

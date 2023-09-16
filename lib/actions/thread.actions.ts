@@ -8,14 +8,12 @@ import { connectToDB } from '../mongoose';
 interface CreateThread_Props {
   text: string;
   author: string;
-  community: string | null;
   path: string;
 }
 
 export async function createThread({
   text,
   author,
-  community,
   path,
 }: CreateThread_Props): Promise<void> {
   try {
@@ -24,7 +22,6 @@ export async function createThread({
     const newThread = await Thread.create({
       text,
       author,
-      community,
     });
 
     await User.findByIdAndUpdate(author, {
@@ -148,7 +145,6 @@ export async function addCommentToThread({
     const newCommentThread = await Thread.create({
       text: commentText,
       author: author,
-      community: null,
       parentThreadId: threadId,
     });
 
