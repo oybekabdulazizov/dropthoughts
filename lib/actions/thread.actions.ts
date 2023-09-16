@@ -31,7 +31,7 @@ export async function createThread({
       $push: { threads: newThread._id },
     });
   } catch (error: any) {
-    throw new Error(`Error creating the thread. ${error.message}`);
+    throw new Error(`(createThread): ${error.message}`);
   }
 
   revalidatePath(path);
@@ -66,7 +66,7 @@ export async function fetchThreads({
         populate: {
           path: 'author',
           model: User,
-          select: '_id id name parentThreadId image',
+          select: '_id id name image',
         },
       });
 
@@ -80,7 +80,7 @@ export async function fetchThreads({
 
     return { threads, isNext };
   } catch (error: any) {
-    throw new Error(`Failed to fetch threads. ${error.message}`);
+    throw new Error(`(fetchThreads): ${error.message}`);
   }
 }
 
@@ -118,9 +118,7 @@ export async function fetchThread(threadId: string) {
 
     return thread;
   } catch (error: any) {
-    throw new Error(
-      `Failed to fetch the thread with the id ${threadId}. ${error.message}`
-    );
+    throw new Error(`(fetchThread): ${error.message}`);
   }
 }
 
@@ -162,7 +160,7 @@ export async function addCommentToThread({
     });
   } catch (error: any) {
     throw new Error(
-      `addCommentToThread(): Failed to add a comment to the thread. ${error.message}`
+      `(addCommentToThread): Failed to add a comment to the thread. ${error.message}`
     );
   }
 

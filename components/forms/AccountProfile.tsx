@@ -73,9 +73,8 @@ export default function AccountProfile({ user, btnTitle }: Props) {
 
         fileReader.readAsDataURL(file);
       }
-    } catch (err: any) {
-      console.log('Error occurred on image upload.');
-      console.log(err);
+    } catch (error: any) {
+      throw new Error(`(handleImage): ${error.message}`);
     }
   };
 
@@ -89,9 +88,8 @@ export default function AccountProfile({ user, btnTitle }: Props) {
           values.image = imgRes[0].url;
         }
       }
-    } catch (err: any) {
-      console.log('Error occurred on onboarding form submit.');
-      console.log(err);
+    } catch (error: any) {
+      throw new Error(`(onSubmit): ${error.message}`);
     }
 
     await updateUser({

@@ -22,9 +22,8 @@ export async function updateUser({
   image,
   path,
 }: Props): Promise<void> {
-  connectToDB();
-
   try {
+    connectToDB();
     await User.findOneAndUpdate(
       { id: userId },
       {
@@ -40,9 +39,8 @@ export async function updateUser({
     if (path === '/profile/edit') {
       revalidatePath(path);
     }
-  } catch (err: any) {
-    console.log('Failed to create/update user.');
-    console.log(err);
+  } catch (error: any) {
+    throw new Error(`(updateUser): ${error.message}`);
   }
 }
 
@@ -52,8 +50,7 @@ export async function fetchUser(userId: string) {
     const user = await User.findOne({ id: userId });
     return user;
   } catch (error: any) {
-    console.log('Failed to fetch user.');
-    console.log(error);
+    throw new Error(`(fetchUser): ${error.message}`);
   }
 }
 
