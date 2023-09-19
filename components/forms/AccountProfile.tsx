@@ -35,7 +35,7 @@ interface Props {
 }
 
 export default function AccountProfile({ user, btnTitle }: Props) {
-  const [files, setFiles] = useState<Array<File>>([]);
+  const [file, setFile] = useState<File>();
   const { startUpload } = useUploadThing('media');
   const router = useRouter();
   const pathname = usePathname();
@@ -54,7 +54,6 @@ export default function AccountProfile({ user, btnTitle }: Props) {
     e: ChangeEvent<HTMLInputElement>,
     fieldChange: (value: string) => void
   ) => {
-    e.preventDefault();
     const fileReader = new FileReader();
 
     try {
@@ -64,7 +63,7 @@ export default function AccountProfile({ user, btnTitle }: Props) {
           // Todo: Use toast notification
           return;
         }
-        setFiles(Array.from(e.target.files));
+        setFile(e.target.files[0]);
 
         fileReader.onload = async (event) => {
           const imageDataUrl = event.target?.result?.toString() || '';
@@ -79,18 +78,31 @@ export default function AccountProfile({ user, btnTitle }: Props) {
   };
 
   const onSubmit = async (values: z.infer<typeof UserValidation>) => {
-    const blob = values.image;
-    try {
-      const hasImageChanged = isBase64Image(blob);
-      if (hasImageChanged) {
-        const imgRes = await startUpload(files);
-        if (imgRes && imgRes[0].url) {
-          values.image = imgRes[0].url;
+    if (!values.image.includes('res.cloudinary.com')) {
+      const formData = new FormData();
+      formData.append('file', file!);
+      formData.append('upload_preset', 'threads_preset');
+      const data = await fetch(
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload`,
+        {
+          method: 'POST',
+          body: formData,
         }
-      }
-    } catch (error: any) {
-      throw new Error(`(onSubmit): ${error.message}`);
+      ).then((res) => res.json());
+      values.image = data.secure_url;
     }
+
+    // try {
+    //   const hasImageChanged = isBase64Image(blob);
+    //   if (hasImageChanged) {
+    //     const imgRes = await startUpload(files);
+    //     if (imgRes && imgRes[0].url) {
+    //       values.image = imgRes[0].url;
+    //     }
+    //   }
+    // } catch (error: any) {
+    //   throw new Error(`(onSubmit): ${error.message}`);
+    // }
 
     await updateUser({
       userId: user.idFromClerk,
