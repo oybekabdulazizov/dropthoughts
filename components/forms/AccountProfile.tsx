@@ -18,8 +18,8 @@ import * as z from 'zod';
 import Image from 'next/image';
 import { ChangeEvent, useState } from 'react';
 import { Textarea } from '../ui/textarea';
-import { isBase64Image } from '@/lib/utils';
-import { useUploadThing } from '@/lib/uploadthing';
+// import { isBase64Image } from '@/lib/utils';
+// import { useUploadThing } from '@/lib/uploadthing';
 import { usePathname, useRouter } from 'next/navigation';
 import { updateUser } from '@/lib/actions/user.actions';
 
@@ -36,7 +36,7 @@ interface Props {
 
 export default function AccountProfile({ user, btnTitle }: Props) {
   const [file, setFile] = useState<File>();
-  const { startUpload } = useUploadThing('media');
+  // const { startUpload } = useUploadThing('media');
   const router = useRouter();
   const pathname = usePathname();
 
