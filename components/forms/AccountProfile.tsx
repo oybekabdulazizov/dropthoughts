@@ -22,9 +22,10 @@ import { Textarea } from '../ui/textarea';
 // import { useUploadThing } from '@/lib/uploadthing';
 import { usePathname, useRouter } from 'next/navigation';
 import { updateUser } from '@/lib/actions/user.actions';
+import { useUser } from '@clerk/nextjs';
 
 interface Props {
-  user: {
+  userDetails: {
     idFromClerk: string;
     username: string;
     name: string;
@@ -34,19 +35,20 @@ interface Props {
   btnTitle: string;
 }
 
-export default function AccountProfile({ user, btnTitle }: Props) {
+export default function AccountProfile({ userDetails, btnTitle }: Props) {
   const [file, setFile] = useState<File>();
   // const { startUpload } = useUploadThing('media');
   const router = useRouter();
   const pathname = usePathname();
+  const { user } = useUser();
 
   const form = useForm({
     resolver: zodResolver(UserValidation),
     defaultValues: {
-      image: user.image || '',
-      name: user.name || '',
-      username: user.username || '',
-      bio: user.bio || '',
+      image: userDetails.image || '',
+      name: userDetails.name || '',
+      username: userDetails.username || '',
+      bio: userDetails.bio || '',
     },
   });
 
@@ -104,11 +106,19 @@ export default function AccountProfile({ user, btnTitle }: Props) {
     //   throw new Error(`(onSubmit): ${error.message}`);
     // }
 
+    await user?.update({
+      username: values.username,
+    });
+
+    await user?.setProfileImage({ file: file! });
+
     await updateUser({
-      userId: user.idFromClerk,
+      userId: userDetails.idFromClerk,
       ...values,
       path: pathname,
     });
+
+    user?.reload();
 
     if (pathname === '/profile/edit') {
       router.back();
@@ -136,7 +146,7 @@ export default function AccountProfile({ user, btnTitle }: Props) {
                     width={95}
                     height={95}
                     priority
-                    className='rounded-full object-contain'
+                    className='rounded-full h-auto w-auto'
                   />
                 ) : (
                   <Image

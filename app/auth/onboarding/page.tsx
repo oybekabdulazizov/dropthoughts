@@ -6,7 +6,7 @@ export default async function Page() {
 
   if (!userFromClerk) return null;
 
-  const user = {
+  const userDetails = {
     idFromClerk: userFromClerk.id,
     username: userFromClerk.username || '',
     name: userFromClerk.firstName || '',
@@ -22,7 +22,7 @@ export default async function Page() {
       </p>
 
       <section className='bg-dark-2 p-8'>
-        <AccountProfile user={user} btnTitle='Continue' />
+        <AccountProfile userDetails={userDetails} btnTitle='Continue' />
       </section>
     </main>
   );

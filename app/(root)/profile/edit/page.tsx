@@ -1,12 +1,15 @@
 import AccountProfile from '@/components/forms/AccountProfile';
 import { fetchUser } from '@/lib/actions/user.actions';
-import { currentUser, useAuth } from '@clerk/nextjs';
+import { currentUser, useAuth, useClerk } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 import React from 'react';
 
 export default async function EditProfile() {
   const userFromClerk = await currentUser();
-  if (!userFromClerk) return null;
+  if (!userFromClerk) {
+    // throw toast error
+    redirect('/auth/sign-in');
+  }
 
   const userFromDB = await fetchUser(userFromClerk.id);
   if (!userFromDB) {
@@ -14,7 +17,7 @@ export default async function EditProfile() {
     redirect('/auth/onboarding');
   }
 
-  const user = {
+  const userDetails = {
     idFromClerk: userFromDB.id,
     name: userFromDB.name,
     username: userFromDB.username,
@@ -30,7 +33,7 @@ export default async function EditProfile() {
       </p>
 
       <section className='bg-dark-2 p-10'>
-        <AccountProfile user={user} btnTitle='Continue' />
+        <AccountProfile userDetails={userDetails} btnTitle='Continue' />
       </section>
     </main>
   );
