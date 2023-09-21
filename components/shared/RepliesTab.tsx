@@ -77,7 +77,7 @@ export default async function RepliesTab({
           })}
         </>
       ) : (
-        <p className='!text-base-regular text-light-1'>No activity yet</p>
+        <p className='!text-base-regular text-light-1'>No replies yet.</p>
       )}
     </section>
   );

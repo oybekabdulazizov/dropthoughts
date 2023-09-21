@@ -44,31 +44,41 @@ export default async function Page({ params }: Props) {
       <div className='mt-6'>
         <Tabs defaultValue='threads' className='w-full'>
           <TabsList className='tab'>
-            {profileTabs.slice(0, 2).map((tab) => (
-              <TabsTrigger key={tab.label} value={tab.value} className='tab'>
-                <Image
-                  src={tab.icon}
-                  alt={tab.label}
-                  width={24}
-                  height={24}
-                  className='object-contain'
-                />
-                <p className='max-sm:hidden'>{tab.label}</p>
+            {profileTabs.slice(0, 2).map((tab) => {
+              if (
+                tab.value === 'replies' &&
+                userFromClerk.id !== userFromDB.id
+              ) {
+                return;
+              }
+              return (
+                <TabsTrigger key={tab.label} value={tab.value} className='tab'>
+                  <Image
+                    src={tab.icon}
+                    alt={tab.label}
+                    width={24}
+                    height={24}
+                    className='object-contain'
+                  />
+                  <p className='max-sm:hidden'>{tab.label}</p>
 
-                {tab.label.toLowerCase() === 'threads' && (
-                  <p className='rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2'>
-                    {userFromDB.threads.length}
-                  </p>
-                )}
-                {tab.label.toLowerCase() === 'replies' &&
-                  replies.length > 0 &&
-                  userFromClerk.id === userFromDB.id && (
+                  {tab.label.toLowerCase() === 'threads' && (
                     <p className='rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2'>
-                      {replies.length}
+                      {userFromDB.threads.length}
                     </p>
                   )}
-              </TabsTrigger>
-            ))}
+                  {tab.label.toLowerCase() === 'replies' && (
+                    <>
+                      {userFromClerk.id === userFromDB.id && (
+                        <p className='rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2'>
+                          {replies.length}
+                        </p>
+                      )}
+                    </>
+                  )}
+                </TabsTrigger>
+              );
+            })}
           </TabsList>
 
           <TabsContent value='threads' className='w-full text-light-1'>
@@ -80,19 +90,11 @@ export default async function Page({ params }: Props) {
             />
           </TabsContent>
           <TabsContent value='replies' className='w-full text-light-1'>
-            {userFromClerk.id === userFromDB.id ? (
-              <RepliesTab
-                currentUserIdClerk={userFromClerk.id}
-                userId={userFromDB.id}
-                user_id={JSON.stringify(userFromDB._id)}
-              />
-            ) : (
-              <div className='mt-6 flex'>
-                <p className='!text-base-regular text-light-1'>
-                  Nothing to show here
-                </p>
-              </div>
-            )}
+            <RepliesTab
+              currentUserIdClerk={userFromClerk.id}
+              userId={userFromDB.id}
+              user_id={JSON.stringify(userFromDB._id)}
+            />
           </TabsContent>
         </Tabs>
       </div>

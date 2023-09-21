@@ -20,33 +20,39 @@ export default async function ThreadsTab({
 
   return (
     <section className='mt-6 flex flex-col gap-6'>
-      {result.threads.map((thread: any) => (
-        <ThreadCard
-          key={thread._id}
-          threadId={thread._id}
-          currentUserIdClerk={currentUserIdClerk}
-          parentThreadId={thread.parentThreadId}
-          content={thread.text}
-          author={
-            accountType === 'User'
-              ? {
-                  name: result.name,
-                  image: result.image,
-                  id: result.id,
-                  _id: result._id,
-                }
-              : {
-                  name: thread.author.name,
-                  image: thread.author.image,
-                  id: thread.author.id,
-                  _id: thread.author._id,
-                }
-          }
-          createdAt={thread.createdAt}
-          comments={thread.childrenThreads}
-          likes={thread.likes}
-        />
-      ))}
+      {result.threads.length > 0 ? (
+        <>
+          {result.threads.map((thread: any) => (
+            <ThreadCard
+              key={thread._id}
+              threadId={thread._id}
+              currentUserIdClerk={currentUserIdClerk}
+              parentThreadId={thread.parentThreadId}
+              content={thread.text}
+              author={
+                accountType === 'User'
+                  ? {
+                      name: result.name,
+                      image: result.image,
+                      id: result.id,
+                      _id: result._id,
+                    }
+                  : {
+                      name: thread.author.name,
+                      image: thread.author.image,
+                      id: thread.author.id,
+                      _id: thread.author._id,
+                    }
+              }
+              createdAt={thread.createdAt}
+              comments={thread.childrenThreads}
+              likes={thread.likes}
+            />
+          ))}
+        </>
+      ) : (
+        <p className='!text-base-regular text-light-1'>No threads yet.</p>
+      )}
     </section>
   );
 }
