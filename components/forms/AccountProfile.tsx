@@ -80,7 +80,10 @@ export default function AccountProfile({ userDetails, btnTitle }: Props) {
   };
 
   const onSubmit = async (values: z.infer<typeof UserValidation>) => {
-    if (!values.image.includes('res.cloudinary.com')) {
+    if (
+      !values.image.includes('res.cloudinary.com') &&
+      !values.image.includes('img.clerk.com')
+    ) {
       const formData = new FormData();
       formData.append('file', file!);
       formData.append('upload_preset', 'threads_preset');
@@ -110,7 +113,9 @@ export default function AccountProfile({ userDetails, btnTitle }: Props) {
       username: values.username,
     });
 
-    await user?.setProfileImage({ file: file! });
+    if (file) {
+      await user?.setProfileImage({ file: file! });
+    }
 
     await updateUser({
       userId: userDetails.idFromClerk,
