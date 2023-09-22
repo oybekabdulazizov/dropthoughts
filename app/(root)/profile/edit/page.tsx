@@ -5,24 +5,24 @@ import { redirect } from 'next/navigation';
 import React from 'react';
 
 export default async function EditProfile() {
-  const userFromClerk = await currentUser();
-  if (!userFromClerk) {
+  const currentUser_clerk = await currentUser();
+  if (!currentUser_clerk) {
     // throw toast error
     redirect('/auth/sign-in');
   }
 
-  const userFromDB = await fetchUser(userFromClerk.id);
-  if (!userFromDB) {
+  const user_db = await fetchUser(currentUser_clerk.id);
+  if (!user_db) {
     // throw toast error
     redirect('/auth/onboarding');
   }
 
   const userDetails = {
-    idFromClerk: userFromDB.id,
-    name: userFromDB.name,
-    username: userFromDB.username,
-    bio: userFromDB.bio,
-    image: userFromDB.image,
+    idUser_clerk: user_db.idUser_clerk,
+    name: user_db.name,
+    username: user_db.username,
+    bio: user_db.bio,
+    image: user_db.image,
   };
 
   return (
@@ -33,7 +33,7 @@ export default async function EditProfile() {
       </p>
 
       <section className='bg-dark-2 p-10'>
-        <AccountProfile userDetails={userDetails} btnTitle='Continue' />
+        <AccountProfile userDetails={userDetails} action='edit' />
       </section>
     </main>
   );

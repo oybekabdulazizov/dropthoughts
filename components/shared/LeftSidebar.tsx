@@ -10,6 +10,7 @@ import logout from '@/public/assets/logout.svg';
 export default function LeftSidebar() {
   const router = useRouter();
   const pathname = usePathname();
+
   const { userId } = useAuth();
 
   return (

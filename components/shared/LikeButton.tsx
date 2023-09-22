@@ -7,13 +7,13 @@ import { useState } from 'react';
 
 interface Props {
   likedByCurrentUser: number;
-  currentUserId: string | null;
+  currentUserId_db: string | null;
   threadId: string;
 }
 
 export default function LikeButton({
   likedByCurrentUser,
-  currentUserId,
+  currentUserId_db,
   threadId,
 }: Props) {
   const [liked, setLiked] = useState<number>(likedByCurrentUser);
@@ -21,19 +21,19 @@ export default function LikeButton({
   const router = useRouter();
 
   const toggleLiked = async () => {
-    if (currentUserId) {
+    if (currentUserId_db) {
       if (liked === 1) {
         setLiked(0);
         await removeLike({
           threadId: JSON.parse(threadId),
-          userId: JSON.parse(currentUserId),
+          user_id: JSON.parse(currentUserId_db),
           path: pathname,
         });
       } else {
         setLiked(1);
         await addLike({
           threadId: JSON.parse(threadId),
-          userId: JSON.parse(currentUserId),
+          user_id: JSON.parse(currentUserId_db),
           path: pathname,
         });
       }

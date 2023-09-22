@@ -167,23 +167,24 @@ export async function addCommentToThread({
 
 interface AddLike_Props {
   threadId: string;
-  userId: string;
+  user_id: string;
   path: string;
 }
-export async function addLike({ threadId, userId, path }: AddLike_Props) {
+
+export async function addLike({ threadId, user_id, path }: AddLike_Props) {
   try {
     connectToDB();
 
     await Thread.findByIdAndUpdate(
       threadId,
       {
-        $push: { likes: userId },
+        $push: { likes: user_id },
       },
       { new: true, returnOriginal: false }
     );
 
     await User.findByIdAndUpdate(
-      userId,
+      user_id,
       {
         $push: { likedThreads: threadId },
       },
@@ -200,23 +201,28 @@ export async function addLike({ threadId, userId, path }: AddLike_Props) {
 
 interface RemoveLike_Props {
   threadId: string;
-  userId: string;
+  user_id: string;
   path: string;
 }
-export async function removeLike({ threadId, userId, path }: RemoveLike_Props) {
+
+export async function removeLike({
+  threadId,
+  user_id,
+  path,
+}: RemoveLike_Props) {
   try {
     connectToDB();
 
     await Thread.findByIdAndUpdate(
       threadId,
       {
-        $pull: { likes: { $in: [userId] } },
+        $pull: { likes: { $in: [user_id] } },
       },
       { new: true, returnOriginal: false }
     );
 
     await User.findByIdAndUpdate(
-      userId,
+      user_id,
       {
         $pull: { likedThreads: { $in: [threadId] } },
       },

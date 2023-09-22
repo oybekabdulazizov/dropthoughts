@@ -13,19 +13,23 @@ type Props = {
 };
 
 export default async function Page({ params }: Props) {
-  const userFromClerk = await currentUser();
-  if (!userFromClerk) {
+  const threadId = params.id;
+
+  const currentUser_clerk = await currentUser();
+  if (!currentUser_clerk) {
     redirect('/auth/sign-in');
   }
 
-  const userFromDB = await fetchUser(userFromClerk.id);
-  if (!userFromDB) {
+  const user_db = await fetchUser(currentUser_clerk.id);
+  console.log(user_db);
+  if (!user_db) {
     redirect('/auth/onboarding');
   }
 
-  const thread = await fetchThread(params.id);
+  const thread = await fetchThread(threadId);
 
   if (!thread) {
+    // throw toast error
     redirect('/');
   }
 
@@ -35,8 +39,9 @@ export default async function Page({ params }: Props) {
         <ThreadCard
           key={thread._id}
           threadId={thread._id}
-          currentUserIdClerk={userFromClerk.id || null}
-          parentThreadId={thread.parentThreadId}
+          currentUserId_clerk={currentUser_clerk.id}
+          // currentUserIdClerk={userFromClerk.id || null}
+          // parentThreadId={thread.parentThreadId}
           content={thread.text}
           author={thread.author}
           createdAt={thread.createdAt}
@@ -47,9 +52,9 @@ export default async function Page({ params }: Props) {
       <div className='mt-6'>
         <Comment
           threadId={JSON.stringify(thread._id)}
-          currentUserImg={userFromDB.image}
-          currentUserId={JSON.stringify(userFromDB._id)}
-          currentUserName={userFromDB.name!}
+          currentUserImg_db={user_db.image}
+          currentUserId_db={JSON.stringify(user_db._id)}
+          currentUserName_db={user_db.name!}
         />
       </div>
       <div className='mt-8'>
@@ -57,8 +62,9 @@ export default async function Page({ params }: Props) {
           <ThreadCard
             key={childThread._id}
             threadId={childThread._id}
-            currentUserIdClerk={userFromClerk?.id || null}
-            parentThreadId={childThread.parentThreadId}
+            currentUserId_clerk={currentUser_clerk.id}
+            // currentUserIdClerk={userFromClerk?.id || null}
+            // parentThreadId={childThread.parentThreadId}
             content={childThread.text}
             author={childThread.author}
             createdAt={childThread.createdAt}

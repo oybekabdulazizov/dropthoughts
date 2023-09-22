@@ -6,7 +6,7 @@ import { connectToDB } from '../mongoose';
 import Thread from '../models/thread.model';
 
 interface Props {
-  userId: string;
+  idUser_clerk: string;
   username: string;
   name: string;
   bio: string;
@@ -15,7 +15,7 @@ interface Props {
 }
 
 export async function updateUser({
-  userId,
+  idUser_clerk,
   username,
   name,
   bio,
@@ -24,8 +24,9 @@ export async function updateUser({
 }: Props): Promise<void> {
   try {
     connectToDB();
+
     await User.findOneAndUpdate(
-      { id: userId },
+      { idUser_clerk: idUser_clerk },
       {
         username: username.toLowerCase(),
         name,
@@ -35,34 +36,45 @@ export async function updateUser({
       },
       { upsert: true }
     );
-
-    if (path === '/profile/edit') {
-      revalidatePath(path);
-    }
   } catch (error: any) {
     throw new Error(`(updateUser): ${error.message}`);
   }
+
+  if (path === '/profile/edit') {
+    revalidatePath(path);
+  }
 }
 
-export async function fetchUser(userId: string) {
+// export async function fetchUserByClerkId(idUser_clerk: string) {
+//   try {
+//     connectToDB();
+
+//     const user = await User.findOne({ idUser_clerk: idUser_clerk });
+//     return user;
+//   } catch (error: any) {
+//     throw new Error(`(fetchUserByCLerkId): ${error.message}`);
+//   }
+// }
+
+export async function fetchUser(idUser_clerk: string) {
   try {
     connectToDB();
-    const user = await User.findOne({ id: userId });
+    const user = await User.findOne({ idUser_clerk: idUser_clerk });
     return user;
   } catch (error: any) {
     throw new Error(`(fetchUser): ${error.message}`);
   }
 }
 
-export async function fetchUserThreads(userId: string) {
+export async function fetchUserThreads(author_id: string) {
   try {
     connectToDB();
 
-    const threadsByUser = await User.findOne({ id: userId }).populate({
+    const threadsByUser = await User.findById(author_id).populate({
       path: 'threads',
       model: Thread,
       options: {
-        author: { $ne: userId },
+        author: { $ne: author_id },
         sort: { createdAt: 'desc' },
       },
       populate: {

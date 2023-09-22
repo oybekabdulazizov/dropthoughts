@@ -16,29 +16,37 @@ type Props = {
 };
 
 export default async function Page({ params }: Props) {
-  const userFromClerk = await currentUser();
-  if (!userFromClerk) {
+  const currentUser_clerk = await currentUser();
+  if (!currentUser_clerk) {
     redirect('/auth/sign-in');
   }
 
-  const userFromDB = await fetchUser(params.id);
-  if (!userFromDB) {
+  const currentUser_db = await fetchUser(currentUser_clerk.id);
+  if (!currentUser_db) {
     // TODO: toast a message
     redirect('/auth/onboarding');
   }
 
-  const replies = await getReplies(userFromDB._id);
+  const idUser_clerk = params.id;
+  const user_db = await fetchUser(idUser_clerk);
+  if (!user_db) {
+    // throw toast error
+    // the user does not exist
+    redirect('/');
+  }
+
+  const replies = await getReplies(user_db._id);
 
   return (
     <section>
       <ProfileHeader
-        id={userFromDB.id}
-        _id={userFromDB._id}
-        currentUserIdClerk={userFromClerk.id}
-        name={userFromDB.name}
-        username={userFromDB.username}
-        image={userFromDB.image}
-        bio={userFromDB.bio}
+        idUser_clerk={user_db.idUser_clerk}
+        _id={user_db._id}
+        currentUserId_clerk={currentUser_clerk.id}
+        name={user_db.name}
+        username={user_db.username}
+        image={user_db.image}
+        bio={user_db.bio}
       />
 
       <div className='mt-6'>
@@ -47,7 +55,7 @@ export default async function Page({ params }: Props) {
             {profileTabs.slice(0, 2).map((tab) => {
               if (
                 tab.value === 'replies' &&
-                userFromClerk.id !== userFromDB.id
+                currentUser_clerk.id !== user_db.idUser_clerk
               ) {
                 return;
               }
@@ -64,12 +72,12 @@ export default async function Page({ params }: Props) {
 
                   {tab.label.toLowerCase() === 'threads' && (
                     <p className='rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2'>
-                      {userFromDB.threads.length}
+                      {user_db.threads.length}
                     </p>
                   )}
                   {tab.label.toLowerCase() === 'replies' && (
                     <>
-                      {userFromClerk.id === userFromDB.id && (
+                      {currentUser_clerk.id === user_db.idUser_clerk && (
                         <p className='rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2'>
                           {replies.length}
                         </p>
@@ -83,17 +91,17 @@ export default async function Page({ params }: Props) {
 
           <TabsContent value='threads' className='w-full text-light-1'>
             <ThreadsTab
-              currentUserIdClerk={userFromClerk.id}
-              userId={userFromDB.id}
-              user_id={JSON.stringify(userFromDB._id)}
+              currentUserId_clerk={currentUser_clerk.id}
+              // idUser_clerk={userFromDB.idUser_clerk}
+              authorId={JSON.stringify(user_db._id)}
               accountType='User'
             />
           </TabsContent>
           <TabsContent value='replies' className='w-full text-light-1'>
             <RepliesTab
-              currentUserIdClerk={userFromClerk.id}
-              userId={userFromDB.id}
-              user_id={JSON.stringify(userFromDB._id)}
+              // currentUserId_clerk={currentUser_clerk.id}
+              idUser_clerk={user_db.idUser_clerk}
+              // authorId={JSON.stringify(user_db._id)}
             />
           </TabsContent>
         </Tabs>

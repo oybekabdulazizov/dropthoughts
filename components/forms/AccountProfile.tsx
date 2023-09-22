@@ -26,16 +26,16 @@ import { useUser } from '@clerk/nextjs';
 
 interface Props {
   userDetails: {
-    idFromClerk: string;
+    idUser_clerk: string;
     username: string;
     name: string;
     bio: string;
     image: string;
   };
-  btnTitle: string;
+  action: 'edit' | 'onboarding';
 }
 
-export default function AccountProfile({ userDetails, btnTitle }: Props) {
+export default function AccountProfile({ userDetails, action }: Props) {
   const [file, setFile] = useState<File>();
   // const { startUpload } = useUploadThing('media');
   const router = useRouter();
@@ -118,7 +118,7 @@ export default function AccountProfile({ userDetails, btnTitle }: Props) {
     }
 
     await updateUser({
-      userId: userDetails.idFromClerk,
+      idUser_clerk: userDetails.idUser_clerk,
       ...values,
       path: pathname,
     });
@@ -234,7 +234,7 @@ export default function AccountProfile({ userDetails, btnTitle }: Props) {
         />
 
         <Button type='submit' className='bg-primary-500'>
-          Submit
+          {action === 'onboarding' ? 'Submit' : 'Save'}
         </Button>
       </form>
     </Form>

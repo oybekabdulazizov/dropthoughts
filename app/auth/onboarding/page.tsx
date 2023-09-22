@@ -1,17 +1,20 @@
 import AccountProfile from '@/components/forms/AccountProfile';
 import { currentUser } from '@clerk/nextjs';
+import { redirect } from 'next/navigation';
 
 export default async function Page() {
-  const userFromClerk = await currentUser();
+  const currentUser_clerk = await currentUser();
 
-  if (!userFromClerk) return null;
+  if (!currentUser_clerk) {
+    redirect('/auth/sign-in');
+  }
 
   const userDetails = {
-    idFromClerk: userFromClerk.id,
-    username: userFromClerk.username || '',
-    name: userFromClerk.firstName || '',
+    idUser_clerk: currentUser_clerk.id,
+    username: currentUser_clerk.username || '',
+    name: currentUser_clerk.firstName || '',
     bio: '',
-    image: userFromClerk.imageUrl || '',
+    image: currentUser_clerk.imageUrl || '',
   };
 
   return (
@@ -22,7 +25,7 @@ export default async function Page() {
       </p>
 
       <section className='bg-dark-2 p-8'>
-        <AccountProfile userDetails={userDetails} btnTitle='Continue' />
+        <AccountProfile userDetails={userDetails} action='onboarding' />
       </section>
     </main>
   );

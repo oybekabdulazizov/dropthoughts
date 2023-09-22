@@ -6,23 +6,24 @@ import { fetchThread } from '@/lib/actions/thread.actions';
 import { calculateRelativeTimes } from '@/lib/utils';
 
 interface Props {
-  currentUserIdClerk: string;
-  userId: string;
-  user_id: string;
+  // currentUserId_clerk: string;
+  idUser_clerk: string;
+  // authorId: string;
 }
 
 export default async function RepliesTab({
-  currentUserIdClerk,
-  userId,
-  user_id,
-}: Props) {
-  const userFromDB = await fetchUser(userId);
-  if (!userFromDB.onboarded) {
+  // currentUserId_clerk,
+  idUser_clerk,
+}: // authorId
+Props) {
+  const user_db = await fetchUser(idUser_clerk);
+  if (!user_db) {
     // TODO: toast a message
     redirect('/auth/onboarding');
   }
 
-  const replies = await getReplies(userFromDB._id);
+  const replies = await getReplies(user_db._id);
+
   let threadReplies = [];
   for (const reply of replies) {
     const parentThread = await fetchThread(reply.parentThreadId);

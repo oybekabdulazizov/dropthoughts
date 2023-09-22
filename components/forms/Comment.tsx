@@ -15,16 +15,16 @@ import { Schema } from 'mongoose';
 
 interface Props {
   threadId: string;
-  currentUserImg: string;
-  currentUserId: string;
-  currentUserName: string;
+  currentUserImg_db: string;
+  currentUserId_db: string;
+  currentUserName_db: string;
 }
 
 export default function Comment({
   threadId,
-  currentUserImg,
-  currentUserId,
-  currentUserName,
+  currentUserImg_db,
+  currentUserId_db,
+  currentUserName_db,
 }: Props) {
   const pathname = usePathname();
 
@@ -32,7 +32,7 @@ export default function Comment({
     resolver: zodResolver(CommentValidation),
     defaultValues: {
       thread: '',
-      author: currentUserId,
+      author: currentUserId_db,
     },
   });
 
@@ -60,8 +60,8 @@ export default function Comment({
             <FormItem className='flex flex-row items-end gap-3 w-full'>
               <FormLabel>
                 <Image
-                  src={currentUserImg}
-                  alt={`Profile image of ${currentUserName}`}
+                  src={currentUserImg_db}
+                  alt={`Profile image of ${currentUserName_db}`}
                   width={48}
                   height={48}
                   className='rounded-full object-cover'

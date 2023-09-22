@@ -3,19 +3,19 @@ import { redirect } from 'next/navigation';
 import ThreadCard from '../cards/ThreadCard';
 
 interface Props {
-  currentUserIdClerk: string;
-  userId: string;
-  user_id: string;
+  currentUserId_clerk: string;
+  // idUser_clerk: string;
+  authorId: string;
   accountType: string;
 }
 
 export default async function ThreadsTab({
-  currentUserIdClerk,
-  userId,
-  user_id,
+  currentUserId_clerk,
+  // idUser_clerk,
+  authorId,
   accountType,
 }: Props) {
-  const result = await fetchUserThreads(userId);
+  const result = await fetchUserThreads(JSON.parse(authorId));
   if (!result) redirect('/');
 
   return (
@@ -26,21 +26,22 @@ export default async function ThreadsTab({
             <ThreadCard
               key={thread._id}
               threadId={thread._id}
-              currentUserIdClerk={currentUserIdClerk}
-              parentThreadId={thread.parentThreadId}
+              currentUserId_clerk={currentUserId_clerk}
+              // currentUserIdClerk={currentUserIdClerk}
+              // parentThreadId={thread.parentThreadId}
               content={thread.text}
               author={
                 accountType === 'User'
                   ? {
                       name: result.name,
                       image: result.image,
-                      id: result.id,
+                      idUser_clerk: result.id,
                       _id: result._id,
                     }
                   : {
                       name: thread.author.name,
                       image: thread.author.image,
-                      id: thread.author.id,
+                      idUser_clerk: thread.author.id,
                       _id: thread.author._id,
                     }
               }

@@ -3,9 +3,9 @@ import Link from 'next/link';
 import React from 'react';
 
 interface Props {
-  id: string;
+  idUser_clerk: string;
   _id: string;
-  currentUserIdClerk: string;
+  currentUserId_clerk: string;
   name: string;
   username: string;
   image: string;
@@ -13,9 +13,9 @@ interface Props {
 }
 
 export default function ProfileHeader({
-  id,
+  idUser_clerk,
   _id,
-  currentUserIdClerk,
+  currentUserId_clerk,
   name,
   username,
   image,
@@ -42,7 +42,7 @@ export default function ProfileHeader({
           </div>
         </div>
 
-        {currentUserIdClerk === id && (
+        {currentUserId_clerk === idUser_clerk && (
           <Link href='/profile/edit'>
             <Image
               src='/assets/edit.svg'
