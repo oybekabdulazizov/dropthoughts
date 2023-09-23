@@ -1,13 +1,14 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
+import { calculateRelativeTimes } from '@/lib/utils';
 
 interface Props {
   parentThreadId: string;
   key: number;
   replyAuthorImage: string;
   replyAuthorName: string;
-  createdWhen: string;
+  createdAt: Date;
   parentThreadText: string;
   replyThreadText: string;
 }
@@ -19,8 +20,9 @@ export default function ReplyCard({
   replyAuthorImage,
   replyAuthorName,
   replyThreadText,
-  createdWhen,
+  createdAt,
 }: Props) {
+  const createdWhen = calculateRelativeTimes(createdAt);
   return (
     <Link
       key={key}
