@@ -52,7 +52,7 @@ export default function ThreadContentEdit({
 
   const onSubmit = async (values: z.infer<typeof CommentValidation>) => {
     await updateThread({
-      threadId: threadId,
+      threadId: JSON.parse(threadId),
       content: values.thread,
       path: pathname,
     });

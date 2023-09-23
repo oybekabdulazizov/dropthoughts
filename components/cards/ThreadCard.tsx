@@ -117,7 +117,7 @@ export default async function ThreadCard({
               authorId={JSON.stringify(author._id)}
               isComment={isComment}
               currentUserId={JSON.stringify(currentUser_db._id)}
-              threadId={threadId}
+              threadId={JSON.stringify(threadId)}
             />
             <div className='mt-3 flex flex-col gap-2'>
               <div className='flex gap-3.5'>

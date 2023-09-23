@@ -27,8 +27,7 @@ export default async function Page({ params }: Props) {
     redirect('/auth/onboarding');
   }
 
-  const idUser_clerk = params.id;
-  const user_db = await fetchUser(idUser_clerk);
+  const user_db = await fetchUser(params.id);
   if (!user_db) {
     // throw toast error
     // the user does not exist
@@ -55,7 +54,7 @@ export default async function Page({ params }: Props) {
             {profileTabs.slice(0, 2).map((tab) => {
               if (
                 tab.value === 'replies' &&
-                currentUser_clerk.id !== user_db.idUser_clerk
+                currentUser_db.idUser_clerk !== user_db.idUser_clerk
               ) {
                 return;
               }

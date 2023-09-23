@@ -21,7 +21,6 @@ export default async function Page({ params }: Props) {
   }
 
   const user_db = await fetchUser(currentUser_clerk.id);
-  console.log(user_db);
   if (!user_db) {
     redirect('/auth/onboarding');
   }
