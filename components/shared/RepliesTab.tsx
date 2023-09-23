@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { fetchThread } from '@/lib/actions/thread.actions';
 import { calculateRelativeTimes } from '@/lib/utils';
+import ReplyCard from '../cards/ReplyCard';
 
 interface Props {
   // currentUserId_clerk: string;
@@ -40,8 +41,6 @@ Props) {
     }
   }
 
-  console.log(threadReplies);
-
   return (
     <section className='mt-6 flex w-full flex-col gap-6'>
       {replies.length > 0 ? (
@@ -49,39 +48,15 @@ Props) {
           {threadReplies.map((t, i) => {
             const createdWhen = calculateRelativeTimes(t.reply.createdAt);
             return (
-              <Link
+              <ReplyCard
                 key={i}
-                href={`/thread/${t.parentThread._id}`}
-                className='bg-dark-2 py-4 px-8 flex flex-col gap-4 rounded-lg'
-              >
-                <section className='flex items-start sm:items-center rounded-md gap-2'>
-                  <Image
-                    src={t.reply.author.image}
-                    alt={`Profile image of ${t.reply.author.name}`}
-                    width={24}
-                    height={24}
-                    className='rounded-full object-cover'
-                  />
-                  <div className='!text-small-regular text-light-1 flex flex-row flex-wrap gap-2'>
-                    <span className='text-primary-500'>
-                      {t.reply.author.name}
-                    </span>{' '}
-                    replied to your thread
-                    <span className='text-small-regular text-gray-1 mx-2'>
-                      {createdWhen}
-                    </span>
-                  </div>
-                </section>
-                <div className='w-full flex flex-row items-center gap-2 md:gap-4 flex-wrap'>
-                  <p className='truncate w-full md:w-[46%] px-4 py-3 bg-dark-1 rounded-md'>
-                    {t.parentThread.text}
-                  </p>
-                  <span>with</span>
-                  <p className='truncate w-full md:w-[46%] px-4 py-3 bg-dark-1 rounded-md'>
-                    {t.reply.text}
-                  </p>
-                </div>
-              </Link>
+                parentThreadId={t.parentThread._id}
+                parentThreadText={t.parentThread.text}
+                replyAuthorImage={t.reply.author.image}
+                replyAuthorName={t.reply.author.name}
+                replyThreadText={t.reply.text}
+                createdWhen={createdWhen}
+              />
             );
           })}
         </>
