@@ -5,6 +5,7 @@ import { calculateRelativeTimes } from '@/lib/utils';
 import { fetchUser } from '@/lib/actions/user.actions';
 import LikeButton from '../shared/LikeButton';
 import { currentUser } from '@clerk/nextjs';
+import ThreadContentEdit from '../shared/ThreadContentEdit';
 
 type Props = {
   threadId: string;
@@ -84,15 +85,40 @@ export default async function ThreadCard({
           </div>
 
           <div className='flex w-full flex-col'>
-            <div className='flex flex-row gap-3 items-center'>
-              <Link href={`/profile/${author.idUser_clerk}`} className='w-fit'>
-                <h4 className='cursor-pointer text-base-semibold text-light-1'>
-                  {author.name}
-                </h4>
-              </Link>
-              <p className='text-gray-1 text-small-regular'>{createdWhen}</p>
+            <div className='flex flex-row items-center justify-between'>
+              <div className='flex flex-row gap-3'>
+                <Link
+                  href={`/profile/${author.idUser_clerk}`}
+                  className='w-fit'
+                >
+                  <h4 className='cursor-pointer text-base-semibold text-light-1'>
+                    {author.name}
+                  </h4>
+                </Link>
+                <p className='text-gray-1 text-small-regular'>{createdWhen}</p>
+              </div>
+              {/* <div>
+                {currentUserId_clerk === author.idUser_clerk && (
+                  <Link href={`/thread/${threadId}/edit`}>
+                    <Image
+                      src='/assets/edit.svg'
+                      height={18}
+                      width={18}
+                      alt='edit-thread'
+                      className='cursor-pointer object-contain'
+                    />
+                  </Link>
+                )}
+              </div> */}
             </div>
-            <p className='text-light-2 mt-2 text-small-regular'>{content}</p>
+            {/* <p className='text-light-2 mt-2 text-small-regular'>{content}</p> */}
+            <ThreadContentEdit
+              content={content}
+              authorId={JSON.stringify(author._id)}
+              isComment={isComment}
+              currentUserId={JSON.stringify(currentUser_db._id)}
+              threadId={threadId}
+            />
             <div className='mt-3 flex flex-col gap-2'>
               <div className='flex gap-3.5'>
                 <LikeButton

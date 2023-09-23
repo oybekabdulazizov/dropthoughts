@@ -63,7 +63,7 @@ export async function fetchThreads({
         populate: {
           path: 'author',
           model: User,
-          select: '_id id name image',
+          select: '_id idUser_clerk name image',
         },
       });
 
@@ -91,7 +91,7 @@ export async function fetchThread(threadId: string) {
       .populate({
         path: 'author',
         model: User,
-        select: '_id id name image',
+        select: '_id idUser_clerk name image',
       })
       .populate({
         path: 'childrenThreads',
@@ -99,7 +99,7 @@ export async function fetchThread(threadId: string) {
           {
             path: 'author',
             model: User,
-            select: '_id id name parentThreadId image',
+            select: '_id idUser_clerk name parentThreadId image',
           },
           {
             path: 'childrenThreads',
@@ -107,7 +107,7 @@ export async function fetchThread(threadId: string) {
             populate: {
               path: 'author',
               model: User,
-              select: '_id id name parentThreadId image',
+              select: '_id idUser_clerk name image',
             },
           },
         ],
@@ -230,6 +230,30 @@ export async function removeLike({
     );
   } catch (error: any) {
     throw new Error(`(removeLike): ${error.message}`);
+  }
+
+  revalidatePath(path);
+}
+
+// ========================================================================================================
+
+interface UpdateThread_Props {
+  threadId: string;
+  content: string;
+  path: string;
+}
+
+export async function updateThread({
+  threadId,
+  content,
+  path,
+}: UpdateThread_Props) {
+  try {
+    connectToDB();
+
+    await Thread.findByIdAndUpdate(threadId, { text: content });
+  } catch (error: any) {
+    throw new Error(`(updateThread): ${error.message}`);
   }
 
   revalidatePath(path);
