@@ -173,10 +173,12 @@ export async function addLike({ threadId, user_id, path }: AddLike_Props) {
   try {
     connectToDB();
 
+    const likedAt = Date.now();
+
     await Thread.findByIdAndUpdate(
       threadId,
       {
-        $push: { likes: user_id },
+        $push: { likes: { likedAt: likedAt, likedBy: user_id } },
       },
       { new: true, returnOriginal: false }
     );
@@ -184,7 +186,7 @@ export async function addLike({ threadId, user_id, path }: AddLike_Props) {
     await User.findByIdAndUpdate(
       user_id,
       {
-        $push: { likedThreads: threadId },
+        $push: { likedThreads: { likedAt: likedAt, threadId: threadId } },
       },
       { new: true, returnOriginal: false }
     );
@@ -214,7 +216,7 @@ export async function removeLike({
     await Thread.findByIdAndUpdate(
       threadId,
       {
-        $pull: { likes: { $in: [user_id] } },
+        $pull: { likes: { likedBy: { $in: [user_id] } } },
       },
       { new: true, returnOriginal: false }
     );
@@ -222,7 +224,7 @@ export async function removeLike({
     await User.findByIdAndUpdate(
       user_id,
       {
-        $pull: { likedThreads: { $in: [threadId] } },
+        $pull: { likedThreads: { threadId: { $in: [threadId] } } },
       },
       { new: true, returnOriginal: false }
     );
