@@ -99,7 +99,7 @@ export async function fetchThread(threadId: string) {
           {
             path: 'author',
             model: User,
-            select: '_id idUser_clerk name parentThreadId image',
+            select: '_id idUser_clerk name image',
           },
           {
             path: 'childrenThreads',
@@ -140,7 +140,7 @@ export async function addCommentToThread({
 
     const originalThread = await Thread.findById(tId);
     if (!originalThread)
-      throw new Error('addCommentToThread(): Thread not found!');
+      throw new Error('(addCommentToThread): Thread not found!');
 
     const newCommentThread = await Thread.create({
       text: commentText,
@@ -155,9 +155,7 @@ export async function addCommentToThread({
       $push: { threads: newCommentThread._id },
     });
   } catch (error: any) {
-    throw new Error(
-      `(addCommentToThread): Failed to add a comment to the thread. ${error.message}`
-    );
+    throw new Error(`(addCommentToThread): ${error.message}`);
   }
 
   revalidatePath(path);

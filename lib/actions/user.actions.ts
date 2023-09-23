@@ -5,7 +5,7 @@ import User from '../models/user.model';
 import { connectToDB } from '../mongoose';
 import Thread from '../models/thread.model';
 
-interface Props {
+interface UpdateUser_Props {
   idUser_clerk: string;
   username: string;
   name: string;
@@ -21,7 +21,7 @@ export async function updateUser({
   bio,
   image,
   path,
-}: Props): Promise<void> {
+}: UpdateUser_Props): Promise<void> {
   try {
     connectToDB();
 
@@ -45,16 +45,7 @@ export async function updateUser({
   }
 }
 
-// export async function fetchUserByClerkId(idUser_clerk: string) {
-//   try {
-//     connectToDB();
-
-//     const user = await User.findOne({ idUser_clerk: idUser_clerk });
-//     return user;
-//   } catch (error: any) {
-//     throw new Error(`(fetchUserByCLerkId): ${error.message}`);
-//   }
-// }
+// ========================================================================================================
 
 export async function fetchUser(idUser_clerk: string) {
   try {
@@ -65,6 +56,8 @@ export async function fetchUser(idUser_clerk: string) {
     throw new Error(`(fetchUser): ${error.message}`);
   }
 }
+
+// ========================================================================================================
 
 export async function fetchUserThreads(author_id: string) {
   try {
@@ -80,7 +73,7 @@ export async function fetchUserThreads(author_id: string) {
       populate: {
         path: 'author',
         model: User,
-        select: 'name image id _id',
+        select: 'name image idUser_clerk _id',
       },
     });
 
@@ -89,6 +82,8 @@ export async function fetchUserThreads(author_id: string) {
     throw new Error(`(fetchUserPosts): ${error.message}`);
   }
 }
+
+// ========================================================================================================
 
 export async function getReplies(authorId: string) {
   try {
@@ -108,7 +103,7 @@ export async function getReplies(authorId: string) {
       .populate({
         path: 'author',
         model: User,
-        select: '_id id name image',
+        select: '_id idUser_clerk name image',
       });
 
     return replies;
