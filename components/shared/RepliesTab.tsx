@@ -40,6 +40,8 @@ Props) {
     }
   }
 
+  console.log(threadReplies);
+
   return (
     <section className='mt-6 flex w-full flex-col gap-6'>
       {replies.length > 0 ? (
@@ -70,9 +72,15 @@ Props) {
                     </span>
                   </div>
                 </section>
-                <p className='truncate md:w-full px-4 py-3 bg-dark-1 rounded-md'>
-                  {t.parentThread.text}
-                </p>
+                <div className='w-full flex flex-row items-center gap-2 md:gap-4 flex-wrap'>
+                  <p className='truncate w-full md:w-[46%] px-4 py-3 bg-dark-1 rounded-md'>
+                    {t.parentThread.text}
+                  </p>
+                  <span>with</span>
+                  <p className='truncate w-full md:w-[46%] px-4 py-3 bg-dark-1 rounded-md'>
+                    {t.reply.text}
+                  </p>
+                </div>
               </Link>
             );
           })}
