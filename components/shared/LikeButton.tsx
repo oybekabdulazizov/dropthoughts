@@ -1,6 +1,6 @@
 'use client';
 
-import { addLike, removeLike } from '@/lib/actions/thread.actions';
+import { addLike, removeLike } from '@/lib/actions/like.action';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -26,14 +26,14 @@ export default function LikeButton({
         setLiked(0);
         await removeLike({
           threadId: JSON.parse(threadId),
-          user_id: JSON.parse(currentUserId_db),
+          userId: JSON.parse(currentUserId_db),
           path: pathname,
         });
       } else {
         setLiked(1);
         await addLike({
           threadId: JSON.parse(threadId),
-          user_id: JSON.parse(currentUserId_db),
+          userId: JSON.parse(currentUserId_db),
           path: pathname,
         });
       }
