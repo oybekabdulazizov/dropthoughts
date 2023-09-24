@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import Thread from '../models/thread.model';
 import User from '../models/user.model';
 import { connectToDB } from '../mongoose';
+import Like from '../models/like.model';
 
 interface CreateThread_Props {
   text: string;
@@ -65,6 +66,17 @@ export async function fetchThreads({
           model: User,
           select: '_id idUser_clerk name image',
         },
+      })
+      .populate({
+        path: 'likes',
+        populate: [
+          {
+            path: 'userId',
+            model: User,
+            select: '_id idUser_clerk name image',
+          },
+          { path: 'threadId', model: Thread, select: '_id text' },
+        ],
       });
 
     const totalThreadsCount = await Thread.countDocuments({
@@ -110,6 +122,17 @@ export async function fetchThread(threadId: string) {
               select: '_id idUser_clerk name image',
             },
           },
+        ],
+      })
+      .populate({
+        path: 'likes',
+        populate: [
+          {
+            path: 'userId',
+            model: User,
+            select: '_id idUser_clerk name image',
+          },
+          { path: 'threadId', model: Thread, select: '_id text' },
         ],
       });
 

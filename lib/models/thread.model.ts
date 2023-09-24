@@ -22,14 +22,8 @@ const threadSchema = new Schema({
   ],
   likes: [
     {
-      likedAt: {
-        type: Date,
-      },
-      likedBy: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-      },
-      _id: false,
+      type: Schema.Types.ObjectId,
+      ref: 'Like',
     },
   ],
 });

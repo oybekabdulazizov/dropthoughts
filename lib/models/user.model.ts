@@ -10,14 +10,8 @@ const userSchema = new Schema({
   onboarded: { type: Boolean, default: false },
   likedThreads: [
     {
-      likedAt: {
-        type: Date,
-      },
-      threadId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Thread',
-      },
-      _id: false,
+      type: Schema.Types.ObjectId,
+      ref: 'Like',
     },
   ],
 });
