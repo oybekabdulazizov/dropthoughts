@@ -57,7 +57,7 @@ export default async function Page({ params }: Props) {
         />
       </div>
       <div className='mt-8'>
-        {thread.childrenThreads.map((childThread: any, i: number) => (
+        {thread.childrenThreads.map((childThread: any) => (
           <ThreadCard
             key={childThread._id}
             threadId={childThread._id}
@@ -69,7 +69,6 @@ export default async function Page({ params }: Props) {
             createdAt={childThread.createdAt}
             comments={childThread.childrenThreads}
             isComment={true}
-            nth={i}
             likes={childThread.likes}
           />
         ))}

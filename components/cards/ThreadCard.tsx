@@ -26,7 +26,6 @@ type Props = {
     };
   }>;
   isComment?: boolean;
-  nth?: number;
   likes: any;
 };
 
@@ -40,7 +39,6 @@ export default async function ThreadCard({
   createdAt,
   comments,
   isComment,
-  nth,
   likes,
 }: Props) {
   // const currentUserClerk = await currentUser();
@@ -69,11 +67,7 @@ export default async function ThreadCard({
         isComment ? 'px-0 xs:px-7' : 'bg-dark-2 p-7'
       }`}
     >
-      <div
-        className={`flex items-start justify-between ${
-          isComment && nth !== 0 && 'mt-6'
-        }`}
-      >
+      <div className='flex items-start justify-between'>
         <div className='flex w-full flex-1 flex-row gap-4'>
           <div className='flex flex-col items-center'>
             <Link
@@ -159,15 +153,32 @@ export default async function ThreadCard({
                   className='cursor-pointer object-contain'
                 /> */}
               </div>
-
-              {comments.length > 0 && (
-                <Link href={`/thread/${threadId}`}>
-                  <p className='mt-1 text-subtle-medium text-gray-1'>
-                    {comments.length}{' '}
-                    {comments.length > 1 ? 'replies' : 'reply'}
+              <div
+                className={`flex flex-row gap-3 ${
+                  isComment && (comments.length > 0 || likes.length > 0)
+                    ? 'mb-6'
+                    : 'mb-2'
+                }`}
+              >
+                {comments.length > 0 && (
+                  <Link href={`/thread/${threadId}`}>
+                    <p className='text-subtle-medium text-gray-1'>
+                      {comments.length}{' '}
+                      {comments.length > 1 ? 'replies' : 'reply'}
+                    </p>
+                  </Link>
+                )}
+                {comments.length > 0 && (
+                  <span className='text-subtle-medium text-gray-1'>
+                    &middot;
+                  </span>
+                )}
+                {likes.length > 0 && (
+                  <p className='text-subtle-medium text-gray-1'>
+                    {likes.length} {likes.length > 1 ? 'likes' : 'like'}
                   </p>
-                </Link>
-              )}
+                )}
+              </div>
             </div>
           </div>
         </div>

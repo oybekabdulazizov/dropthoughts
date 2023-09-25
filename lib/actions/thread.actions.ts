@@ -122,6 +122,18 @@ export async function fetchThread(threadId: string) {
               select: '_id idUser_clerk name image',
             },
           },
+          {
+            path: 'likes',
+            model: Like,
+            populate: [
+              {
+                path: 'user',
+                model: User,
+                select: '_id name image',
+              },
+              { path: 'thread', model: Thread, select: '_id text' },
+            ],
+          },
         ],
       })
       .populate({
