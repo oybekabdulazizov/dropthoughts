@@ -94,3 +94,46 @@ export async function getLikes(userId: string) {
     throw new Error(`(getLikes): ${error.message}`);
   }
 }
+
+// ========================================================================================================
+
+export async function fetchUserLikedThreads(userId: string) {
+  try {
+    connectToDB();
+
+    const userLikes = await Like.find({ user: userId }).populate({
+      path: 'thread',
+      model: Thread,
+      populate: [
+        { path: 'author', model: User },
+        {
+          path: 'childrenThreads',
+          model: Thread,
+          populate: {
+            path: 'author',
+            model: User,
+            select: '_id idUser_clerk name image',
+          },
+        },
+        {
+          path: 'likes',
+          populate: [
+            {
+              path: 'user',
+              model: User,
+              select: '_id idUser_clerk name image',
+            },
+            { path: 'thread', model: Thread, select: '_id text' },
+          ],
+        },
+      ],
+    });
+    const userLikedThreads = userLikes.reduce((acc, item) => {
+      return acc.concat(item.thread);
+    }, []);
+
+    return userLikedThreads;
+  } catch (error: any) {
+    throw new Error(`(fetchUserLikedThreads): ${error.message}`);
+  }
+}

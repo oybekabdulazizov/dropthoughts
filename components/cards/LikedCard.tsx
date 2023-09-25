@@ -21,8 +21,8 @@ export default function LikedCard({
   const likedWhen = calculateRelativeTimes(likedAt);
   // console.log('typeof likedAt: ', typeof likedAt);
 
-  console.log('currentUserId: ', currentUserId);
-  console.log('likedUserId: ', likedUserId);
+  // console.log('currentUserId: ', currentUserId);
+  // console.log('likedUserId: ', likedUserId);
 
   return (
     <div className='bg-dark-2 py-4 px-8 flex flex-col gap-4 rounded-lg'>

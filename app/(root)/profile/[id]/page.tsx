@@ -8,6 +8,8 @@ import React from 'react';
 import Image from 'next/image';
 import ThreadsTab from '@/components/shared/ThreadsTab';
 import RepliesTab from '@/components/shared/RepliesTab';
+import FavouritesTab from '@/components/shared/FavoruitesTab';
+import { fetchUserLikedThreads } from '@/lib/actions/like.action';
 
 type Props = {
   params: {
@@ -34,7 +36,7 @@ export default async function Page({ params }: Props) {
     redirect('/');
   }
 
-  const replies = await getReplies(user_db._id);
+  const favouriteThreads = await fetchUserLikedThreads(user_db._id);
 
   return (
     <section>
@@ -51,9 +53,9 @@ export default async function Page({ params }: Props) {
       <div className='mt-6'>
         <Tabs defaultValue='threads' className='w-full'>
           <TabsList className='tab'>
-            {profileTabs.slice(0, 2).map((tab) => {
+            {profileTabs.map((tab) => {
               if (
-                tab.value === 'replies' &&
+                tab.value === 'favourites' &&
                 currentUser_db.idUser_clerk !== user_db.idUser_clerk
               ) {
                 return;
@@ -74,11 +76,11 @@ export default async function Page({ params }: Props) {
                       {user_db.threads.length}
                     </p>
                   )}
-                  {tab.label.toLowerCase() === 'replies' && (
+                  {tab.label.toLowerCase() === 'favourites' && (
                     <>
                       {currentUser_clerk.id === user_db.idUser_clerk && (
                         <p className='rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2'>
-                          {replies.length}
+                          {favouriteThreads.length}
                         </p>
                       )}
                     </>
@@ -96,11 +98,10 @@ export default async function Page({ params }: Props) {
               accountType='User'
             />
           </TabsContent>
-          <TabsContent value='replies' className='w-full text-light-1'>
-            <RepliesTab
-              // currentUserId_clerk={currentUser_clerk.id}
+          <TabsContent value='favourites' className='w-full text-light-1'>
+            <FavouritesTab
               idUser_clerk={user_db.idUser_clerk}
-              // authorId={JSON.stringify(user_db._id)}
+              currentUserId_clerk={currentUser_clerk.id}
             />
           </TabsContent>
         </Tabs>
