@@ -91,18 +91,6 @@ export async function fetchUserThreads(author_id: string) {
         },
       ],
     });
-    // .populate({
-    //   path: 'likedThreads',
-    //   model: Like,
-    //   populate: [
-    //     {
-    //       path: 'user',
-    //       model: User,
-    //       select: '_id name image',
-    //     },
-    //     { path: 'thread', model: Thread, select: '_id text' },
-    //   ],
-    // });
 
     return threadsByUser;
   } catch (error: any) {

@@ -27,8 +27,6 @@ export default async function ThreadsTab({
               key={thread._id}
               threadId={thread._id}
               currentUserId_clerk={currentUserId_clerk}
-              // currentUserIdClerk={currentUserIdClerk}
-              // parentThreadId={thread.parentThreadId}
               content={thread.text}
               author={
                 accountType === 'User'

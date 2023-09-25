@@ -24,8 +24,6 @@ export default async function Home() {
                 key={thread._id}
                 threadId={thread._id}
                 currentUserId_clerk={currentUser_clerk.id}
-                // currentUserIdClerk={userFromClerk?.id || null}
-                // parentThreadId={thread.parentThreadId}
                 content={thread.text}
                 author={thread.author}
                 createdAt={thread.createdAt}

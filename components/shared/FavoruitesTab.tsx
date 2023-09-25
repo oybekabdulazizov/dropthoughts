@@ -24,7 +24,6 @@ export default async function FavouritesTab({
   }
 
   const favouriteThreads = await fetchUserLikedThreads(user_db._id);
-  console.log(favouriteThreads);
 
   return (
     <section className='mt-6 flex w-full flex-col gap-6'>

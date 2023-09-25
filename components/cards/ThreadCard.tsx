@@ -86,33 +86,15 @@ export default async function ThreadCard({
           </div>
 
           <div className='flex w-full flex-col'>
-            <div className='flex flex-row items-center justify-between'>
-              <div className='flex flex-row gap-3'>
-                <Link
-                  href={`/profile/${author.idUser_clerk}`}
-                  className='w-fit'
-                >
-                  <h4 className='cursor-pointer text-base-semibold text-light-1'>
-                    {author.name}
-                  </h4>
-                </Link>
-                <p className='text-gray-1 text-small-regular'>{createdWhen}</p>
-              </div>
-              {/* <div>
-                {currentUserId_clerk === author.idUser_clerk && (
-                  <Link href={`/thread/${threadId}/edit`}>
-                    <Image
-                      src='/assets/edit.svg'
-                      height={18}
-                      width={18}
-                      alt='edit-thread'
-                      className='cursor-pointer object-contain'
-                    />
-                  </Link>
-                )}
-              </div> */}
+            <div className='flex flex-row items-center gap-3'>
+              <Link href={`/profile/${author.idUser_clerk}`} className='w-fit'>
+                <h4 className='cursor-pointer text-base-semibold text-light-1'>
+                  {author.name}
+                </h4>
+              </Link>
+              <p className='text-gray-1 text-small-regular'>{createdWhen}</p>
             </div>
-            {/* <p className='text-light-2 mt-2 text-small-regular'>{content}</p> */}
+
             <ThreadContentEdit
               content={content}
               authorId={JSON.stringify(author._id)}

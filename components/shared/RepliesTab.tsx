@@ -7,16 +7,10 @@ import { calculateRelativeTimes } from '@/lib/utils';
 import ReplyCard from '../cards/ReplyCard';
 
 interface Props {
-  // currentUserId_clerk: string;
   idUser_clerk: string;
-  // authorId: string;
 }
 
-export default async function RepliesTab({
-  // currentUserId_clerk,
-  idUser_clerk,
-}: // authorId
-Props) {
+export default async function RepliesTab({ idUser_clerk }: Props) {
   const user_db = await fetchUser(idUser_clerk);
   if (!user_db) {
     // TODO: toast a message

@@ -97,18 +97,6 @@ export default function AccountProfile({ userDetails, action }: Props) {
       values.image = data.secure_url;
     }
 
-    // try {
-    //   const hasImageChanged = isBase64Image(blob);
-    //   if (hasImageChanged) {
-    //     const imgRes = await startUpload(files);
-    //     if (imgRes && imgRes[0].url) {
-    //       values.image = imgRes[0].url;
-    //     }
-    //   }
-    // } catch (error: any) {
-    //   throw new Error(`(onSubmit): ${error.message}`);
-    // }
-
     await user?.update({
       username: values.username,
     });

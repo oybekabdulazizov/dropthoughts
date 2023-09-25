@@ -93,7 +93,6 @@ export default async function Page({ params }: Props) {
           <TabsContent value='threads' className='w-full text-light-1'>
             <ThreadsTab
               currentUserId_clerk={currentUser_clerk.id}
-              // idUser_clerk={userFromDB.idUser_clerk}
               authorId={JSON.stringify(user_db._id)}
               accountType='User'
             />

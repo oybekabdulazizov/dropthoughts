@@ -39,8 +39,6 @@ export default async function Page({ params }: Props) {
           key={thread._id}
           threadId={thread._id}
           currentUserId_clerk={currentUser_clerk.id}
-          // currentUserIdClerk={userFromClerk.id || null}
-          // parentThreadId={thread.parentThreadId}
           content={thread.text}
           author={thread.author}
           createdAt={thread.createdAt}
@@ -62,8 +60,6 @@ export default async function Page({ params }: Props) {
             key={childThread._id}
             threadId={childThread._id}
             currentUserId_clerk={currentUser_clerk.id}
-            // currentUserIdClerk={userFromClerk?.id || null}
-            // parentThreadId={childThread.parentThreadId}
             content={childThread.text}
             author={childThread.author}
             createdAt={childThread.createdAt}

@@ -59,11 +59,7 @@ export default async function Page() {
             <LikesTab currentUserId={JSON.stringify(currentUser_db._id)} />
           </TabsContent>
           <TabsContent value='replies' className='w-full text-light-1'>
-            <RepliesTab
-              // currentUserId_clerk={currentUser_clerk.id}
-              idUser_clerk={currentUser_db.idUser_clerk}
-              // authorId={JSON.stringify(user_db._id)}
-            />
+            <RepliesTab idUser_clerk={currentUser_db.idUser_clerk} />
           </TabsContent>
         </Tabs>
       </div>
