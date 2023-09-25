@@ -64,32 +64,45 @@ export async function fetchUserThreads(author_id: string) {
   try {
     connectToDB();
 
-    const threadsByUser = await User.findById(author_id)
-      .populate({
-        path: 'threads',
-        model: Thread,
-        options: {
-          author: { $ne: author_id },
-          sort: { createdAt: 'desc' },
-        },
-        populate: {
+    const threadsByUser = await User.findById(author_id).populate({
+      path: 'threads',
+      model: Thread,
+      options: {
+        author: { $ne: author_id },
+        sort: { createdAt: 'desc' },
+      },
+      populate: [
+        {
           path: 'author',
           model: User,
           select: 'name image idUser_clerk _id',
         },
-      })
-      .populate({
-        path: 'likedThreads',
-        model: Like,
-        populate: [
-          {
-            path: 'userId',
-            model: User,
-            select: '_id name image',
-          },
-          { path: 'threadId', model: Thread, select: '_id text' },
-        ],
-      });
+        {
+          path: 'likes',
+          model: Like,
+          populate: [
+            {
+              path: 'user',
+              model: User,
+              select: '_id name image',
+            },
+            { path: 'thread', model: Thread, select: '_id text' },
+          ],
+        },
+      ],
+    });
+    // .populate({
+    //   path: 'likedThreads',
+    //   model: Like,
+    //   populate: [
+    //     {
+    //       path: 'user',
+    //       model: User,
+    //       select: '_id name image',
+    //     },
+    //     { path: 'thread', model: Thread, select: '_id text' },
+    //   ],
+    // });
 
     return threadsByUser;
   } catch (error: any) {

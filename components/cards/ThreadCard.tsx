@@ -54,7 +54,7 @@ export default async function ThreadCard({
   let likedByCurrentUser: number = -1;
   if (currentUser_db) {
     const liked = likes.find((l: any) => {
-      if (l.userId._id.equals(currentUser_db._id)) {
+      if (l.user._id.equals(currentUser_db._id)) {
         return l;
       } else {
         return null;

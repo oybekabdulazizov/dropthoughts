@@ -17,8 +17,8 @@ export async function addLike({ threadId, userId, path }: AddLike_Props) {
     connectToDB();
 
     const newLike = await Like.create({
-      threadId: threadId,
-      userId: userId,
+      thread: threadId,
+      user: userId,
     });
 
     await User.findByIdAndUpdate(userId, {
@@ -48,8 +48,8 @@ export async function removeLike({ threadId, userId, path }: RemoveLike_Props) {
     connectToDB();
 
     const likeToRemove = await Like.findOne({
-      threadId: threadId,
-      userId: userId,
+      thread: threadId,
+      user: userId,
     });
 
     await Thread.findByIdAndUpdate(threadId, {
@@ -85,8 +85,8 @@ export async function getLikes(userId: string) {
     const likesForUserThreads = await Like.find({
       _id: { $in: likes },
     }).populate([
-      { path: 'userId', model: User, select: '_id name image' },
-      { path: 'threadId', model: Thread, select: '_id text' },
+      { path: 'user', model: User, select: '_id name image' },
+      { path: 'thread', model: Thread, select: '_id text' },
     ]);
 
     return likesForUserThreads;

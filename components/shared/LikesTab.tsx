@@ -15,10 +15,10 @@ export default async function LikesTab({ currentUserId }: Props) {
           {likesForUserThreads.map((like, i) => {
             return (
               <LikedCard
-                likedAuthorImage={like.userId.image}
-                likedAuthorName={like.userId.name}
+                likedAuthorImage={like.user.image}
+                likedAuthorName={like.user.name}
                 likedAt={like.likedAt}
-                threadText={like.threadId.text}
+                threadText={like.thread.text}
               />
             );
           })}
