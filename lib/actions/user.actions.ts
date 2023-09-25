@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import User from '../models/user.model';
 import { connectToDB } from '../mongoose';
 import Thread from '../models/thread.model';
+import Like from '../models/like.model';
 
 interface UpdateUser_Props {
   idUser_clerk: string;
@@ -70,12 +71,38 @@ export async function fetchUserThreads(author_id: string) {
         author: { $ne: author_id },
         sort: { createdAt: 'desc' },
       },
-      populate: {
-        path: 'author',
-        model: User,
-        select: 'name image idUser_clerk _id',
-      },
+      populate: [
+        {
+          path: 'author',
+          model: User,
+          select: 'name image idUser_clerk _id',
+        },
+        {
+          path: 'likes',
+          model: Like,
+          populate: [
+            {
+              path: 'user',
+              model: User,
+              select: '_id name image',
+            },
+            { path: 'thread', model: Thread, select: '_id text' },
+          ],
+        },
+      ],
     });
+    // .populate({
+    //   path: 'likedThreads',
+    //   model: Like,
+    //   populate: [
+    //     {
+    //       path: 'user',
+    //       model: User,
+    //       select: '_id name image',
+    //     },
+    //     { path: 'thread', model: Thread, select: '_id text' },
+    //   ],
+    // });
 
     return threadsByUser;
   } catch (error: any) {

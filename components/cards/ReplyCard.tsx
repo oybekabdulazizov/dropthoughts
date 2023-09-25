@@ -1,13 +1,14 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
+import { calculateRelativeTimes } from '@/lib/utils';
 
 interface Props {
   parentThreadId: string;
   key: number;
   replyAuthorImage: string;
   replyAuthorName: string;
-  createdWhen: string;
+  createdAt: Date;
   parentThreadText: string;
   replyThreadText: string;
 }
@@ -19,8 +20,10 @@ export default function ReplyCard({
   replyAuthorImage,
   replyAuthorName,
   replyThreadText,
-  createdWhen,
+  createdAt,
 }: Props) {
+  const createdWhen = calculateRelativeTimes(createdAt);
+
   return (
     <Link
       key={key}
@@ -43,12 +46,12 @@ export default function ReplyCard({
           </span>
         </div>
       </section>
-      <div className='w-full flex flex-row items-center gap-2 md:gap-4 flex-wrap'>
-        <p className='truncate w-full md:w-[46%] px-4 py-3 bg-dark-1 rounded-md'>
+      <div className='w-full flex flex-row items-center flex-wrap gap-2 md:gap-3'>
+        <p className='truncate w-full md:w-[44%] px-4 py-3 bg-dark-1 rounded-md'>
           {parentThreadText}
         </p>
         <span>with</span>
-        <p className='truncate w-full md:w-[46%] px-4 py-3 bg-dark-1 rounded-md'>
+        <p className='truncate w-full md:w-[44%] px-4 py-3 bg-dark-1 rounded-md'>
           {replyThreadText}
         </p>
       </div>

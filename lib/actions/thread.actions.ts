@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import Thread from '../models/thread.model';
 import User from '../models/user.model';
 import { connectToDB } from '../mongoose';
+import Like from '../models/like.model';
 
 interface CreateThread_Props {
   text: string;
@@ -65,6 +66,17 @@ export async function fetchThreads({
           model: User,
           select: '_id idUser_clerk name image',
         },
+      })
+      .populate({
+        path: 'likes',
+        populate: [
+          {
+            path: 'user',
+            model: User,
+            select: '_id idUser_clerk name image',
+          },
+          { path: 'thread', model: Thread, select: '_id text' },
+        ],
       });
 
     const totalThreadsCount = await Thread.countDocuments({
@@ -110,6 +122,17 @@ export async function fetchThread(threadId: string) {
               select: '_id idUser_clerk name image',
             },
           },
+        ],
+      })
+      .populate({
+        path: 'likes',
+        populate: [
+          {
+            path: 'user',
+            model: User,
+            select: '_id name image',
+          },
+          { path: 'thread', model: Thread, select: '_id text' },
         ],
       });
 
@@ -163,75 +186,77 @@ export async function addCommentToThread({
 
 // ========================================================================================================
 
-interface AddLike_Props {
-  threadId: string;
-  user_id: string;
-  path: string;
-}
+// interface AddLike_Props {
+//   threadId: string;
+//   user_id: string;
+//   path: string;
+// }
 
-export async function addLike({ threadId, user_id, path }: AddLike_Props) {
-  try {
-    connectToDB();
+// export async function addLike({ threadId, user_id, path }: AddLike_Props) {
+//   try {
+//     connectToDB();
 
-    await Thread.findByIdAndUpdate(
-      threadId,
-      {
-        $push: { likes: user_id },
-      },
-      { new: true, returnOriginal: false }
-    );
+//     const likedAt = Date.now();
 
-    await User.findByIdAndUpdate(
-      user_id,
-      {
-        $push: { likedThreads: threadId },
-      },
-      { new: true, returnOriginal: false }
-    );
-  } catch (error: any) {
-    throw new Error(`(addLike): ${error.message}`);
-  }
+//     await Thread.findByIdAndUpdate(
+//       threadId,
+//       {
+//         $push: { likes: { likedAt: likedAt, likedBy: user_id } },
+//       },
+//       { new: true, returnOriginal: false }
+//     );
 
-  revalidatePath(path);
-}
+//     await User.findByIdAndUpdate(
+//       user_id,
+//       {
+//         $push: { likedThreads: { likedAt: likedAt, threadId: threadId } },
+//       },
+//       { new: true, returnOriginal: false }
+//     );
+//   } catch (error: any) {
+//     throw new Error(`(addLike): ${error.message}`);
+//   }
 
-// ========================================================================================================
+//   revalidatePath(path);
+// }
 
-interface RemoveLike_Props {
-  threadId: string;
-  user_id: string;
-  path: string;
-}
+// // ========================================================================================================
 
-export async function removeLike({
-  threadId,
-  user_id,
-  path,
-}: RemoveLike_Props) {
-  try {
-    connectToDB();
+// interface RemoveLike_Props {
+//   threadId: string;
+//   user_id: string;
+//   path: string;
+// }
 
-    await Thread.findByIdAndUpdate(
-      threadId,
-      {
-        $pull: { likes: { $in: [user_id] } },
-      },
-      { new: true, returnOriginal: false }
-    );
+// export async function removeLike({
+//   threadId,
+//   user_id,
+//   path,
+// }: RemoveLike_Props) {
+//   try {
+//     connectToDB();
 
-    await User.findByIdAndUpdate(
-      user_id,
-      {
-        $pull: { likedThreads: { $in: [threadId] } },
-      },
-      { new: true, returnOriginal: false }
-    );
-  } catch (error: any) {
-    throw new Error(`(removeLike): ${error.message}`);
-  }
+//     await Thread.findByIdAndUpdate(
+//       threadId,
+//       {
+//         $pull: { likes: { likedBy: { $in: [user_id] } } },
+//       },
+//       { new: true, returnOriginal: false }
+//     );
 
-  revalidatePath(path);
-}
+//     await User.findByIdAndUpdate(
+//       user_id,
+//       {
+//         $pull: { likedThreads: { threadId: { $in: [threadId] } } },
+//       },
+//       { new: true, returnOriginal: false }
+//     );
+//   } catch (error: any) {
+//     throw new Error(`(removeLike): ${error.message}`);
+//   }
+
+//   revalidatePath(path);
+// }
 
 // ========================================================================================================
 

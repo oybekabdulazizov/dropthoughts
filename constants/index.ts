@@ -37,6 +37,11 @@ export const profileTabs = [
   { value: 'tagged', label: 'Tagged', icon: '/assets/tag.svg' },
 ];
 
+export const activityTabs = [
+  { value: 'likes', label: 'Likes', icon: '/assets/heart-gray.svg' },
+  { value: 'replies', label: 'Replies', icon: '/assets/members.svg' },
+];
+
 // export const communityTabs = [
 //   { value: 'threads', label: 'Threads', icon: '/assets/reply.svg' },
 //   { value: 'members', label: 'Members', icon: '/assets/members.svg' },

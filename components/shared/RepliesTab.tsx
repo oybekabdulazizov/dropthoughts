@@ -46,7 +46,6 @@ Props) {
       {replies.length > 0 ? (
         <>
           {threadReplies.map((t, i) => {
-            const createdWhen = calculateRelativeTimes(t.reply.createdAt);
             return (
               <ReplyCard
                 key={i}
@@ -55,7 +54,7 @@ Props) {
                 replyAuthorImage={t.reply.author.image}
                 replyAuthorName={t.reply.author.name}
                 replyThreadText={t.reply.text}
-                createdWhen={createdWhen}
+                createdAt={t.reply.createdAt}
               />
             );
           })}

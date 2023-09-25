@@ -27,7 +27,7 @@ type Props = {
   }>;
   isComment?: boolean;
   nth?: number;
-  likes: Array<string>;
+  likes: any;
 };
 
 export default async function ThreadCard({
@@ -53,7 +53,14 @@ export default async function ThreadCard({
 
   let likedByCurrentUser: number = -1;
   if (currentUser_db) {
-    likedByCurrentUser = likes.indexOf(currentUser_db._id) > -1 ? 1 : 0;
+    const liked = likes.find((l: any) => {
+      if (l.user._id.equals(currentUser_db._id)) {
+        return l;
+      } else {
+        return null;
+      }
+    });
+    likedByCurrentUser = liked ? 1 : 0;
   }
 
   return (
