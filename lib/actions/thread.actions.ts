@@ -95,6 +95,19 @@ export async function fetchThreads({
 
 // ========================================================================================================
 
+export async function fetchAllThreads() {
+  try {
+    connectToDB();
+
+    const threads = await Thread.find({});
+    return threads;
+  } catch (error: any) {
+    throw new Error(`(fetchAllThreads): ${error.message}`);
+  }
+}
+
+// ========================================================================================================
+
 export async function fetchThread(threadId: string) {
   try {
     connectToDB();
