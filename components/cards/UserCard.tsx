@@ -25,14 +25,19 @@ export default function UserCard({
       <section className='flex items-center justify-between'>
         <div className='flex items-center gap-3'>
           <div className='relative h-20 w-20 object-cover'>
-            <Image
-              src={image}
-              alt={`Profile image of ${name}`}
-              fill
-              className='rounded-full object-contain shadow-2xl'
-            />
+            <Link href={`/profile/${idUser_clerk}`}>
+              <Image
+                src={image}
+                alt={`Profile image of ${name}`}
+                fill
+                className='rounded-full object-contain shadow-2xl'
+              />
+            </Link>
           </div>
-          <div className='flex flex-col gap-1'>
+          <Link
+            href={`/profile/${idUser_clerk}`}
+            className='flex flex-col gap-1'
+          >
             <h1 className='text-left text-heading3-bold text-light-1'>
               {name}
             </h1>
@@ -42,7 +47,7 @@ export default function UserCard({
                 {threads.length} {threads.length > 1 ? 'threads' : 'thread'}
               </p>
             )}
-          </div>
+          </Link>
         </div>
       </section>
 
