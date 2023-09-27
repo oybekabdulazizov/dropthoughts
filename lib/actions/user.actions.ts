@@ -134,7 +134,7 @@ export async function fetchUsers() {
     connectToDB();
 
     const users = await User.find({});
-    return JSON.stringify(users);
+    return users;
   } catch (error: any) {
     throw new Error(`(fetchUsers): ${error.message}`);
   }

@@ -2,16 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import { Input } from '../ui/input';
+import UserCard from '../cards/UserCard';
 
 interface Props {
-  threads: any[];
-  users: any[];
+  users_stringified: string;
 }
 
-export default function Search({ threads, users }: Props) {
+export default function Search({ users_stringified }: Props) {
   const [searchTerm, setSearchTerm] = useState<string | null>(null);
   const [filteredUsers, setFilteredUsers] = useState<any[]>([]);
-  const [filteredThreads, setFilteredThreads] = useState<any[]>([]);
+  const [users, setUsers] = useState<any[]>([...JSON.parse(users_stringified)]);
 
   const onInputChange = (e: any) => {
     setSearchTerm(e.target.value);
@@ -20,7 +20,7 @@ export default function Search({ threads, users }: Props) {
   useEffect(() => {
     if (searchTerm && searchTerm.trim().length > 0) {
       const search = setTimeout(() => {
-        if (users.length > 0 || threads.length > 0) {
+        if (users.length > 0) {
           const usersResult = users.filter((user) => {
             if (
               user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -30,13 +30,6 @@ export default function Search({ threads, users }: Props) {
             }
           });
           setFilteredUsers([...usersResult]);
-
-          const threadsResult = threads.filter((thread) => {
-            if (thread.text.toLowerCase().includes(searchTerm.toLowerCase())) {
-              return thread;
-            }
-          });
-          setFilteredThreads([...threadsResult]);
         }
       }, 500);
       return () => clearTimeout(search);
@@ -52,34 +45,25 @@ export default function Search({ threads, users }: Props) {
         value={searchTerm || ''}
         onChange={onInputChange}
       />
-      {(filteredUsers.length > 0 || filteredThreads.length > 0) &&
+      {filteredUsers.length > 0 &&
       searchTerm &&
       searchTerm.trim().length > 0 ? (
-        <>
+        <div className='mt-8'>
           {filteredUsers.map((user, i) => (
-            <h3 key={i} className='head-text'>
-              {user.name} - {user.username}
-            </h3>
+            <UserCard
+              key={user._id}
+              idUser_clerk={user.idUser_clerk}
+              name={user.name}
+              username={user.username}
+              image={user.image}
+              threads={user.threads}
+              nth={i}
+              resultLength={filteredUsers.length}
+            />
           ))}
-          {filteredThreads.map((thread, i) => (
-            <h3 key={i} className='head-text'>
-              {thread.text}
-            </h3>
-          ))}
-        </>
+        </div>
       ) : (
-        <>
-          {users.map((user, i) => (
-            <h3 key={i} className='head-text'>
-              {user.name} - {user.username}
-            </h3>
-          ))}
-          {threads.map((thread, i) => (
-            <h3 key={i} className='head-text'>
-              {thread.text}
-            </h3>
-          ))}
-        </>
+        <p className='no-result'>No users found.</p>
       )}
     </div>
   );
