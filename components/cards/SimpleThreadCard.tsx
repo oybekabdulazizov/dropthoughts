@@ -29,7 +29,7 @@ export default function SimpleThreadCard({
   comments,
   likes,
 }: Props) {
-  // const createdWhen = calculateRelativeTimes(createdAt);
+  const createdWhen = calculateRelativeTimes(createdAt);
 
   return (
     <article className='flex w-full flex-col rounded-lg bg-dark-2 p-7 mt-6'>
@@ -58,7 +58,7 @@ export default function SimpleThreadCard({
                   {author.name}
                 </h4>
               </Link>
-              {/* <p className='text-gray-1 text-small-regular'>{createdWhen}</p> */}
+              <p className='text-gray-1 text-small-regular'>{createdWhen}</p>
             </div>
             <Link
               href={`/thread/${threadId}`}
