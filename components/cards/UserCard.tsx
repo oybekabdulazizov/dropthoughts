@@ -21,7 +21,7 @@ export default function UserCard({
   resultLength,
 }: Props) {
   return (
-    <div className='flex flex-col justify-start w-full'>
+    <div className='flex flex-col justify-start w-full bg-dark-2 p-6 rounded-lg mt-6'>
       <section className='flex items-center justify-between'>
         <div className='flex items-center gap-3'>
           <div className='relative h-20 w-20 object-cover'>
@@ -38,7 +38,7 @@ export default function UserCard({
             href={`/profile/${idUser_clerk}`}
             className='flex flex-col gap-1'
           >
-            <h1 className='text-left text-heading3-bold text-light-1'>
+            <h1 className='text-left text-heading4-medium text-light-1'>
               {name}
             </h1>
             <p className='text-base-medium text-gray-1'>@{username}</p>
@@ -50,10 +50,6 @@ export default function UserCard({
           </Link>
         </div>
       </section>
-
-      {resultLength - 1 !== nth && (
-        <div className='my-4 h-0.5 w-full bg-dark-3' />
-      )}
     </div>
   );
 }
