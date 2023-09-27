@@ -126,3 +126,16 @@ export async function getReplies(authorId: string) {
     throw new Error(`(getReplies): ${error.message}`);
   }
 }
+
+// ========================================================================================================
+
+export async function fetchUsers() {
+  try {
+    connectToDB();
+
+    const users = await User.find({});
+    return users;
+  } catch (error: any) {
+    throw new Error(`(fetchUsers): ${error.message}`);
+  }
+}
