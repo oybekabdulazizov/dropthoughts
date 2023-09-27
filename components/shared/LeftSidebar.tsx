@@ -21,7 +21,8 @@ export default function LeftSidebar() {
             (pathname.includes(link.route) && link.route.length > 1) ||
             pathname === link.route;
 
-          if (link.route === '/profile') link.route = `/profile/${userId}`;
+          if (link.route === '/profile' && userId)
+            link.route = `/profile/${userId}`;
           return (
             <Link
               href={link.route}

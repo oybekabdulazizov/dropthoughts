@@ -5,9 +5,9 @@ import { redirect } from 'next/navigation';
 
 export default async function Home() {
   const currentUser_clerk = await currentUser();
-  if (!currentUser_clerk) {
-    redirect('/auth/sign-in');
-  }
+  // if (!currentUser_clerk) {
+  //   redirect('/auth/sign-in');
+  // }
 
   const result = await fetchThreads({ pageNumber: 1, pageSize: 30 });
 
@@ -23,7 +23,7 @@ export default async function Home() {
               <ThreadCard
                 key={thread._id}
                 threadId={thread._id}
-                currentUserId_clerk={currentUser_clerk.id}
+                currentUserId_clerk={currentUser_clerk?.id || null}
                 content={thread.text}
                 author={thread.author}
                 createdAt={thread.createdAt}

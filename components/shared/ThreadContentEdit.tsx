@@ -26,7 +26,7 @@ interface Props {
   content: string;
   authorId: string;
   isComment: boolean | undefined;
-  currentUserId: string;
+  currentUserId: string | null;
   threadId: string;
 }
 

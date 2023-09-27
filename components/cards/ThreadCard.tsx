@@ -45,9 +45,10 @@ export default async function ThreadCard({
 
   const createdWhen = calculateRelativeTimes(createdAt);
 
-  const currentUser_db = currentUserId_clerk
-    ? await fetchUser(currentUserId_clerk)
-    : null;
+  let currentUser_db: any = null;
+  if (currentUserId_clerk) {
+    currentUser_db = await fetchUser(currentUserId_clerk);
+  }
 
   let likedByCurrentUser: number = -1;
   if (currentUser_db) {
@@ -99,7 +100,9 @@ export default async function ThreadCard({
               content={content}
               authorId={JSON.stringify(author._id)}
               isComment={isComment}
-              currentUserId={JSON.stringify(currentUser_db._id)}
+              currentUserId={
+                currentUser_db ? JSON.stringify(currentUser_db._id) : null
+              }
               threadId={JSON.stringify(threadId)}
             />
             <div className='mt-3 flex flex-col gap-2'>
