@@ -99,7 +99,10 @@ export async function fetchAllThreads() {
   try {
     connectToDB();
 
-    const threads = await Thread.find({});
+    const threads = await Thread.find({})
+      .sort({ createdAt: 'desc' })
+      .populate({ path: 'author', model: User });
+
     return threads;
   } catch (error: any) {
     throw new Error(`(fetchAllThreads): ${error.message}`);

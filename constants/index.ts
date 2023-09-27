@@ -42,6 +42,11 @@ export const activityTabs = [
   { value: 'replies', label: 'Replies', icon: '/assets/members.svg' },
 ];
 
+export const searchTabs = [
+  { value: 'users', label: 'Users', icon: '/assets/members.svg' },
+  { value: 'threads', label: 'Threads', icon: '/assets/reply.svg' },
+];
+
 // export const communityTabs = [
 //   { value: 'threads', label: 'Threads', icon: '/assets/reply.svg' },
 //   { value: 'members', label: 'Members', icon: '/assets/members.svg' },

@@ -6,9 +6,14 @@ import { ChangeEvent } from 'react';
 export default async function Page() {
   const users = await fetchUsers();
 
+  const threads = await fetchAllThreads();
+
   return (
     <div>
-      <Search users_stringified={JSON.stringify(users)} />
+      <Search
+        users_stringified={JSON.stringify(users)}
+        threads_stringified={JSON.stringify(threads)}
+      />
     </div>
   );
 }
