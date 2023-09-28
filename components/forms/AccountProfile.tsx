@@ -105,11 +105,15 @@ export default function AccountProfile({ userDetails, action }: Props) {
       await user?.setProfileImage({ file: file! });
     }
 
-    await updateUser({
+    const result = await updateUser({
       idUser_clerk: userDetails.idUser_clerk,
       ...values,
       path: pathname,
     });
+
+    if (result?.errorCode === 404) {
+      router.push('/');
+    }
 
     user?.reload();
 

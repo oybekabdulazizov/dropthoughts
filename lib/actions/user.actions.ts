@@ -22,7 +22,7 @@ export async function updateUser({
   bio,
   image,
   path,
-}: UpdateUser_Props): Promise<void> {
+}: UpdateUser_Props) {
   try {
     connectToDB();
 
@@ -38,7 +38,13 @@ export async function updateUser({
       { upsert: true }
     );
   } catch (error: any) {
-    throw new Error(`(updateUser): ${error.message}`);
+    if (error.message.includes('Cast to ObjectId failed')) {
+      return {
+        errorCode: 404,
+      };
+    } else {
+      throw new Error(`(updateUser): ${error.message}`);
+    }
   }
 
   if (path === '/profile/edit') {
@@ -94,7 +100,13 @@ export async function fetchUserThreads(author_id: string) {
 
     return threadsByUser;
   } catch (error: any) {
-    throw new Error(`(fetchUserPosts): ${error.message}`);
+    if (error.message.includes('Cast to ObjectId failed')) {
+      return {
+        errorCode: 404,
+      };
+    } else {
+      throw new Error(`(fetchUserPosts): ${error.message}`);
+    }
   }
 }
 

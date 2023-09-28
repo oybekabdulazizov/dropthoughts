@@ -16,7 +16,7 @@ export default async function ThreadsTab({
   accountType,
 }: Props) {
   const result = await fetchUserThreads(JSON.parse(authorId));
-  if (!result) redirect('/');
+  if (!result || result.errorCode === 404) redirect('/');
 
   return (
     <section className='mt-6 flex flex-col gap-6'>
