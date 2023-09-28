@@ -20,7 +20,7 @@ import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { updateThread } from '@/lib/actions/thread.actions';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface Props {
   content: string;
@@ -39,6 +39,7 @@ export default function ThreadContentEdit({
 }: Props) {
   const [edit, setEdit] = useState<boolean>(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   const toggleEdit = () => setEdit(!edit);
 
@@ -51,11 +52,15 @@ export default function ThreadContentEdit({
   });
 
   const onSubmit = async (values: z.infer<typeof CommentValidation>) => {
-    await updateThread({
+    const result = await updateThread({
       threadId: JSON.parse(threadId),
       content: values.thread,
       path: pathname,
     });
+
+    if (result?.errorCode === 404) {
+      router.push('/');
+    }
     toggleEdit();
 
     form.reset();

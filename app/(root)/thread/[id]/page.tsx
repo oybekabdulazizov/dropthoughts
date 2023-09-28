@@ -27,7 +27,7 @@ export default async function Page({ params }: Props) {
 
   const thread = await fetchThread(threadId);
 
-  if (!thread) {
+  if (!thread || thread.errorCode === 404) {
     // throw toast error
     redirect('/');
   }

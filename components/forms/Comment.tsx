@@ -27,6 +27,7 @@ export default function Comment({
   currentUserName_db,
 }: Props) {
   const pathname = usePathname();
+  const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(CommentValidation),
@@ -37,12 +38,16 @@ export default function Comment({
   });
 
   const onSubmit = async (values: z.infer<typeof CommentValidation>) => {
-    await addCommentToThread({
+    const result = await addCommentToThread({
       threadId: JSON.parse(threadId),
       commentText: values.thread,
       author: JSON.parse(values.author),
       path: pathname,
     });
+
+    if (result?.errorCode === 404) {
+      router.push('/');
+    }
 
     form.reset();
   };

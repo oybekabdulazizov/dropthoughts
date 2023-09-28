@@ -166,7 +166,13 @@ export async function fetchThread(threadId: string) {
 
     return thread;
   } catch (error: any) {
-    throw new Error(`(fetchThread): ${error.message}`);
+    if (error.message.includes('Cast to ObjectId failed')) {
+      return {
+        errorCode: 404,
+      };
+    } else {
+      throw new Error(`(fetchThread): ${error.message}`);
+    }
   }
 }
 
@@ -206,7 +212,13 @@ export async function addCommentToThread({
       $push: { threads: newCommentThread._id },
     });
   } catch (error: any) {
-    throw new Error(`(addCommentToThread): ${error.message}`);
+    if (error.message.includes('Cast to ObjectId failed')) {
+      return {
+        errorCode: 404,
+      };
+    } else {
+      throw new Error(`(addCommentToThread): ${error.message}`);
+    }
   }
 
   revalidatePath(path);
@@ -230,7 +242,13 @@ export async function updateThread({
 
     await Thread.findByIdAndUpdate(threadId, { text: content });
   } catch (error: any) {
-    throw new Error(`(updateThread): ${error.message}`);
+    if (error.message.includes('Cast to ObjectId failed')) {
+      return {
+        errorCode: 404,
+      };
+    } else {
+      throw new Error(`(updateThread): ${error.message}`);
+    }
   }
 
   revalidatePath(path);
