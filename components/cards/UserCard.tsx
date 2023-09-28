@@ -24,16 +24,18 @@ export default function UserCard({
     <div className='flex flex-col justify-start w-full bg-dark-2 p-6 rounded-lg mt-6'>
       <section className='flex items-center justify-between'>
         <div className='flex items-center gap-3'>
-          <div className='relative h-20 w-20 object-cover'>
-            <Link href={`/profile/${idUser_clerk}`}>
-              <Image
-                src={image}
-                alt={`Profile image of ${name}`}
-                fill
-                className='rounded-full object-contain shadow-2xl'
-              />
-            </Link>
-          </div>
+          <Link
+            href={`/profile/${idUser_clerk}`}
+            className='relative h-20 w-20 object-cover'
+          >
+            <Image
+              src={image}
+              alt={`Profile image of ${name}`}
+              fill
+              sizes='normal'
+              className='rounded-full object-contain shadow-2xl'
+            />
+          </Link>
           <Link
             href={`/profile/${idUser_clerk}`}
             className='flex flex-col gap-1'
