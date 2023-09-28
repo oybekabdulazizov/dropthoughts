@@ -5,16 +5,13 @@ import { redirect } from 'next/navigation';
 
 export default async function Home() {
   const currentUser_clerk = await currentUser();
-  // if (!currentUser_clerk) {
-  //   redirect('/auth/sign-in');
-  // }
 
   const result = await fetchThreads({ pageNumber: 1, pageSize: 30 });
 
   return (
     <>
       <h1 className='head-text text-left'>Threads</h1>
-      <section className='mt-6 flex flex-col gap-10'>
+      <section className='mt-6 flex flex-col gap-6'>
         {result.threads.length === 0 ? (
           <p className='no-result'>No threads yet.</p>
         ) : (
