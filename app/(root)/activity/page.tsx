@@ -25,7 +25,7 @@ export default async function Page() {
   return (
     <>
       <h1 className='head-text text-left'>Activities</h1>
-      <div className='mt-6'>
+      <div className='mt-4'>
         <Tabs defaultValue='likes' className='w-full'>
           <TabsList className='tab'>
             {activityTabs.map((tab) => {

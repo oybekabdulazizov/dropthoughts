@@ -9,12 +9,13 @@ export default async function LikesTab({ currentUserId }: Props) {
   const likesForUserThreads = await getLikes(JSON.parse(currentUserId));
 
   return (
-    <section className='mt-6 flex w-full flex-col gap-6'>
+    <section className='mt-6 flex flex-col gap-6'>
       {likesForUserThreads.length > 0 ? (
         <>
           {likesForUserThreads.map((like, i) => {
             return (
               <LikedCard
+                key={i}
                 currentUserId={currentUserId}
                 likedUserImage={like.user.image}
                 likedUserName={like.user.name}

@@ -40,9 +40,7 @@ export default function LikedCard({
           </span>
         </div>
       </section>
-      <p className='truncate w-full  px-4 py-3 bg-dark-1 rounded-md'>
-        {threadText}
-      </p>
+      <p className='px-4 py-3 bg-dark-1 rounded-md'>{threadText}</p>
     </div>
   );
 }
