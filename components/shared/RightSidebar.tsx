@@ -9,7 +9,7 @@ export default async function RightSidebar() {
 
   const users = await fetchUsers();
   const orderedUsers = users
-    .filter((user) => !user._id.equals(currentUser_db._id))
+    .filter((user) => !user._id.equals(currentUser_db?._id || ''))
     .sort((a, b) => b.threads.length - a.threads.length);
 
   return (
