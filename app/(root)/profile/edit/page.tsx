@@ -32,7 +32,7 @@ export default async function EditProfile() {
         Anything you wanna update?
       </p>
 
-      <section className='bg-dark-2 p-10'>
+      <section className='bg-dark-2 p-8'>
         <AccountProfile userDetails={userDetails} action='edit' />
       </section>
     </main>

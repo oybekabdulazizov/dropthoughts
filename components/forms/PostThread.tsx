@@ -48,14 +48,14 @@ export default function PostThread({ authorId }: { authorId: string }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className='flex flex-col justify-start gap-8'
+        className='flex flex-col justify-start gap-6'
       >
         <FormField
           control={form.control}
           name='thread'
           render={({ field }) => (
-            <FormItem className='flex flex-col gap-2 w-full'>
-              <FormLabel className='text-base-semibold text-light-2 py-3'>
+            <FormItem className='flex flex-col gap-1 w-full'>
+              <FormLabel className='text-base-semibold text-light-2 pt-3 pb-1'>
                 What's on your mind? 🤔
               </FormLabel>
               <FormControl>

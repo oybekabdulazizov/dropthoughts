@@ -16,7 +16,7 @@ export default async function RightSidebar() {
     <section className='custom-scrollbar rightsidebar'>
       <div className='flex flex-1 flex-col justify-start'>
         <h3 className='text-heading4-medium text-light-1'>Suggested Users</h3>
-        {orderedUsers.map((user) => (
+        {orderedUsers.slice(0, 10).map((user) => (
           <SmallUserCard
             key={user._id}
             idUser_clerk={user.idUser_clerk}

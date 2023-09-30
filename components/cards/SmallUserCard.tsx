@@ -24,8 +24,8 @@ export default function SmallUserCard({
             <Image
               src={image}
               alt={`Profile image of ${name}`}
-              width={50}
-              height={50}
+              width={45}
+              height={45}
               className='rounded-full object-contain shadow-2xl'
             />
           </Link>
@@ -33,7 +33,7 @@ export default function SmallUserCard({
             <h1 className='text-left text-base1-semibold text-light-1'>
               {name}
             </h1>
-            <p className='mt-1 text-small-semibold text-gray-1'>@{username}</p>
+            <p className='text-small-semibold text-gray-1'>@{username}</p>
           </Link>
         </div>
       </section>
