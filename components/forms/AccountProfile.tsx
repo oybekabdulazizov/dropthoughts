@@ -131,7 +131,7 @@ export default function AccountProfile({ userDetails, action }: Props) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className='flex flex-col justify-start gap-8'
+        className='flex flex-col justify-start gap-6'
       >
         <FormField
           control={form.control}
@@ -175,7 +175,7 @@ export default function AccountProfile({ userDetails, action }: Props) {
           control={form.control}
           name='name'
           render={({ field }) => (
-            <FormItem className='flex flex-col gap-2 w-full'>
+            <FormItem className='mt-2 flex flex-col gap-1 w-full'>
               <FormLabel className='text-base-semibold text-light-2'>
                 Name
               </FormLabel>
@@ -186,6 +186,7 @@ export default function AccountProfile({ userDetails, action }: Props) {
                   {...field}
                 />
               </FormControl>
+              <FormMessage style={{ marginTop: '0' }} />
             </FormItem>
           )}
         />
@@ -194,7 +195,7 @@ export default function AccountProfile({ userDetails, action }: Props) {
           control={form.control}
           name='username'
           render={({ field }) => (
-            <FormItem className='flex flex-col gap-2 w-full'>
+            <FormItem className='flex flex-col gap-1 w-full'>
               <FormLabel className='text-base-semibold text-light-2'>
                 Username
               </FormLabel>
@@ -205,6 +206,7 @@ export default function AccountProfile({ userDetails, action }: Props) {
                   {...field}
                 />
               </FormControl>
+              <FormMessage style={{ marginTop: '0' }} />
             </FormItem>
           )}
         />
@@ -213,7 +215,7 @@ export default function AccountProfile({ userDetails, action }: Props) {
           control={form.control}
           name='bio'
           render={({ field }) => (
-            <FormItem className='flex flex-col gap-2 w-full'>
+            <FormItem className='flex flex-col gap-1 w-full'>
               <FormLabel className='text-base-semibold text-light-2'>
                 Bio
               </FormLabel>
