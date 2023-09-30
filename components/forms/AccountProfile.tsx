@@ -36,6 +36,7 @@ interface Props {
 }
 
 export default function AccountProfile({ userDetails, action }: Props) {
+  const [submitting, setSubmitting] = useState<boolean>(false);
   const [file, setFile] = useState<File>();
   // const { startUpload } = useUploadThing('media');
   const router = useRouter();
@@ -80,6 +81,7 @@ export default function AccountProfile({ userDetails, action }: Props) {
   };
 
   const onSubmit = async (values: z.infer<typeof UserValidation>) => {
+    setSubmitting(true);
     if (
       !values.image.includes('res.cloudinary.com') &&
       !values.image.includes('img.clerk.com')
@@ -122,6 +124,7 @@ export default function AccountProfile({ userDetails, action }: Props) {
     } else {
       router.push('/');
     }
+    setSubmitting(false);
   };
 
   return (
@@ -225,8 +228,12 @@ export default function AccountProfile({ userDetails, action }: Props) {
           )}
         />
 
-        <Button type='submit' className='bg-primary-500'>
-          {action === 'onboarding' ? 'Submit' : 'Save'}
+        <Button type='submit' className='bg-primary-500' disabled={submitting}>
+          {submitting ? (
+            <>{action === 'onboarding' ? 'Submitting...' : 'Saving...'}</>
+          ) : (
+            <>{action === 'onboarding' ? 'Submit' : 'Save'}</>
+          )}
         </Button>
       </form>
     </Form>

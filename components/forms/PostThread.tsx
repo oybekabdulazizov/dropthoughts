@@ -19,6 +19,7 @@ import * as z from 'zod';
 import { createThread } from '@/lib/actions/thread.actions';
 
 export default function PostThread({ authorId }: { authorId: string }) {
+  const [submitting, setSubmitting] = useState<boolean>(false);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -31,6 +32,7 @@ export default function PostThread({ authorId }: { authorId: string }) {
   });
 
   const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
+    setSubmitting(true);
     await createThread({
       text: values.thread,
       author: values.author,
@@ -38,6 +40,8 @@ export default function PostThread({ authorId }: { authorId: string }) {
     });
 
     router.push('/');
+
+    setSubmitting(false);
   };
 
   return (
@@ -66,8 +70,8 @@ export default function PostThread({ authorId }: { authorId: string }) {
           )}
         />
 
-        <Button type='submit' className='bg-primary-500'>
-          Submit
+        <Button type='submit' className='bg-primary-500' disabled={submitting}>
+          {submitting ? 'Submitting...' : 'Submit'}
         </Button>
       </form>
     </Form>

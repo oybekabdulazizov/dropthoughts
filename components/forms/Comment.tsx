@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form';
 import { useForm } from 'react-hook-form';
 import { Button } from '../ui/button';
@@ -26,6 +26,7 @@ export default function Comment({
   currentUserId_db,
   currentUserName_db,
 }: Props) {
+  const [submitting, setSubmitting] = useState<boolean>(false);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -38,6 +39,7 @@ export default function Comment({
   });
 
   const onSubmit = async (values: z.infer<typeof CommentValidation>) => {
+    setSubmitting(true);
     const result = await addCommentToThread({
       threadId: JSON.parse(threadId),
       commentText: values.thread,
@@ -50,6 +52,8 @@ export default function Comment({
     }
 
     form.reset();
+
+    setSubmitting(false);
   };
 
   return (
@@ -89,7 +93,7 @@ export default function Comment({
           className='comment-form_btn'
           disabled={form.getValues().thread.length === 0}
         >
-          Post
+          {submitting ? 'Posting...' : 'Post'}
         </Button>
       </form>
     </Form>
