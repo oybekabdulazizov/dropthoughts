@@ -60,13 +60,13 @@ export default function Comment({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className='comment-form items-end'
+        className='comment-form items-center'
       >
         <FormField
           control={form.control}
           name='thread'
           render={({ field }) => (
-            <FormItem className='flex flex-row items-end gap-3 w-full'>
+            <FormItem className='flex flex-row items-center gap-3 w-full'>
               <FormLabel>
                 <Image
                   src={currentUserImg_db}

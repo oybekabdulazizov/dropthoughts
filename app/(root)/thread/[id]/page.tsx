@@ -46,7 +46,7 @@ export default async function Page({ params }: Props) {
           likes={thread.likes}
         />
       </div>
-      <div className='mt-6'>
+      <div>
         <Comment
           threadId={JSON.stringify(thread._id)}
           currentUserImg_db={user_db.image}

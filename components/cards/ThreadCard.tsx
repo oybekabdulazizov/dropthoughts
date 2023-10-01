@@ -65,7 +65,7 @@ export default async function ThreadCard({
   return (
     <article
       className={`flex w-full flex-col rounded-lg ${
-        isComment ? 'px-0 xs:px-7' : 'bg-dark-2 p-7'
+        isComment ? 'p-0 xs:px-7' : 'bg-dark-2 p-5 md:p-7'
       }`}
     >
       <div className='flex items-start justify-between'>
