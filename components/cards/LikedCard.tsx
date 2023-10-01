@@ -21,7 +21,7 @@ export default function LikedCard({
   const likedWhen = calculateRelativeTimes(likedAt);
 
   return (
-    <div className='bg-dark-2 py-4 px-8 flex flex-col gap-4 rounded-lg'>
+    <div className='bg-dark-2 py-5 px-5 md:px-8 flex flex-col gap-4 rounded-lg'>
       <section className='flex items-start sm:items-center rounded-md gap-2'>
         <Image
           src={likedUserImage}

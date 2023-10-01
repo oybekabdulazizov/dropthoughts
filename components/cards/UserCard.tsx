@@ -21,12 +21,12 @@ export default function UserCard({
   resultLength,
 }: Props) {
   return (
-    <div className='flex flex-col justify-start w-full bg-dark-2 p-6 rounded-lg mt-6'>
+    <div className='flex flex-col justify-start w-full bg-dark-2 py-4 px-5 md:p-6 rounded-lg mt-6'>
       <section className='flex items-center justify-between'>
         <div className='flex items-center gap-3'>
           <Link
             href={`/profile/${idUser_clerk}`}
-            className='relative h-20 w-20 object-cover'
+            className='relative h-16 md:h-20 w-16 md:w-20 object-cover'
           >
             <Image
               src={image}

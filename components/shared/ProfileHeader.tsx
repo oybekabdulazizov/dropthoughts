@@ -43,12 +43,15 @@ export default function ProfileHeader({
         </div>
 
         {currentUserId_clerk === idUser_clerk && (
-          <Link href='/profile/edit'>
+          <Link
+            href='/profile/edit'
+            className='relative h-6 w-6 object cover ml-4'
+          >
             <Image
               src='/assets/edit.svg'
               alt='edit profile'
-              width={24}
-              height={24}
+              fill
+              sizes='small'
               className='object-contain'
             />
           </Link>

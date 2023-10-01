@@ -107,7 +107,7 @@ export default function Search({
             {filteredUsers.length > 0 &&
             searchTerm &&
             searchTerm.trim().length > 0 ? (
-              <div className='mt-8'>
+              <>
                 {filteredUsers.map((user, i) => (
                   <UserCard
                     key={user._id}
@@ -120,7 +120,7 @@ export default function Search({
                     resultLength={filteredUsers.length}
                   />
                 ))}
-              </div>
+              </>
             ) : (
               <p className='no-result'>No users found.</p>
             )}

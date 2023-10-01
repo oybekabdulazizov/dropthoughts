@@ -28,7 +28,7 @@ export default function ReplyCard({
     <Link
       key={key}
       href={`/thread/${parentThreadId}`}
-      className='bg-dark-2 py-4 px-8 flex flex-col gap-4 rounded-lg'
+      className='bg-dark-2 py-5 px-5 md:px-8 flex flex-col gap-4 rounded-lg'
     >
       <section className='flex items-start sm:items-center rounded-md gap-2'>
         <Image
@@ -41,19 +41,13 @@ export default function ReplyCard({
         <div className='!text-small-regular text-light-1 flex flex-row flex-wrap gap-2'>
           <span className='text-primary-500'>{replyAuthorName}</span> replied to
           your thread
-          <span className='text-small-regular text-gray-1 mx-2'>
-            {createdWhen}
-          </span>
+          <span className='text-small-regular text-gray-1'>{createdWhen}</span>
         </div>
       </section>
       <div className='w-full flex flex-row items-center flex-wrap gap-2 md:gap-3'>
-        <p className='truncate w-full md:w-[44%] px-4 py-3 bg-dark-1 rounded-md'>
-          {parentThreadText}
-        </p>
+        <p className='px-4 py-3 bg-dark-1 rounded-md'>{parentThreadText}</p>
         <span>with</span>
-        <p className='truncate w-full md:w-[44%] px-4 py-3 bg-dark-1 rounded-md'>
-          {replyThreadText}
-        </p>
+        <p className='px-4 py-3 bg-dark-1 rounded-md'>{replyThreadText}</p>
       </div>
     </Link>
   );
