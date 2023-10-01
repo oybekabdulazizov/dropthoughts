@@ -19,7 +19,9 @@ Now, this cloned app can be further improved with:
 - blocking other users 
 - un/archiving threads 
 - tagging other users in threads 
-- infinite scroll or pagination on home page 
+- infinite scroll or pagination 
 - and so on...
 
 However, looking at the already existing features and their code, I am quite sure I can implement the additional features, but I decided to move on to enrich my portfolio with different apps. 
+
+BTW, thanks to [Vercel](https://vercel.com/), you can see the deployed app [here](https://threads-awesome.vercel.app/). 
