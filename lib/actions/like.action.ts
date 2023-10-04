@@ -4,28 +4,28 @@ import { revalidatePath } from 'next/cache';
 import Like from '../models/like.model';
 import { connectToDB } from '../mongoose';
 import User from '../models/user.model';
-import Thread from '../models/thread.model';
+import Thought from '../models/thought.model';
 
 interface AddLike_Props {
-  threadId: string;
+  thoughtId: string;
   userId: string;
   path: string;
 }
 
-export async function addLike({ threadId, userId, path }: AddLike_Props) {
+export async function addLike({ thoughtId, userId, path }: AddLike_Props) {
   try {
     connectToDB();
 
     const newLike = await Like.create({
-      thread: threadId,
+      thought: thoughtId,
       user: userId,
     });
 
     await User.findByIdAndUpdate(userId, {
-      $push: { likedThreads: newLike._id },
+      $push: { likedThoughts: newLike._id },
     });
 
-    await Thread.findByIdAndUpdate(threadId, {
+    await Thought.findByIdAndUpdate(thoughtId, {
       $push: { likes: newLike._id },
     });
   } catch (error: any) {
@@ -38,26 +38,30 @@ export async function addLike({ threadId, userId, path }: AddLike_Props) {
 // ========================================================================================================
 
 interface RemoveLike_Props {
-  threadId: string;
+  thoughtId: string;
   userId: string;
   path: string;
 }
 
-export async function removeLike({ threadId, userId, path }: RemoveLike_Props) {
+export async function removeLike({
+  thoughtId,
+  userId,
+  path,
+}: RemoveLike_Props) {
   try {
     connectToDB();
 
     const likeToRemove = await Like.findOne({
-      thread: threadId,
+      thought: thoughtId,
       user: userId,
     });
 
-    await Thread.findByIdAndUpdate(threadId, {
+    await Thought.findByIdAndUpdate(thoughtId, {
       $pull: { likes: { $in: [likeToRemove._id] } },
     });
 
     await User.findByIdAndUpdate(userId, {
-      $pull: { likedThreads: { $in: [likeToRemove._id] } },
+      $pull: { likedThoughts: { $in: [likeToRemove._id] } },
     });
 
     await Like.findByIdAndDelete(likeToRemove._id);
@@ -76,20 +80,20 @@ export async function getLikes(userId: string) {
 
     const allLikes = await Like.find({});
 
-    const userThreads = await Thread.find({ author: userId });
+    const userThoughts = await Thought.find({ author: userId });
 
-    const likes = userThreads.reduce((acc, thread) => {
-      return acc.concat(thread.likes);
+    const likes = userThoughts.reduce((acc, thought) => {
+      return acc.concat(thought.likes);
     }, []);
 
-    const likesForUserThreads = await Like.find({
+    const likesForUserThoughts = await Like.find({
       _id: { $in: likes },
     }).populate([
       { path: 'user', model: User, select: '_id name image' },
-      { path: 'thread', model: Thread, select: '_id text' },
+      { path: 'thought', model: Thought, select: '_id text' },
     ]);
 
-    return likesForUserThreads;
+    return likesForUserThoughts;
   } catch (error: any) {
     throw new Error(`(getLikes): ${error.message}`);
   }
@@ -97,18 +101,18 @@ export async function getLikes(userId: string) {
 
 // ========================================================================================================
 
-export async function fetchUserLikedThreads(userId: string) {
+export async function fetchUserLikedThoughts(userId: string) {
   try {
     connectToDB();
 
     const userLikes = await Like.find({ user: userId }).populate({
-      path: 'thread',
-      model: Thread,
+      path: 'thought',
+      model: Thought,
       populate: [
         { path: 'author', model: User },
         {
-          path: 'childrenThreads',
-          model: Thread,
+          path: 'childrenThoughts',
+          model: Thought,
           populate: {
             path: 'author',
             model: User,
@@ -123,17 +127,18 @@ export async function fetchUserLikedThreads(userId: string) {
               model: User,
               select: '_id idUser_clerk name image',
             },
-            { path: 'thread', model: Thread, select: '_id text' },
+            { path: 'thought', model: Thought, select: '_id text' },
           ],
         },
       ],
     });
-    const userLikedThreads = userLikes.reduce((acc, item) => {
-      return acc.concat(item.thread);
+
+    const userLikedThoughts = userLikes.reduce((acc, item) => {
+      return acc.concat(item.thought);
     }, []);
 
-    return userLikedThreads;
+    return userLikedThoughts;
   } catch (error: any) {
-    throw new Error(`(fetchUserLikedThreads): ${error.message}`);
+    throw new Error(`(fetchUserLikedThoughts): ${error.message}`);
   }
 }

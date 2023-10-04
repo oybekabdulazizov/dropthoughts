@@ -1,6 +1,6 @@
 import { Schema, model, models } from 'mongoose';
 
-const threadSchema = new Schema({
+const thoughtSchema = new Schema({
   text: { type: String, required: true },
   author: {
     type: Schema.Types.ObjectId,
@@ -11,13 +11,13 @@ const threadSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  parentThreadId: {
+  parentThoughtId: {
     type: String,
   },
-  childrenThreads: [
+  childrenThoughts: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Thread',
+      ref: 'Thought',
     },
   ],
   likes: [
@@ -28,5 +28,5 @@ const threadSchema = new Schema({
   ],
 });
 
-const Thread = models.Thread || model('Thread', threadSchema);
-export default Thread;
+const Thought = models.Thought || model('Thought', thoughtSchema);
+export default Thought;

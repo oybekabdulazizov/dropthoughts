@@ -1,35 +1,35 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import Thread from '../models/thread.model';
 import User from '../models/user.model';
 import { connectToDB } from '../mongoose';
 import Like from '../models/like.model';
+import Thought from '../models/thought.model';
 
-interface CreateThread_Props {
+interface CreateThought_Props {
   text: string;
   author: string;
   path: string;
 }
 
-export async function createThread({
+export async function createThought({
   text,
   author,
   path,
-}: CreateThread_Props): Promise<void> {
+}: CreateThought_Props): Promise<void> {
   try {
     connectToDB();
 
-    const newThread = await Thread.create({
+    const newThought = await Thought.create({
       text,
       author,
     });
 
     await User.findByIdAndUpdate(author, {
-      $push: { threads: newThread._id },
+      $push: { thoughts: newThought._id },
     });
   } catch (error: any) {
-    throw new Error(`(createThread): ${error.message}`);
+    throw new Error(`(createThought): ${error.message}`);
   }
 
   revalidatePath(path);
@@ -37,30 +37,30 @@ export async function createThread({
 
 // ========================================================================================================
 
-interface FetchThreads_Props {
+interface FetchThoughts_Props {
   pageNumber: number;
   pageSize: number;
 }
 
-export async function fetchThreads({
+export async function fetchThoughts({
   pageNumber = 1,
   pageSize = 20,
-}: FetchThreads_Props) {
+}: FetchThoughts_Props) {
   try {
     connectToDB();
 
-    const skipThreads = (pageNumber - 1) * pageSize;
+    const skipThoughts = (pageNumber - 1) * pageSize;
 
-    // Fetching threads with no parent thread, i.e. top-level threads
-    const threadsQuery = Thread.find({
-      parentThreadId: { $in: [null, undefined] },
+    // Fetching thoughts with no parent thought, i.e. top-level thoughts
+    const thoughtsQuery = Thought.find({
+      parentThoughtId: { $in: [null, undefined] },
     })
       .sort({ createdAt: 'desc' })
-      .skip(skipThreads)
+      .skip(skipThoughts)
       .limit(pageSize)
       .populate({ path: 'author', model: User })
       .populate({
-        path: 'childrenThreads',
+        path: 'childrenThoughts',
         populate: {
           path: 'author',
           model: User,
@@ -75,54 +75,54 @@ export async function fetchThreads({
             model: User,
             select: '_id idUser_clerk name image',
           },
-          { path: 'thread', model: Thread, select: '_id text' },
+          { path: 'thought', model: Thought, select: '_id text' },
         ],
       });
 
-    const totalThreadsCount = await Thread.countDocuments({
+    const totalThoughtsCount = await Thought.countDocuments({
       parentId: { $in: [null, undefined] },
     });
 
-    const threads = await threadsQuery.exec();
+    const thoughts = await thoughtsQuery.exec();
 
-    const isNext = totalThreadsCount > skipThreads * threads.length;
+    const isNext = totalThoughtsCount > skipThoughts * thoughts.length;
 
-    return { threads, isNext };
+    return { thoughts, isNext };
   } catch (error: any) {
-    throw new Error(`(fetchThreads): ${error.message}`);
+    throw new Error(`(fetchThoughts): ${error.message}`);
   }
 }
 
 // ========================================================================================================
 
-export async function fetchAllThreads() {
+export async function fetchAllThoughts() {
   try {
     connectToDB();
 
-    const threads = await Thread.find({})
+    const thoughts = await Thought.find({})
       .sort({ createdAt: 'desc' })
       .populate({ path: 'author', model: User });
 
-    return threads;
+    return thoughts;
   } catch (error: any) {
-    throw new Error(`(fetchAllThreads): ${error.message}`);
+    throw new Error(`(fetchAllThoughts): ${error.message}`);
   }
 }
 
 // ========================================================================================================
 
-export async function fetchThread(threadId: string) {
+export async function fetchThought(thoughtId: string) {
   try {
     connectToDB();
 
-    const thread = await Thread.findById(threadId)
+    const thought = await Thought.findById(thoughtId)
       .populate({
         path: 'author',
         model: User,
         select: '_id idUser_clerk name image',
       })
       .populate({
-        path: 'childrenThreads',
+        path: 'childrenThoughts',
         populate: [
           {
             path: 'author',
@@ -130,8 +130,8 @@ export async function fetchThread(threadId: string) {
             select: '_id idUser_clerk name image',
           },
           {
-            path: 'childrenThreads',
-            model: Thread,
+            path: 'childrenThoughts',
+            model: Thought,
             populate: {
               path: 'author',
               model: User,
@@ -147,7 +147,7 @@ export async function fetchThread(threadId: string) {
                 model: User,
                 select: '_id name image',
               },
-              { path: 'thread', model: Thread, select: '_id text' },
+              { path: 'thought', model: Thought, select: '_id text' },
             ],
           },
         ],
@@ -160,56 +160,55 @@ export async function fetchThread(threadId: string) {
             model: User,
             select: '_id name image',
           },
-          { path: 'thread', model: Thread, select: '_id text' },
+          { path: 'thought', model: Thought, select: '_id text' },
         ],
       });
 
-    return thread;
+    return thought;
   } catch (error: any) {
     if (error.message.includes('Cast to ObjectId failed')) {
       return {
         errorCode: 404,
       };
     } else {
-      throw new Error(`(fetchThread): ${error.message}`);
+      throw new Error(`(fetchThought): ${error.message}`);
     }
   }
 }
 
 // ========================================================================================================
 
-interface AddCommentToThread_Props {
-  threadId: string;
+interface AddCommentToThought_Props {
+  thoughtId: string;
   commentText: string;
   author: string;
   path: string;
 }
 
-export async function addCommentToThread({
-  threadId,
+export async function addCommentToThought({
+  thoughtId,
   commentText,
   author,
   path,
-}: AddCommentToThread_Props) {
+}: AddCommentToThought_Props) {
   try {
     connectToDB();
-    const tId = threadId;
 
-    const originalThread = await Thread.findById(tId);
-    if (!originalThread)
-      throw new Error('(addCommentToThread): Thread not found!');
+    const originalThought = await Thought.findById(thoughtId);
+    if (!originalThought)
+      throw new Error('(addCommentToThought): Thought not found!');
 
-    const newCommentThread = await Thread.create({
+    const newCommentThought = await Thought.create({
       text: commentText,
       author: author,
-      parentThreadId: threadId,
+      parentThoughtId: thoughtId,
     });
 
-    originalThread.childrenThreads.push(newCommentThread._id);
-    await originalThread.save();
+    originalThought.childrenThoughts.push(newCommentThought._id);
+    await originalThought.save();
 
     await User.findByIdAndUpdate(author, {
-      $push: { threads: newCommentThread._id },
+      $push: { thoughts: newCommentThought._id },
     });
   } catch (error: any) {
     if (error.message.includes('Cast to ObjectId failed')) {
@@ -217,7 +216,7 @@ export async function addCommentToThread({
         errorCode: 404,
       };
     } else {
-      throw new Error(`(addCommentToThread): ${error.message}`);
+      throw new Error(`(addCommentToThought): ${error.message}`);
     }
   }
 
@@ -226,28 +225,28 @@ export async function addCommentToThread({
 
 // ========================================================================================================
 
-interface UpdateThread_Props {
-  threadId: string;
+interface UpdateThought_Props {
+  thoughtId: string;
   content: string;
   path: string;
 }
 
-export async function updateThread({
-  threadId,
+export async function updateThought({
+  thoughtId,
   content,
   path,
-}: UpdateThread_Props) {
+}: UpdateThought_Props) {
   try {
     connectToDB();
 
-    await Thread.findByIdAndUpdate(threadId, { text: content });
+    await Thought.findByIdAndUpdate(thoughtId, { text: content });
   } catch (error: any) {
     if (error.message.includes('Cast to ObjectId failed')) {
       return {
         errorCode: 404,
       };
     } else {
-      throw new Error(`(updateThread): ${error.message}`);
+      throw new Error(`(updateThought): ${error.message}`);
     }
   }
 

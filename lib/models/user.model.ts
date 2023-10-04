@@ -6,9 +6,9 @@ const userSchema = new Schema({
   name: { type: String, required: true },
   image: String,
   bio: String,
-  threads: [{ type: Schema.Types.ObjectId, ref: 'Thread' }],
+  thoughts: [{ type: Schema.Types.ObjectId, ref: 'Thought' }],
   onboarded: { type: Boolean, default: false },
-  likedThreads: [
+  likedThought: [
     {
       type: Schema.Types.ObjectId,
       ref: 'Like',
