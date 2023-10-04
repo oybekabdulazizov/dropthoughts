@@ -2,8 +2,8 @@
 
 import {
   CommentValidation,
-  ThreadValidation,
-} from '@/lib/validations/thread.validation';
+  ThoughtValidation,
+} from '@/lib/validations/thought.validation';
 import { zodResolver } from '@hookform/resolvers/zod/dist/zod.js';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -19,7 +19,7 @@ import {
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import { updateThread } from '@/lib/actions/thread.actions';
+import { updateThought } from '@/lib/actions/thought.actions';
 import { usePathname, useRouter } from 'next/navigation';
 
 interface Props {
@@ -27,14 +27,14 @@ interface Props {
   authorId: string;
   isComment: boolean | undefined;
   currentUserId: string | null;
-  threadId: string;
+  thoughtId: string;
 }
 
-export default function ThreadContentEdit({
+export default function ThoughtContentEdit({
   content,
   authorId,
   isComment,
-  threadId,
+  thoughtId,
   currentUserId,
 }: Props) {
   const [edit, setEdit] = useState<boolean>(false);
@@ -44,17 +44,17 @@ export default function ThreadContentEdit({
   const toggleEdit = () => setEdit(!edit);
 
   const form = useForm({
-    resolver: zodResolver(ThreadValidation),
+    resolver: zodResolver(ThoughtValidation),
     defaultValues: {
-      thread: content || '',
+      thought: content || '',
       author: JSON.parse(authorId),
     },
   });
 
   const onSubmit = async (values: z.infer<typeof CommentValidation>) => {
-    const result = await updateThread({
-      threadId: JSON.parse(threadId),
-      content: values.thread,
+    const result = await updateThought({
+      thoughtId: JSON.parse(thoughtId),
+      content: values.thought,
       path: pathname,
     });
 
@@ -80,7 +80,7 @@ export default function ThreadContentEdit({
           >
             <FormField
               control={form.control}
-              name='thread'
+              name='thought'
               render={({ field }) => (
                 <FormItem
                   className={`w-full flex ${

@@ -10,7 +10,7 @@ export default async function RightSidebar() {
   const users = await fetchUsers();
   const orderedUsers = users
     .filter((user) => !user._id.equals(currentUser_db?._id || ''))
-    .sort((a, b) => b.threads.length - a.threads.length);
+    .sort((a, b) => b.thoughts.length - a.thoughts.length);
 
   return (
     <section className='custom-scrollbar rightsidebar'>
@@ -23,7 +23,7 @@ export default async function RightSidebar() {
             name={user.name}
             username={user.username}
             image={user.image}
-            threads={user.threads}
+            thoughts={user.thoughts}
           />
         ))}
       </div>

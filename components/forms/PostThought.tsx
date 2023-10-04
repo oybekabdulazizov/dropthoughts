@@ -1,6 +1,6 @@
 'use client';
 
-import { ThreadValidation } from '@/lib/validations/thread.validation';
+import { ThoughtValidation } from '@/lib/validations/thought.validation';
 import { zodResolver } from '@hookform/resolvers/zod/dist/zod.js';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -16,25 +16,25 @@ import {
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 import * as z from 'zod';
-import { createThread } from '@/lib/actions/thread.actions';
+import { createThought } from '@/lib/actions/thought.actions';
 
-export default function PostThread({ authorId }: { authorId: string }) {
+export default function PostThought({ authorId }: { authorId: string }) {
   const [submitting, setSubmitting] = useState<boolean>(false);
   const router = useRouter();
   const pathname = usePathname();
 
   const form = useForm({
-    resolver: zodResolver(ThreadValidation),
+    resolver: zodResolver(ThoughtValidation),
     defaultValues: {
-      thread: '',
+      thought: '',
       author: JSON.parse(authorId),
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
+  const onSubmit = async (values: z.infer<typeof ThoughtValidation>) => {
     setSubmitting(true);
-    await createThread({
-      text: values.thread,
+    await createThought({
+      text: values.thought,
       author: values.author,
       path: pathname,
     });
@@ -52,7 +52,7 @@ export default function PostThread({ authorId }: { authorId: string }) {
       >
         <FormField
           control={form.control}
-          name='thread'
+          name='thought'
           render={({ field }) => (
             <FormItem className='flex flex-col gap-1 w-full'>
               <FormLabel className='text-base-semibold text-light-2 pt-3 pb-1'>

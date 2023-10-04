@@ -5,10 +5,10 @@ import { calculateRelativeTimes } from '@/lib/utils';
 import { fetchUser } from '@/lib/actions/user.actions';
 import LikeButton from '../shared/LikeButton';
 import { currentUser } from '@clerk/nextjs';
-import ThreadContentEdit from '../shared/ThreadContentEdit';
+import ThoughtContentEdit from '../shared/ThoughtContentEdit';
 
 type Props = {
-  threadId: string;
+  thoughtId: string;
   content: string;
   author: {
     name: string;
@@ -21,8 +21,8 @@ type Props = {
   likes: any[];
 };
 
-export default function SimpleThreadCard({
-  threadId,
+export default function SimpleThoughtCard({
+  thoughtId,
   content,
   author,
   createdAt,
@@ -48,7 +48,7 @@ export default function SimpleThreadCard({
                 className='cursor-pointer rounded-full'
               />
             </Link>
-            <div className='thread-card_bar' />
+            <div className='thought-card_bar' />
           </div>
 
           <div className='flex w-full flex-col'>
@@ -61,7 +61,7 @@ export default function SimpleThreadCard({
               <p className='text-gray-1 text-small-regular'>{createdWhen}</p>
             </div>
             <Link
-              href={`/thread/${threadId}`}
+              href={`/thought/${thoughtId}`}
               className='text-light-2 mt-2 text-small-regular text-start'
             >
               {content}
@@ -72,7 +72,7 @@ export default function SimpleThreadCard({
                 <>
                   <div className='flex flex-row gap-3 mb-2'>
                     {comments.length > 0 && (
-                      <Link href={`/thread/${threadId}`}>
+                      <Link href={`/thought/${thoughtId}`}>
                         <p className='text-subtle-medium text-gray-1'>
                           {comments.length}{' '}
                           {comments.length > 1 ? 'replies' : 'reply'}

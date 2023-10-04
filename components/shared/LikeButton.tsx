@@ -8,13 +8,13 @@ import { useState } from 'react';
 interface Props {
   likedByCurrentUser: number;
   currentUserId_db: string | null;
-  threadId: string;
+  thoughtId: string;
 }
 
 export default function LikeButton({
   likedByCurrentUser,
   currentUserId_db,
-  threadId,
+  thoughtId,
 }: Props) {
   const [liked, setLiked] = useState<number>(likedByCurrentUser);
   const pathname = usePathname();
@@ -25,14 +25,14 @@ export default function LikeButton({
       if (liked === 1) {
         setLiked(0);
         await removeLike({
-          threadId: JSON.parse(threadId),
+          thoughtId: JSON.parse(thoughtId),
           userId: JSON.parse(currentUserId_db),
           path: pathname,
         });
       } else {
         setLiked(1);
         await addLike({
-          threadId: JSON.parse(threadId),
+          thoughtId: JSON.parse(thoughtId),
           userId: JSON.parse(currentUserId_db),
           path: pathname,
         });

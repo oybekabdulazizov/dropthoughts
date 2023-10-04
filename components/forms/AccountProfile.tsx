@@ -88,7 +88,7 @@ export default function AccountProfile({ userDetails, action }: Props) {
     ) {
       const formData = new FormData();
       formData.append('file', file!);
-      formData.append('upload_preset', 'threads_preset');
+      formData.append('upload_preset', 'dropthoughts_preset');
       const data = await fetch(
         `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload`,
         {
