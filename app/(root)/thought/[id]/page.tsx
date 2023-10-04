@@ -1,9 +1,9 @@
-import ThreadCard from '@/components/cards/ThreadCard';
+import ThoughtCard from '@/components/cards/ThoughtCard';
 import React from 'react';
 import { currentUser } from '@clerk/nextjs';
 import { fetchUser } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
-import { fetchThread } from '@/lib/actions/thread.actions';
+import { fetchThought } from '@/lib/actions/thought.actions';
 import Comment from '@/components/forms/Comment';
 
 type Props = {
@@ -13,7 +13,7 @@ type Props = {
 };
 
 export default async function Page({ params }: Props) {
-  const threadId = params.id;
+  const thoughtId = params.id;
 
   const currentUser_clerk = await currentUser();
   if (!currentUser_clerk) {
@@ -25,9 +25,9 @@ export default async function Page({ params }: Props) {
     redirect('/auth/onboarding');
   }
 
-  const thread = await fetchThread(threadId);
+  const thought = await fetchThought(thoughtId);
 
-  if (!thread || thread.errorCode === 404) {
+  if (!thought || thought.errorCode === 404) {
     // throw toast error
     redirect('/');
   }
@@ -35,37 +35,37 @@ export default async function Page({ params }: Props) {
   return (
     <section className='relative'>
       <div>
-        <ThreadCard
-          key={thread._id}
-          threadId={thread._id}
+        <ThoughtCard
+          key={thought._id}
+          thoughtId={thought._id}
           currentUserId_clerk={currentUser_clerk.id}
-          content={thread.text}
-          author={thread.author}
-          createdAt={thread.createdAt}
-          comments={thread.childrenThreads}
-          likes={thread.likes}
+          content={thought.text}
+          author={thought.author}
+          createdAt={thought.createdAt}
+          comments={thought.childrenThoughts}
+          likes={thought.likes}
         />
       </div>
       <div>
         <Comment
-          threadId={JSON.stringify(thread._id)}
+          thoughtId={JSON.stringify(thought._id)}
           currentUserImg_db={user_db.image}
           currentUserId_db={JSON.stringify(user_db._id)}
           currentUserName_db={user_db.name!}
         />
       </div>
       <div className='mt-8'>
-        {thread.childrenThreads.map((childThread: any) => (
-          <ThreadCard
-            key={childThread._id}
-            threadId={childThread._id}
+        {thought.childrenThoughts.map((childThought: any) => (
+          <ThoughtCard
+            key={childThought._id}
+            thoughtId={childThought._id}
             currentUserId_clerk={currentUser_clerk.id}
-            content={childThread.text}
-            author={childThread.author}
-            createdAt={childThread.createdAt}
-            comments={childThread.childrenThreads}
+            content={childThought.text}
+            author={childThought.author}
+            createdAt={childThought.createdAt}
+            comments={childThought.childrenThoughts}
             isComment={true}
-            likes={childThread.likes}
+            likes={childThought.likes}
           />
         ))}
       </div>

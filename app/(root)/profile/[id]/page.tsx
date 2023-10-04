@@ -6,10 +6,10 @@ import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 import React from 'react';
 import Image from 'next/image';
-import ThreadsTab from '@/components/shared/ThreadsTab';
+import ThoughtsTab from '@/components/shared/ThoughtsTab';
 import RepliesTab from '@/components/shared/RepliesTab';
 import FavouritesTab from '@/components/shared/FavoruitesTab';
-import { fetchUserLikedThreads } from '@/lib/actions/like.action';
+import { fetchUserLikedThoughts } from '@/lib/actions/like.action';
 
 type Props = {
   params: {
@@ -36,7 +36,7 @@ export default async function Page({ params }: Props) {
     redirect('/');
   }
 
-  const favouriteThreads = await fetchUserLikedThreads(user_db._id);
+  const favouriteThoughts = await fetchUserLikedThoughts(user_db._id);
 
   return (
     <section>
@@ -51,7 +51,7 @@ export default async function Page({ params }: Props) {
       />
 
       <div className='mt-6'>
-        <Tabs defaultValue='threads' className='w-full'>
+        <Tabs defaultValue='thoughts' className='w-full'>
           <TabsList className='tab'>
             {profileTabs.map((tab) => {
               if (
@@ -71,16 +71,16 @@ export default async function Page({ params }: Props) {
                   />
                   <p className='max-sm:hidden'>{tab.label}</p>
 
-                  {tab.label.toLowerCase() === 'threads' && (
+                  {tab.value === 'thoughts' && (
                     <p className='rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2'>
-                      {user_db.threads.length}
+                      {user_db.thoughts.length}
                     </p>
                   )}
-                  {tab.label.toLowerCase() === 'favourites' && (
+                  {tab.value === 'favourites' && (
                     <>
                       {currentUser_clerk.id === user_db.idUser_clerk && (
                         <p className='rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2'>
-                          {favouriteThreads.length}
+                          {favouriteThoughts.length}
                         </p>
                       )}
                     </>
@@ -90,8 +90,8 @@ export default async function Page({ params }: Props) {
             })}
           </TabsList>
 
-          <TabsContent value='threads' className='w-full text-light-1'>
-            <ThreadsTab
+          <TabsContent value='thoughts' className='w-full text-light-1'>
+            <ThoughtsTab
               currentUserId_clerk={currentUser_clerk.id}
               authorId={JSON.stringify(user_db._id)}
               accountType='User'

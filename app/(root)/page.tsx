@@ -1,31 +1,31 @@
-import ThreadCard from '@/components/cards/ThreadCard';
-import { fetchThreads } from '@/lib/actions/thread.actions';
+import ThoughtCard from '@/components/cards/ThoughtCard';
+import { fetchThoughts } from '@/lib/actions/thought.actions';
 import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 
 export default async function Home() {
   const currentUser_clerk = await currentUser();
 
-  const result = await fetchThreads({ pageNumber: 1, pageSize: 30 });
+  const result = await fetchThoughts({ pageNumber: 1, pageSize: 30 });
 
   return (
     <>
-      <h1 className='head-text text-left'>Threads</h1>
+      <h1 className='head-text text-left'>Thoughts</h1>
       <section className='mt-6 flex flex-col gap-6'>
-        {result.threads.length === 0 ? (
-          <p className='no-result'>No threads yet.</p>
+        {result.thoughts.length === 0 ? (
+          <p className='no-result'>No thoughts yet.</p>
         ) : (
           <>
-            {result.threads.map((thread) => (
-              <ThreadCard
-                key={thread._id}
-                threadId={thread._id}
+            {result.thoughts.map((thought) => (
+              <ThoughtCard
+                key={thought._id}
+                thoughtId={thought._id}
                 currentUserId_clerk={currentUser_clerk?.id || null}
-                content={thread.text}
-                author={thread.author}
-                createdAt={thread.createdAt}
-                comments={thread.childrenThreads}
-                likes={thread.likes}
+                content={thought.text}
+                author={thought.author}
+                createdAt={thought.createdAt}
+                comments={thought.childrenThoughts}
+                likes={thought.likes}
               />
             ))}
           </>

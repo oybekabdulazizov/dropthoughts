@@ -1,18 +1,18 @@
 import Search from '@/components/shared/Search';
-import { fetchAllThreads } from '@/lib/actions/thread.actions';
+import { fetchAllThoughts } from '@/lib/actions/thought.actions';
 import { fetchUsers } from '@/lib/actions/user.actions';
 import { ChangeEvent } from 'react';
 
 export default async function Page() {
   const users = await fetchUsers();
 
-  const threads = await fetchAllThreads();
+  const thoughts = await fetchAllThoughts();
 
   return (
     <div>
       <Search
         users_stringified={JSON.stringify(users)}
-        threads_stringified={JSON.stringify(threads)}
+        thoughts_stringified={JSON.stringify(thoughts)}
       />
     </div>
   );
