@@ -113,8 +113,6 @@ export default function PostThought({ thoughtDetails }: Props) {
     }
 
     router.push('/');
-
-    setSubmitting(false);
   };
 
   return (
@@ -147,7 +145,7 @@ export default function PostThought({ thoughtDetails }: Props) {
           control={form.control}
           name='image'
           render={({ field }) => (
-            <FormItem className='flex flex-col col-1 items-center'>
+            <FormItem className='flex flex-col col-1 items-center gap-4'>
               <FormControl className='flex-1 text-base-semibold text-gray-200'>
                 <Input
                   id='image'
@@ -159,18 +157,16 @@ export default function PostThought({ thoughtDetails }: Props) {
                 />
               </FormControl>
 
-              <div className='flex items-center justify-center'>
-                {field.value && (
-                  <Image
-                    src={field.value}
-                    alt='thought photo'
-                    width={450}
-                    height={450}
-                    priority
-                    className='rounded-md mt-2 '
-                  />
-                )}
-              </div>
+              {field.value && (
+                <Image
+                  src={field.value}
+                  alt='thought photo'
+                  width={450}
+                  height={450}
+                  priority
+                  className='rounded-md border border-dark-4'
+                />
+              )}
             </FormItem>
           )}
         />
@@ -178,7 +174,7 @@ export default function PostThought({ thoughtDetails }: Props) {
         <Button
           type='submit'
           className='bg-primary-500 mt-2'
-          disabled={submitting}
+          disabled={submitting || form.getValues().thought.trim().length < 1}
         >
           {submitting ? 'Submitting...' : 'Submit'}
         </Button>
