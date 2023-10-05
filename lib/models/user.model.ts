@@ -8,7 +8,7 @@ const userSchema = new Schema({
   bio: String,
   thoughts: [{ type: Schema.Types.ObjectId, ref: 'Thought' }],
   onboarded: { type: Boolean, default: false },
-  likedThought: [
+  likedThoughts: [
     {
       type: Schema.Types.ObjectId,
       ref: 'Like',
