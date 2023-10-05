@@ -7,7 +7,7 @@ interface Props {
   likedUserName: string;
   likedUserId: string;
   likedAt: Date;
-  threadText: string;
+  thoughtText: string;
 }
 
 export default function LikedCard({
@@ -16,7 +16,7 @@ export default function LikedCard({
   likedUserName,
   likedUserId,
   likedAt,
-  threadText,
+  thoughtText,
 }: Props) {
   const likedWhen = calculateRelativeTimes(likedAt);
 
@@ -34,13 +34,13 @@ export default function LikedCard({
           <span className='text-primary-500'>
             {currentUserId === likedUserId ? 'You' : likedUserName}
           </span>{' '}
-          liked your thread
+          liked your thought
           <span className='text-small-regular text-gray-1 mx-2'>
             {likedWhen}
           </span>
         </div>
       </section>
-      <p className='px-4 py-3 bg-dark-1 rounded-md'>{threadText}</p>
+      <p className='px-4 py-3 bg-dark-1 rounded-md'>{thoughtText}</p>
     </div>
   );
 }

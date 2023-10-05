@@ -4,22 +4,22 @@ import React from 'react';
 import { calculateRelativeTimes } from '@/lib/utils';
 
 interface Props {
-  parentThreadId: string;
+  parentThoughtId: string;
   key: number;
   replyAuthorImage: string;
   replyAuthorName: string;
   createdAt: Date;
-  parentThreadText: string;
-  replyThreadText: string;
+  parentThoughtText: string;
+  replyThoughtText: string;
 }
 
 export default function ReplyCard({
   key,
-  parentThreadId,
-  parentThreadText,
+  parentThoughtId,
+  parentThoughtText,
   replyAuthorImage,
   replyAuthorName,
-  replyThreadText,
+  replyThoughtText,
   createdAt,
 }: Props) {
   const createdWhen = calculateRelativeTimes(createdAt);
@@ -27,7 +27,7 @@ export default function ReplyCard({
   return (
     <Link
       key={key}
-      href={`/thread/${parentThreadId}`}
+      href={`/thought/${parentThoughtId}`}
       className='bg-dark-2 py-5 px-5 md:px-8 flex flex-col gap-4 rounded-lg'
     >
       <section className='flex items-start sm:items-center rounded-md gap-2'>
@@ -40,14 +40,14 @@ export default function ReplyCard({
         />
         <div className='!text-small-regular text-light-1 flex flex-row flex-wrap gap-2'>
           <span className='text-primary-500'>{replyAuthorName}</span> replied to
-          your thread
+          your thought
           <span className='text-small-regular text-gray-1'>{createdWhen}</span>
         </div>
       </section>
       <div className='w-full flex flex-row items-center flex-wrap gap-2 md:gap-3'>
-        <p className='px-4 py-3 bg-dark-1 rounded-md'>{parentThreadText}</p>
+        <p className='px-4 py-3 bg-dark-1 rounded-md'>{parentThoughtText}</p>
         <span>with</span>
-        <p className='px-4 py-3 bg-dark-1 rounded-md'>{replyThreadText}</p>
+        <p className='px-4 py-3 bg-dark-1 rounded-md'>{replyThoughtText}</p>
       </div>
     </Link>
   );

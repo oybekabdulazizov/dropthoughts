@@ -20,7 +20,7 @@ export default async function Page() {
   }
 
   const replies = await getReplies(currentUser_db._id);
-  const likesForUserThreads = await getLikes(currentUser_db._id);
+  const likesForUserThoughts = await getLikes(currentUser_db._id);
 
   return (
     <>
@@ -42,7 +42,7 @@ export default async function Page() {
 
                   {tab.value === 'likes' && (
                     <p className='rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2'>
-                      {likesForUserThreads.length}
+                      {likesForUserThoughts.length}
                     </p>
                   )}
                   {tab.label.toLowerCase() === 'replies' && (

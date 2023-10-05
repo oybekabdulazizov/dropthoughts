@@ -1,6 +1,6 @@
-import { fetchUserThreads } from '@/lib/actions/user.actions';
+import { fetchUserThoughts } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
-import ThreadCard from '../cards/ThreadCard';
+import ThoughtCard from '../cards/ThoughtCard';
 
 interface Props {
   currentUserId_clerk: string;
@@ -9,25 +9,25 @@ interface Props {
   accountType: string;
 }
 
-export default async function ThreadsTab({
+export default async function ThoughtsTab({
   currentUserId_clerk,
   // idUser_clerk,
   authorId,
   accountType,
 }: Props) {
-  const result = await fetchUserThreads(JSON.parse(authorId));
+  const result = await fetchUserThoughts(JSON.parse(authorId));
   if (!result || result.errorCode === 404) redirect('/');
 
   return (
     <section className='mt-6 flex flex-col gap-6'>
-      {result.threads.length > 0 ? (
+      {result.thoughts.length > 0 ? (
         <>
-          {result.threads.map((thread: any) => (
-            <ThreadCard
-              key={thread._id}
-              threadId={thread._id}
+          {result.thoughts.map((thought: any) => (
+            <ThoughtCard
+              key={thought._id}
+              thoughtId={thought._id}
               currentUserId_clerk={currentUserId_clerk}
-              content={thread.text}
+              content={thought.text}
               author={
                 accountType === 'User'
                   ? {
@@ -37,20 +37,20 @@ export default async function ThreadsTab({
                       _id: result._id,
                     }
                   : {
-                      name: thread.author.name,
-                      image: thread.author.image,
-                      idUser_clerk: thread.author.id,
-                      _id: thread.author._id,
+                      name: thought.author.name,
+                      image: thought.author.image,
+                      idUser_clerk: thought.author.id,
+                      _id: thought.author._id,
                     }
               }
-              createdAt={thread.createdAt}
-              comments={thread.childrenThreads}
-              likes={thread.likes}
+              createdAt={thought.createdAt}
+              comments={thought.childrenThoughts}
+              likes={thought.likes}
             />
           ))}
         </>
       ) : (
-        <p className='!text-base-regular text-light-1'>No threads yet.</p>
+        <p className='!text-base-regular text-light-1'>No thoughts yet.</p>
       )}
     </section>
   );

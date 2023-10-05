@@ -6,7 +6,7 @@ interface Props {
   name: string;
   username: string;
   image: string;
-  threads: any[];
+  thoughts: any[];
 }
 
 export default function SmallUserCard({
@@ -14,7 +14,7 @@ export default function SmallUserCard({
   name,
   username,
   image,
-  threads,
+  thoughts,
 }: Props) {
   return (
     <div className='flex flex-col justify-start w-full bg-dark-2 rounded-lg mt-6'>

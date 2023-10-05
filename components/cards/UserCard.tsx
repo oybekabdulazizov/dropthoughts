@@ -6,7 +6,7 @@ interface Props {
   name: string;
   username: string;
   image: string;
-  threads: any[];
+  thoughts: any[];
   nth: number;
   resultLength: number;
 }
@@ -16,7 +16,7 @@ export default function UserCard({
   name,
   username,
   image,
-  threads,
+  thoughts,
   nth,
   resultLength,
 }: Props) {
@@ -44,9 +44,9 @@ export default function UserCard({
               {name}
             </h1>
             <p className='text-base-medium text-gray-1'>@{username}</p>
-            {threads.length > 0 && (
+            {thoughts.length > 0 && (
               <p className='text-base-medium text-gray-1'>
-                {threads.length} {threads.length > 1 ? 'threads' : 'thread'}
+                {thoughts.length} {thoughts.length > 1 ? 'thoughts' : 'thought'}
               </p>
             )}
           </Link>

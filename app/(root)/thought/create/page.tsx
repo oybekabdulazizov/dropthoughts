@@ -1,4 +1,4 @@
-import PostThread from '@/components/forms/PostThread';
+import PostThought from '@/components/forms/PostThought';
 import { fetchUser } from '@/lib/actions/user.actions';
 import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
@@ -13,8 +13,8 @@ export default async function Page() {
   }
   return (
     <div>
-      <h1 className='head-text'>Create Thread</h1>
-      <PostThread authorId={JSON.stringify(user_db._id)} />
+      <h1 className='head-text'>Create Thought</h1>
+      <PostThought authorId={JSON.stringify(user_db._id)} />
     </div>
   );
 }

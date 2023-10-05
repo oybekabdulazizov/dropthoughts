@@ -16,8 +16,8 @@ export const sidebarLinks = [
   },
   {
     imgURL: '/assets/create.svg',
-    route: '/thread/create',
-    label: 'Create Thread',
+    route: '/thought/create',
+    label: 'Create Thought',
   },
   // {
   //   imgURL: '/assets/community.svg',
@@ -32,7 +32,7 @@ export const sidebarLinks = [
 ];
 
 export const profileTabs = [
-  { value: 'threads', label: 'Threads', icon: '/assets/reply.svg' },
+  { value: 'thoughts', label: 'Thoughts', icon: '/assets/reply.svg' },
   { value: 'favourites', label: 'Favourites', icon: '/assets/heart-gray.svg' },
   // { value: 'tagged', label: 'Tagged', icon: '/assets/tag.svg' },
 ];
@@ -44,11 +44,11 @@ export const activityTabs = [
 
 export const searchTabs = [
   { value: 'users', label: 'Users', icon: '/assets/members.svg' },
-  { value: 'threads', label: 'Threads', icon: '/assets/reply.svg' },
+  { value: 'thoughts', label: 'Thoughts', icon: '/assets/reply.svg' },
 ];
 
 // export const communityTabs = [
-//   { value: 'threads', label: 'Threads', icon: '/assets/reply.svg' },
+//   { value: 'thoughts', label: 'Thoughts', icon: '/assets/reply.svg' },
 //   { value: 'members', label: 'Members', icon: '/assets/members.svg' },
 //   { value: 'requests', label: 'Requests', icon: '/assets/request.svg' },
 // ];

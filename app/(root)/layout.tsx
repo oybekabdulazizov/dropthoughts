@@ -10,8 +10,9 @@ import Bottombar from '@/components/shared/Bottombar';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Threads',
-  description: 'A Next.js 13 Meta Threads App',
+  title: 'DropThoughts',
+  description:
+    'The ultimate social networking app designed to share your thoughts  with your closest friends and loved ones like never before.',
 };
 
 export default function RootLayout({

@@ -5,23 +5,23 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form';
 import { useForm } from 'react-hook-form';
 import { Button } from '../ui/button';
 import * as z from 'zod';
-import { CommentValidation } from '@/lib/validations/thread.validation';
+import { CommentValidation } from '@/lib/validations/thought.validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import Image from 'next/image';
-import { addCommentToThread } from '@/lib/actions/thread.actions';
+import { addCommentToThought } from '@/lib/actions/thought.actions';
 import { usePathname, useRouter } from 'next/navigation';
 import { Schema } from 'mongoose';
 
 interface Props {
-  threadId: string;
+  thoughtId: string;
   currentUserImg_db: string;
   currentUserId_db: string;
   currentUserName_db: string;
 }
 
 export default function Comment({
-  threadId,
+  thoughtId,
   currentUserImg_db,
   currentUserId_db,
   currentUserName_db,
@@ -33,16 +33,16 @@ export default function Comment({
   const form = useForm({
     resolver: zodResolver(CommentValidation),
     defaultValues: {
-      thread: '',
+      thought: '',
       author: currentUserId_db,
     },
   });
 
   const onSubmit = async (values: z.infer<typeof CommentValidation>) => {
     setSubmitting(true);
-    const result = await addCommentToThread({
-      threadId: JSON.parse(threadId),
-      commentText: values.thread,
+    const result = await addCommentToThought({
+      thoughtId: JSON.parse(thoughtId),
+      commentText: values.thought,
       author: JSON.parse(values.author),
       path: pathname,
     });
@@ -64,7 +64,7 @@ export default function Comment({
       >
         <FormField
           control={form.control}
-          name='thread'
+          name='thought'
           render={({ field }) => (
             <FormItem className='flex flex-row items-center gap-3 w-full'>
               <FormLabel>
@@ -91,7 +91,7 @@ export default function Comment({
         <Button
           type='submit'
           className='comment-form_btn'
-          disabled={form.getValues().thread.length === 0}
+          disabled={form.getValues().thought.length === 0}
         >
           {submitting ? 'Posting...' : 'Post'}
         </Button>

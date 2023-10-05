@@ -6,13 +6,13 @@ interface Props {
 }
 
 export default async function LikesTab({ currentUserId }: Props) {
-  const likesForUserThreads = await getLikes(JSON.parse(currentUserId));
+  const likesForUserThoughts = await getLikes(JSON.parse(currentUserId));
 
   return (
     <section className='mt-6 flex flex-col gap-6'>
-      {likesForUserThreads.length > 0 ? (
+      {likesForUserThoughts.length > 0 ? (
         <>
-          {likesForUserThreads.map((like, i) => {
+          {likesForUserThoughts.map((like, i) => {
             return (
               <LikedCard
                 key={i}
@@ -21,7 +21,7 @@ export default async function LikesTab({ currentUserId }: Props) {
                 likedUserName={like.user.name}
                 likedUserId={JSON.stringify(like.user._id)}
                 likedAt={like.likedAt}
-                threadText={like.thread.text}
+                thoughtText={like.thought.text}
               />
             );
           })}

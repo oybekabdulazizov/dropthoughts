@@ -5,13 +5,13 @@ import { calculateRelativeTimes } from '@/lib/utils';
 import { fetchUser } from '@/lib/actions/user.actions';
 import LikeButton from '../shared/LikeButton';
 import { currentUser } from '@clerk/nextjs';
-import ThreadContentEdit from '../shared/ThreadContentEdit';
+import ThoughtContentEdit from '../shared/ThoughtContentEdit';
 
 type Props = {
-  threadId: string;
+  thoughtId: string;
   currentUserId_clerk: string | null;
   // currentUserIdClerk: string | null;
-  // parentThreadId: string | null;
+  // parentThoughtId: string | null;
   content: string;
   author: {
     name: string;
@@ -29,11 +29,11 @@ type Props = {
   likes: any;
 };
 
-export default async function ThreadCard({
-  threadId,
+export default async function ThoughtCard({
+  thoughtId,
   currentUserId_clerk,
   // currentUserIdClerk,
-  // parentThreadId,
+  // parentThoughtId,
   content,
   author,
   createdAt,
@@ -83,7 +83,7 @@ export default async function ThreadCard({
                 className='cursor-pointer rounded-full'
               />
             </Link>
-            <div className='thread-card_bar' />
+            <div className='thought-card_bar' />
           </div>
 
           <div className='flex w-full flex-col'>
@@ -96,14 +96,14 @@ export default async function ThreadCard({
               <p className='text-gray-1 text-small-regular'>{createdWhen}</p>
             </div>
 
-            <ThreadContentEdit
+            <ThoughtContentEdit
               content={content}
               authorId={JSON.stringify(author._id)}
               isComment={isComment}
               currentUserId={
                 currentUser_db ? JSON.stringify(currentUser_db._id) : null
               }
-              threadId={JSON.stringify(threadId)}
+              thoughtId={JSON.stringify(thoughtId)}
             />
             <div className='mt-3 flex flex-col gap-2'>
               <div className='flex gap-3.5'>
@@ -112,9 +112,9 @@ export default async function ThreadCard({
                   currentUserId_db={
                     currentUser_db ? JSON.stringify(currentUser_db._id) : null
                   }
-                  threadId={JSON.stringify(threadId)}
+                  thoughtId={JSON.stringify(thoughtId)}
                 />
-                <Link href={`/thread/${threadId}`}>
+                <Link href={`/thought/${thoughtId}`}>
                   <Image
                     src='/assets/reply.svg'
                     height={24}
@@ -146,7 +146,7 @@ export default async function ThreadCard({
                 }`}
               >
                 {comments.length > 0 && (
-                  <Link href={`/thread/${threadId}`}>
+                  <Link href={`/thought/${thoughtId}`}>
                     <p className='text-subtle-medium text-gray-1'>
                       {comments.length}{' '}
                       {comments.length > 1 ? 'replies' : 'reply'}

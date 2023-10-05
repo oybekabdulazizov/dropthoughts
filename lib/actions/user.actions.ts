@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import User from '../models/user.model';
 import { connectToDB } from '../mongoose';
-import Thread from '../models/thread.model';
+import Thought from '../models/thought.model';
 import Like from '../models/like.model';
 
 interface UpdateUser_Props {
@@ -66,13 +66,13 @@ export async function fetchUser(idUser_clerk: string) {
 
 // ========================================================================================================
 
-export async function fetchUserThreads(author_id: string) {
+export async function fetchUserThoughts(author_id: string) {
   try {
     connectToDB();
 
-    const threadsByUser = await User.findById(author_id).populate({
-      path: 'threads',
-      model: Thread,
+    const thoughtsByUser = await User.findById(author_id).populate({
+      path: 'thoughts',
+      model: Thought,
       options: {
         author: { $ne: author_id },
         sort: { createdAt: 'desc' },
@@ -92,13 +92,13 @@ export async function fetchUserThreads(author_id: string) {
               model: User,
               select: '_id name image',
             },
-            { path: 'thread', model: Thread, select: '_id text' },
+            { path: 'thought', model: Thought, select: '_id text' },
           ],
         },
       ],
     });
 
-    return threadsByUser;
+    return thoughtsByUser;
   } catch (error: any) {
     if (error.message.includes('Cast to ObjectId failed')) {
       return {
@@ -116,14 +116,14 @@ export async function getReplies(authorId: string) {
   try {
     connectToDB();
 
-    const userThreads = await Thread.find({ author: authorId });
+    const userThoughts = await Thought.find({ author: authorId });
 
-    const childThreadIds = userThreads.reduce((acc, thread) => {
-      return acc.concat(thread.childrenThreads);
+    const childThoughtIds = userThoughts.reduce((acc, thought) => {
+      return acc.concat(thought.childrenThoughts);
     }, []);
 
-    const replies = await Thread.find({
-      _id: { $in: childThreadIds },
+    const replies = await Thought.find({
+      _id: { $in: childThoughtIds },
       author: { $ne: authorId },
     })
       .sort({ createdAt: 'desc' })
