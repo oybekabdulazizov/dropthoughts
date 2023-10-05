@@ -3,7 +3,7 @@
 import { ThoughtValidation } from '@/lib/validations/thought.validation';
 import { zodResolver } from '@hookform/resolvers/zod/dist/zod.js';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Form,
@@ -16,9 +16,21 @@ import {
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 import * as z from 'zod';
-import { createThought } from '@/lib/actions/thought.actions';
+import { createThought, updateThought } from '@/lib/actions/thought.actions';
+import Image from 'next/image';
+import { Input } from '../ui/input';
 
-export default function PostThought({ authorId }: { authorId: string }) {
+interface Props {
+  thoughtDetails: {
+    thoughtId?: string;
+    thought: string;
+    image: string;
+    authorId: string;
+  };
+}
+
+export default function PostThought({ thoughtDetails }: Props) {
+  const [file, setFile] = useState<File>();
   const [submitting, setSubmitting] = useState<boolean>(false);
   const router = useRouter();
   const pathname = usePathname();
@@ -26,18 +38,79 @@ export default function PostThought({ authorId }: { authorId: string }) {
   const form = useForm({
     resolver: zodResolver(ThoughtValidation),
     defaultValues: {
-      thought: '',
-      author: JSON.parse(authorId),
+      image: thoughtDetails.image,
+      thought: thoughtDetails.thought,
+      author: JSON.parse(thoughtDetails.authorId),
     },
   });
 
+  const handleImage = (
+    e: ChangeEvent<HTMLInputElement>,
+    fieldChange: (value: string) => void
+  ) => {
+    const fileReader = new FileReader();
+
+    try {
+      if (e.target.files && e.target.files.length > 0) {
+        const file = e.target.files[0];
+        if (!file.type.includes('image')) {
+          // Todo: Use toast notification
+          return;
+        }
+        setFile(e.target.files[0]);
+
+        fileReader.onload = async (event) => {
+          const imageDataUrl = event.target?.result?.toString() || '';
+          fieldChange(imageDataUrl);
+        };
+
+        fileReader.readAsDataURL(file);
+      }
+    } catch (error: any) {
+      throw new Error(`(handleImage): ${error.message}`);
+    }
+  };
+
   const onSubmit = async (values: z.infer<typeof ThoughtValidation>) => {
     setSubmitting(true);
-    await createThought({
-      text: values.thought,
-      author: values.author,
-      path: pathname,
-    });
+    if (
+      values.image.trim().length > 0 &&
+      !values.image.includes('res.cloudinary.com')
+    ) {
+      const formData = new FormData();
+      formData.append('file', file!);
+      formData.append('upload_preset', 'dropthoughts_preset');
+      try {
+        const data = await fetch(
+          `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload`,
+          {
+            method: 'POST',
+            body: formData,
+          }
+        ).then((res) => res.json());
+        values.image = data.secure_url;
+      } catch (error: any) {
+        throw new Error(`(uploadToCloudinary): ${error.message}`);
+      }
+    }
+
+    if (thoughtDetails.thoughtId) {
+      console.log(thoughtDetails.thoughtId);
+      console.log(values);
+      await updateThought({
+        thoughtId: JSON.parse(thoughtDetails.thoughtId),
+        thought: values.thought,
+        image: values.image,
+        path: pathname,
+      });
+    } else {
+      await createThought({
+        text: values.thought,
+        image: values.image,
+        author: values.author,
+        path: pathname,
+      });
+    }
 
     router.push('/');
 
@@ -48,7 +121,7 @@ export default function PostThought({ authorId }: { authorId: string }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className='flex flex-col justify-start gap-6'
+        className='flex flex-col justify-start gap-5'
       >
         <FormField
           control={form.control}
@@ -60,7 +133,7 @@ export default function PostThought({ authorId }: { authorId: string }) {
               </FormLabel>
               <FormControl>
                 <Textarea
-                  rows={10}
+                  rows={7}
                   className='account-form_input no-focus'
                   {...field}
                 />
@@ -70,7 +143,43 @@ export default function PostThought({ authorId }: { authorId: string }) {
           )}
         />
 
-        <Button type='submit' className='bg-primary-500' disabled={submitting}>
+        <FormField
+          control={form.control}
+          name='image'
+          render={({ field }) => (
+            <FormItem className='flex flex-col col-1 items-center'>
+              <FormControl className='flex-1 text-base-semibold text-gray-200'>
+                <Input
+                  id='image'
+                  type='file'
+                  placeholder='Upload a photo'
+                  accept='image/*'
+                  className='cursor-pointer bg-transparent outline-none file:text-blue border border-dark-4'
+                  onChange={(e) => handleImage(e, field.onChange)}
+                />
+              </FormControl>
+
+              <div className='flex items-center justify-center'>
+                {field.value && (
+                  <Image
+                    src={field.value}
+                    alt='thought photo'
+                    width={450}
+                    height={450}
+                    priority
+                    className='rounded-md mt-2 '
+                  />
+                )}
+              </div>
+            </FormItem>
+          )}
+        />
+
+        <Button
+          type='submit'
+          className='bg-primary-500 mt-2'
+          disabled={submitting}
+        >
           {submitting ? 'Submitting...' : 'Submit'}
         </Button>
       </form>

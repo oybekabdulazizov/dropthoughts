@@ -2,6 +2,7 @@ import { Schema, model, models } from 'mongoose';
 
 const thoughtSchema = new Schema({
   text: { type: String, required: true },
+  image: String,
   author: {
     type: Schema.Types.ObjectId,
     ref: 'User',

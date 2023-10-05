@@ -9,12 +9,14 @@ import Thought from '../models/thought.model';
 interface CreateThought_Props {
   text: string;
   author: string;
+  image: string;
   path: string;
 }
 
 export async function createThought({
   text,
   author,
+  image,
   path,
 }: CreateThought_Props): Promise<void> {
   try {
@@ -23,6 +25,7 @@ export async function createThought({
     const newThought = await Thought.create({
       text,
       author,
+      image,
     });
 
     await User.findByIdAndUpdate(author, {
@@ -227,19 +230,21 @@ export async function addCommentToThought({
 
 interface UpdateThought_Props {
   thoughtId: string;
-  content: string;
+  thought: string;
+  image: string;
   path: string;
 }
 
 export async function updateThought({
   thoughtId,
-  content,
+  thought,
+  image,
   path,
 }: UpdateThought_Props) {
   try {
     connectToDB();
 
-    await Thought.findByIdAndUpdate(thoughtId, { text: content });
+    await Thought.findByIdAndUpdate(thoughtId, { text: thought, image });
   } catch (error: any) {
     if (error.message.includes('Cast to ObjectId failed')) {
       return {

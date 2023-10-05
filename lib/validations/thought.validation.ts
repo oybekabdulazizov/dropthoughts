@@ -1,6 +1,7 @@
 import * as z from 'zod';
 
 export const ThoughtValidation = z.object({
+  image: z.string().url(),
   thought: z
     .string()
     .min(3, 'A thought must contain minumum 3 characters.')
@@ -10,6 +11,7 @@ export const ThoughtValidation = z.object({
 });
 
 export const CommentValidation = z.object({
+  image: z.string().url(),
   thought: z
     .string()
     .min(3, 'A thought must contain minumum 3 characters.')
