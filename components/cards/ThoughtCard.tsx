@@ -6,6 +6,7 @@ import { fetchUser } from '@/lib/actions/user.actions';
 import LikeButton from '../shared/LikeButton';
 import { currentUser } from '@clerk/nextjs';
 import EditComment from '../forms/EditComment';
+import { ThreeDotMenu } from '../shared/MenuIcons';
 
 type Props = {
   thoughtId: string;
@@ -89,13 +90,21 @@ export default async function ThoughtCard({
           </div>
 
           <div className='flex w-full flex-col'>
-            <div className='flex flex-row items-center gap-3'>
-              <Link href={`/profile/${author.idUser_clerk}`} className='w-fit'>
-                <h4 className='cursor-pointer text-base-semibold text-light-1'>
-                  {author.name}
-                </h4>
-              </Link>
-              <p className='text-gray-1 text-small-regular'>{createdWhen}</p>
+            <div className='flex flex-row items-center justify-between'>
+              <div className='flex flex-row items-center gap-3'>
+                <Link
+                  href={`/profile/${author.idUser_clerk}`}
+                  className='w-fit'
+                >
+                  <h4 className='cursor-pointer text-base-semibold text-light-1'>
+                    {author.name}
+                  </h4>
+                </Link>
+                <p className='text-gray-1 text-small-regular'>{createdWhen}</p>
+              </div>
+              {!isComment && (
+                <ThreeDotMenu thoughtId={JSON.stringify(thoughtId)} />
+              )}
             </div>
 
             {/* <ThoughtContentEdit
