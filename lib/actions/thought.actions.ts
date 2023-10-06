@@ -184,6 +184,7 @@ export async function fetchThought(thoughtId: string) {
 interface AddCommentToThought_Props {
   thoughtId: string;
   commentText: string;
+  image: string;
   author: string;
   path: string;
 }
@@ -191,6 +192,7 @@ interface AddCommentToThought_Props {
 export async function addCommentToThought({
   thoughtId,
   commentText,
+  image,
   author,
   path,
 }: AddCommentToThought_Props) {
@@ -203,6 +205,7 @@ export async function addCommentToThought({
 
     const newCommentThought = await Thought.create({
       text: commentText,
+      image,
       author: author,
       parentThoughtId: thoughtId,
     });
