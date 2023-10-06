@@ -107,13 +107,19 @@ export default async function ThoughtCard({
               }
               thoughtId={JSON.stringify(thoughtId)}
             /> */}
-            <EditComment
-              thoughtId={JSON.stringify(thoughtId)}
-              thought={content}
-              image={image}
-              authorId={JSON.stringify(currentUser_db._id)}
-              currentUserId_db={JSON.stringify(currentUser_db._id)}
-            />
+            {isComment ? (
+              <EditComment
+                thoughtId={JSON.stringify(thoughtId)}
+                thought={content}
+                image={image}
+                authorId={JSON.stringify(currentUser_db._id)}
+                currentUserId_db={JSON.stringify(currentUser_db._id)}
+              />
+            ) : (
+              <p className='text-light-2 mt-2 text-small-regular text-start'>
+                {content}
+              </p>
+            )}
             <div className='mt-3 flex flex-col gap-2'>
               <div className='flex gap-3.5'>
                 <LikeButton
