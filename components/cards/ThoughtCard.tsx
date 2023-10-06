@@ -5,7 +5,7 @@ import { calculateRelativeTimes } from '@/lib/utils';
 import { fetchUser } from '@/lib/actions/user.actions';
 import LikeButton from '../shared/LikeButton';
 import { currentUser } from '@clerk/nextjs';
-import ThoughtContentEdit from '../shared/ThoughtContentEdit';
+import EditComment from '../forms/EditComment';
 
 type Props = {
   thoughtId: string;
@@ -13,6 +13,7 @@ type Props = {
   // currentUserIdClerk: string | null;
   // parentThoughtId: string | null;
   content: string;
+  image: string;
   author: {
     name: string;
     image: string;
@@ -35,6 +36,7 @@ export default async function ThoughtCard({
   // currentUserIdClerk,
   // parentThoughtId,
   content,
+  image,
   author,
   createdAt,
   comments,
@@ -96,7 +98,7 @@ export default async function ThoughtCard({
               <p className='text-gray-1 text-small-regular'>{createdWhen}</p>
             </div>
 
-            <ThoughtContentEdit
+            {/* <ThoughtContentEdit
               content={content}
               authorId={JSON.stringify(author._id)}
               isComment={isComment}
@@ -104,6 +106,13 @@ export default async function ThoughtCard({
                 currentUser_db ? JSON.stringify(currentUser_db._id) : null
               }
               thoughtId={JSON.stringify(thoughtId)}
+            /> */}
+            <EditComment
+              thoughtId={JSON.stringify(thoughtId)}
+              thought={content}
+              image={image}
+              authorId={JSON.stringify(currentUser_db._id)}
+              currentUserId_db={JSON.stringify(currentUser_db._id)}
             />
             <div className='mt-3 flex flex-col gap-2'>
               <div className='flex gap-3.5'>
