@@ -148,10 +148,7 @@ export default function EditComment({
                       />
                     </FormControl>
                   </div>
-                  <FormMessage
-                    className='ml-[53px]'
-                    style={{ marginTop: '0' }}
-                  />
+                  <FormMessage style={{ marginTop: '0' }} />
                 </FormItem>
               )}
             />
@@ -212,12 +209,20 @@ export default function EditComment({
           </form>
         </Form>
       ) : (
-        <button
-          className='text-light-2 mt-2 text-small-regular text-start'
-          onClick={toggleEdit}
-          disabled={currentUserId_db !== authorId}
-        >
-          {thought}
+        <button onClick={toggleEdit} disabled={currentUserId_db !== authorId}>
+          <p className='text-light-2 mt-2 text-small-regular text-start mb-2'>
+            {thought}
+          </p>
+          {image.length > 0 && (
+            <Image
+              className='border border-dark-4 rounded-md'
+              src={image}
+              alt='thought image'
+              width={250}
+              height={250}
+              priority
+            />
+          )}
         </button>
       )}
     </>

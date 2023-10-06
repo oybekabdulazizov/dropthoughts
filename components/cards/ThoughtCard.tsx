@@ -125,9 +125,21 @@ export default async function ThoughtCard({
                 currentUserId_db={JSON.stringify(currentUser_db._id)}
               />
             ) : (
-              <p className='text-light-2 mt-2 text-small-regular text-start'>
-                {thought}
-              </p>
+              <div>
+                <p className='text-light-2 mt-2 text-small-regular text-start mb-2'>
+                  {thought}
+                </p>
+                {image.length > 0 && (
+                  <Image
+                    className='border border-dark-4 rounded-md'
+                    src={image}
+                    alt='thought image'
+                    width={500}
+                    height={500}
+                    priority
+                  />
+                )}
+              </div>
             )}
             <div className='mt-3 flex flex-col gap-2'>
               <div className='flex gap-3.5'>
