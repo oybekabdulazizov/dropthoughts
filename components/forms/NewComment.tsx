@@ -28,7 +28,7 @@ interface Props {
   currentUserName_db: string;
 }
 
-export default function Comment({
+export default function NewComment({
   thoughtId,
   currentUserImg_db,
   currentUserId_db,

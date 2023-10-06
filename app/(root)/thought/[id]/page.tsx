@@ -4,7 +4,7 @@ import { currentUser } from '@clerk/nextjs';
 import { fetchUser } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
 import { fetchThought } from '@/lib/actions/thought.actions';
-import Comment from '@/components/forms/Comment';
+import NewComment from '@/components/forms/NewComment';
 
 type Props = {
   params: {
@@ -40,6 +40,7 @@ export default async function Page({ params }: Props) {
           thoughtId={thought._id}
           currentUserId_clerk={currentUser_clerk.id}
           content={thought.text}
+          image={thought.image}
           author={thought.author}
           createdAt={thought.createdAt}
           comments={thought.childrenThoughts}
@@ -47,7 +48,7 @@ export default async function Page({ params }: Props) {
         />
       </div>
       <div>
-        <Comment
+        <NewComment
           thoughtId={JSON.stringify(thought._id)}
           currentUserImg_db={user_db.image}
           currentUserId_db={JSON.stringify(user_db._id)}
@@ -61,6 +62,7 @@ export default async function Page({ params }: Props) {
             thoughtId={childThought._id}
             currentUserId_clerk={currentUser_clerk.id}
             content={childThought.text}
+            image={childThought.image}
             author={childThought.author}
             createdAt={childThought.createdAt}
             comments={childThought.childrenThoughts}
