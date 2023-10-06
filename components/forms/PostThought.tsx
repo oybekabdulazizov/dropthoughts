@@ -74,6 +74,7 @@ export default function PostThought({ thoughtDetails }: Props) {
   const onSubmit = async (values: z.infer<typeof ThoughtValidation>) => {
     setSubmitting(true);
     if (
+      values.image &&
       values.image.trim().length > 0 &&
       !values.image.includes('res.cloudinary.com')
     ) {
@@ -100,13 +101,13 @@ export default function PostThought({ thoughtDetails }: Props) {
       await updateThought({
         thoughtId: JSON.parse(thoughtDetails.thoughtId),
         thought: values.thought,
-        image: values.image,
+        image: values.image || '',
         path: pathname,
       });
     } else {
       await createThought({
         text: values.thought,
-        image: values.image,
+        image: values.image || '',
         author: values.author,
         path: pathname,
       });
@@ -119,7 +120,7 @@ export default function PostThought({ thoughtDetails }: Props) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className='flex flex-col justify-start gap-5'
+        className='flex flex-col justify-start gap-4'
       >
         <FormField
           control={form.control}
@@ -145,7 +146,7 @@ export default function PostThought({ thoughtDetails }: Props) {
           control={form.control}
           name='image'
           render={({ field }) => (
-            <FormItem className='flex flex-col col-1 items-center gap-4'>
+            <FormItem className='flex flex-col col-1 items-center gap-2'>
               <FormControl className='flex-1 text-base-semibold text-gray-200'>
                 <Input
                   id='image'

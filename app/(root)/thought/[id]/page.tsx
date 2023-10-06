@@ -39,7 +39,7 @@ export default async function Page({ params }: Props) {
           key={thought._id}
           thoughtId={thought._id}
           currentUserId_clerk={currentUser_clerk.id}
-          content={thought.text}
+          thought={thought.text}
           image={thought.image}
           author={thought.author}
           createdAt={thought.createdAt}
@@ -61,7 +61,7 @@ export default async function Page({ params }: Props) {
             key={childThought._id}
             thoughtId={childThought._id}
             currentUserId_clerk={currentUser_clerk.id}
-            content={childThought.text}
+            thought={childThought.text}
             image={childThought.image}
             author={childThought.author}
             createdAt={childThought.createdAt}

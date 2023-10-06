@@ -5,11 +5,10 @@ import { calculateRelativeTimes } from '@/lib/utils';
 import { fetchUser } from '@/lib/actions/user.actions';
 import LikeButton from '../shared/LikeButton';
 import { currentUser } from '@clerk/nextjs';
-import ThoughtContentEdit from '../shared/ThoughtContentEdit';
 
 type Props = {
   thoughtId: string;
-  content: string;
+  thought: string;
   author: {
     name: string;
     image: string;
@@ -23,7 +22,7 @@ type Props = {
 
 export default function SimpleThoughtCard({
   thoughtId,
-  content,
+  thought,
   author,
   createdAt,
   comments,
@@ -64,7 +63,7 @@ export default function SimpleThoughtCard({
               href={`/thought/${thoughtId}`}
               className='text-light-2 mt-2 text-small-regular text-start'
             >
-              {content}
+              {thought}
             </Link>
 
             <div className='mt-4 flex flex-col gap-2'>

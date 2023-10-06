@@ -134,7 +134,7 @@ export default function Search({
                   <SimpleThoughtCard
                     key={thought._id}
                     thoughtId={thought._id}
-                    content={thought.text}
+                    thought={thought.text}
                     author={thought.author}
                     createdAt={thought.createdAt}
                     comments={thought.childrenThoughts}

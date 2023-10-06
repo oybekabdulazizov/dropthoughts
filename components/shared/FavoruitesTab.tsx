@@ -35,7 +35,8 @@ export default async function FavouritesTab({
                 key={t._id}
                 thoughtId={t._id}
                 currentUserId_clerk={currentUserId_clerk}
-                content={t.text}
+                thought={t.text}
+                image={t.image}
                 author={t.author}
                 comments={t.childrenThoughts}
                 likes={t.likes}

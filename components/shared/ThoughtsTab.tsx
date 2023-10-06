@@ -27,7 +27,8 @@ export default async function ThoughtsTab({
               key={thought._id}
               thoughtId={thought._id}
               currentUserId_clerk={currentUserId_clerk}
-              content={thought.text}
+              thought={thought.text}
+              image={thought.image}
               author={
                 accountType === 'User'
                   ? {

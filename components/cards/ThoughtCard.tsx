@@ -13,7 +13,7 @@ type Props = {
   currentUserId_clerk: string | null;
   // currentUserIdClerk: string | null;
   // parentThoughtId: string | null;
-  content: string;
+  thought: string;
   image: string;
   author: {
     name: string;
@@ -36,7 +36,7 @@ export default async function ThoughtCard({
   currentUserId_clerk,
   // currentUserIdClerk,
   // parentThoughtId,
-  content,
+  thought,
   image,
   author,
   createdAt,
@@ -108,7 +108,7 @@ export default async function ThoughtCard({
             </div>
 
             {/* <ThoughtContentEdit
-              content={content}
+              thought={thought}
               authorId={JSON.stringify(author._id)}
               isComment={isComment}
               currentUserId={
@@ -119,14 +119,14 @@ export default async function ThoughtCard({
             {isComment ? (
               <EditComment
                 thoughtId={JSON.stringify(thoughtId)}
-                thought={content}
+                thought={thought}
                 image={image}
                 authorId={JSON.stringify(currentUser_db._id)}
                 currentUserId_db={JSON.stringify(currentUser_db._id)}
               />
             ) : (
               <p className='text-light-2 mt-2 text-small-regular text-start'>
-                {content}
+                {thought}
               </p>
             )}
             <div className='mt-3 flex flex-col gap-2'>

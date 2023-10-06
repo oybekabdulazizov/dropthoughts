@@ -21,7 +21,8 @@ export default async function Home() {
                 key={thought._id}
                 thoughtId={thought._id}
                 currentUserId_clerk={currentUser_clerk?.id || null}
-                content={thought.text}
+                thought={thought.text}
+                image={thought.image}
                 author={thought.author}
                 createdAt={thought.createdAt}
                 comments={thought.childrenThoughts}
