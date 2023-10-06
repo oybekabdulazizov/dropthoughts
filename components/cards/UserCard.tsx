@@ -17,8 +17,6 @@ export default function UserCard({
   username,
   image,
   thoughts,
-  nth,
-  resultLength,
 }: Props) {
   return (
     <div className='flex flex-col justify-start w-full bg-dark-2 py-4 px-5 md:p-6 rounded-lg mt-6'>

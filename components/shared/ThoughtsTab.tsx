@@ -4,14 +4,12 @@ import ThoughtCard from '../cards/ThoughtCard';
 
 interface Props {
   currentUserId_clerk: string;
-  // idUser_clerk: string;
   authorId: string;
   accountType: string;
 }
 
 export default async function ThoughtsTab({
   currentUserId_clerk,
-  // idUser_clerk,
   authorId,
   accountType,
 }: Props) {

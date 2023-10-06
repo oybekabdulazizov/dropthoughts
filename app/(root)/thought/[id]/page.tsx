@@ -28,7 +28,6 @@ export default async function Page({ params }: Props) {
   const thought = await fetchThought(thoughtId);
 
   if (!thought || thought.errorCode === 404) {
-    // throw toast error
     redirect('/');
   }
 

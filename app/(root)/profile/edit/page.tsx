@@ -7,22 +7,20 @@ import React from 'react';
 export default async function EditProfile() {
   const currentUser_clerk = await currentUser();
   if (!currentUser_clerk) {
-    // throw toast error
     redirect('/auth/sign-in');
   }
 
-  const user_db = await fetchUser(currentUser_clerk.id);
-  if (!user_db) {
-    // throw toast error
+  const currentUser_db = await fetchUser(currentUser_clerk.id);
+  if (!currentUser_db) {
     redirect('/auth/onboarding');
   }
 
   const userDetails = {
-    idUser_clerk: user_db.idUser_clerk,
-    name: user_db.name,
-    username: user_db.username,
-    bio: user_db.bio,
-    image: user_db.image,
+    idUser_clerk: currentUser_db.idUser_clerk,
+    name: currentUser_db.name,
+    username: currentUser_db.username,
+    bio: currentUser_db.bio,
+    image: currentUser_db.image,
   };
 
   return (

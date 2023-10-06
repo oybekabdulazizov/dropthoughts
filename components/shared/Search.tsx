@@ -69,12 +69,6 @@ export default function Search({
         <Tabs defaultValue='users' className='w-full'>
           <TabsList className='tab'>
             {searchTabs.map((tab) => {
-              // if (
-              //   tab.value === 'favourites' &&
-              //   currentUser_db.idUser_clerk !== user_db.idUser_clerk
-              // ) {
-              //   return;
-              // }
               return (
                 <TabsTrigger key={tab.label} value={tab.value} className='tab'>
                   <Image
@@ -148,26 +142,6 @@ export default function Search({
           </TabsContent>
         </Tabs>
       </div>
-      {/* {(filteredUsers.length > 0 || filteredThoughts.length > 0) &&
-      searchTerm &&
-      searchTerm.trim().length > 0 ? (
-        <div className='mt-8'>
-          {filteredUsers.map((user, i) => (
-            <UserCard
-              key={user._id}
-              idUser_clerk={user.idUser_clerk}
-              name={user.name}
-              username={user.username}
-              image={user.image}
-              thoughts={user.thoughts}
-              nth={i}
-              resultLength={filteredUsers.length}
-            />
-          ))}
-        </div>
-      ) : (
-        <p className='no-result'>No users found.</p>
-      )} */}
     </div>
   );
 }

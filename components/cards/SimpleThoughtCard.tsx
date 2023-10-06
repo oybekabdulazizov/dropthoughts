@@ -78,7 +78,7 @@ export default function SimpleThoughtCard({
                         </p>
                       </Link>
                     )}
-                    {comments.length > 0 && (
+                    {comments.length > 0 && likes.length > 0 && (
                       <span className='text-subtle-medium text-gray-1'>
                         &middot;
                       </span>

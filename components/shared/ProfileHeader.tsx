@@ -58,8 +58,6 @@ export default function ProfileHeader({
         )}
       </section>
 
-      {/* TODO: Community is placed here */}
-
       <p className='mt-6 text-light-2 max-w-lg text-base-regular'>{bio}</p>
 
       <div className='mt-6 h-0.5 w-full bg-dark-3' />

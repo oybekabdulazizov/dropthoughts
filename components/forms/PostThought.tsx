@@ -96,8 +96,6 @@ export default function PostThought({ thoughtDetails }: Props) {
     }
 
     if (thoughtDetails.thoughtId) {
-      console.log(thoughtDetails.thoughtId);
-      console.log(values);
       await updateThought({
         thoughtId: JSON.parse(thoughtDetails.thoughtId),
         thought: values.thought,

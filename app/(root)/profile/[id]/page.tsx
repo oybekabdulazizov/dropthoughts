@@ -25,14 +25,11 @@ export default async function Page({ params }: Props) {
 
   const currentUser_db = await fetchUser(currentUser_clerk.id);
   if (!currentUser_db) {
-    // TODO: toast a message
     redirect('/auth/onboarding');
   }
 
   const user_db = await fetchUser(params.id);
   if (!user_db) {
-    // throw toast error
-    // the user does not exist
     redirect('/');
   }
 

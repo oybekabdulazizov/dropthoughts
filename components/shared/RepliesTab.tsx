@@ -13,7 +13,6 @@ interface Props {
 export default async function RepliesTab({ idUser_clerk }: Props) {
   const user_db = await fetchUser(idUser_clerk);
   if (!user_db) {
-    // TODO: toast a message
     redirect('/auth/onboarding');
   }
 

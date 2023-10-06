@@ -11,8 +11,6 @@ import { ThreeDotMenu } from '../shared/MenuIcons';
 type Props = {
   thoughtId: string;
   currentUserId_clerk: string | null;
-  // currentUserIdClerk: string | null;
-  // parentThoughtId: string | null;
   thought: string;
   image: string;
   author: {
@@ -34,8 +32,6 @@ type Props = {
 export default async function ThoughtCard({
   thoughtId,
   currentUserId_clerk,
-  // currentUserIdClerk,
-  // parentThoughtId,
   thought,
   image,
   author,
@@ -44,8 +40,6 @@ export default async function ThoughtCard({
   isComment,
   likes,
 }: Props) {
-  // const currentUserClerk = await currentUser();
-
   const createdWhen = calculateRelativeTimes(createdAt);
 
   let currentUser_db: any = null;
@@ -107,15 +101,6 @@ export default async function ThoughtCard({
               )}
             </div>
 
-            {/* <ThoughtContentEdit
-              thought={thought}
-              authorId={JSON.stringify(author._id)}
-              isComment={isComment}
-              currentUserId={
-                currentUser_db ? JSON.stringify(currentUser_db._id) : null
-              }
-              thoughtId={JSON.stringify(thoughtId)}
-            /> */}
             {isComment ? (
               <EditComment
                 thoughtId={JSON.stringify(thoughtId)}
