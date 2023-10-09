@@ -122,7 +122,7 @@ export async function fetchThought(thoughtId: string) {
       .populate({
         path: 'author',
         model: User,
-        select: '_id idUser_clerk name image',
+        select: '_id idUser_clerk name image username',
       })
       .populate({
         path: 'childrenThoughts',
@@ -130,7 +130,7 @@ export async function fetchThought(thoughtId: string) {
           {
             path: 'author',
             model: User,
-            select: '_id idUser_clerk name image',
+            select: '_id idUser_clerk name image username',
           },
           {
             path: 'childrenThoughts',
@@ -138,7 +138,7 @@ export async function fetchThought(thoughtId: string) {
             populate: {
               path: 'author',
               model: User,
-              select: '_id idUser_clerk name image',
+              select: '_id idUser_clerk name image username',
             },
           },
           {

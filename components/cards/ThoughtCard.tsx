@@ -18,6 +18,7 @@ type Props = {
     image: string;
     _id: string;
     idUser_clerk: string;
+    username: string;
   };
   createdAt: Date;
   comments: Array<{
