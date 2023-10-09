@@ -112,7 +112,7 @@ export default async function ThoughtCard({
               />
             ) : (
               <div>
-                <p className='text-light-2 mt-2 text-small-regular text-start mb-2'>
+                <p className='text-light-2 mt-2 text-small-regular text-start mb-2 pr-4'>
                   {thought}
                 </p>
                 {image.length > 0 && (
