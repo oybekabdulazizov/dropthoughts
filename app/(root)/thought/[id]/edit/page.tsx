@@ -31,6 +31,12 @@ export default async function Page({ params }: Props) {
     redirect('/');
   }
 
+  if (
+    JSON.stringify(thought.author._id) !== JSON.stringify(currentUser_db._id)
+  ) {
+    redirect('/');
+  }
+
   const thoughtDetails = {
     thoughtId: JSON.stringify(thought._id),
     thought: thought.text,
