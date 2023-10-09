@@ -37,9 +37,13 @@ export default function PostThought({ thoughtDetails, repost }: Props) {
   const router = useRouter();
   const pathname = usePathname();
 
-  const thoughtContent = repost
-    ? `@${thoughtDetails.originalAuthorUsername} thinks: ${thoughtDetails.thought}`
-    : thoughtDetails.thought;
+  let thoughtContent = '';
+
+  if (repost && thoughtDetails.originalAuthorUsername) {
+    thoughtContent = `@${thoughtDetails.originalAuthorUsername} thinks: ${thoughtDetails.thought}`;
+  } else {
+    thoughtContent = thoughtDetails.thought;
+  }
 
   const form = useForm({
     resolver: zodResolver(ThoughtValidation),
@@ -113,6 +117,7 @@ export default function PostThought({ thoughtDetails, repost }: Props) {
         text: values.thought,
         image: values.image || '',
         author: values.author,
+        repost: repost ? repost : false,
         path: pathname,
       });
     }

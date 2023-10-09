@@ -10,6 +10,7 @@ interface CreateThought_Props {
   text: string;
   author: string;
   image: string;
+  repost: boolean;
   path: string;
 }
 
@@ -17,6 +18,7 @@ export async function createThought({
   text,
   author,
   image,
+  repost,
   path,
 }: CreateThought_Props): Promise<void> {
   try {
@@ -26,6 +28,7 @@ export async function createThought({
       text,
       author,
       image,
+      repost,
     });
 
     await User.findByIdAndUpdate(author, {

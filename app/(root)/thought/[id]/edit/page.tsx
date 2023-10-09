@@ -47,7 +47,7 @@ export default async function Page({ params }: Props) {
   return (
     <div>
       <h1 className='head-text'>Create Thought</h1>
-      <PostThought thoughtDetails={thoughtDetails} />
+      <PostThought thoughtDetails={thoughtDetails} repost={thought.repost} />
     </div>
   );
 }

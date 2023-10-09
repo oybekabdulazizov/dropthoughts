@@ -27,6 +27,10 @@ const thoughtSchema = new Schema({
       ref: 'Like',
     },
   ],
+  repost: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Thought = models.Thought || model('Thought', thoughtSchema);
