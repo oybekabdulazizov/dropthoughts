@@ -145,14 +145,16 @@ export default async function ThoughtCard({
                     className='cursor-pointer object-contain'
                   />
                 </Link>
+                <Link href={`/thought/re-post/${thoughtId}`}>
+                  <Image
+                    src='/assets/repost.svg'
+                    height={24}
+                    width={24}
+                    alt='icon-repost'
+                    className='cursor-pointer object-contain'
+                  />
+                </Link>
                 {/* <Image
-                  src='/assets/repost.svg'
-                  height={24}
-                  width={24}
-                  alt='icon-repost'
-                  className='cursor-pointer object-contain'
-                />
-                <Image
                   src='/assets/share.svg'
                   height={24}
                   width={24}

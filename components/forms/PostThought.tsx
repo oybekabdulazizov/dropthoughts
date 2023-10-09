@@ -26,20 +26,26 @@ interface Props {
     thought: string;
     image: string;
     authorId: string;
+    originalAuthorUsername?: string;
   };
+  repost?: boolean;
 }
 
-export default function PostThought({ thoughtDetails }: Props) {
+export default function PostThought({ thoughtDetails, repost }: Props) {
   const [file, setFile] = useState<File>();
   const [submitting, setSubmitting] = useState<boolean>(false);
   const router = useRouter();
   const pathname = usePathname();
 
+  const thoughtContent = repost
+    ? `@${thoughtDetails.originalAuthorUsername} thinks: ${thoughtDetails.thought}`
+    : thoughtDetails.thought;
+
   const form = useForm({
     resolver: zodResolver(ThoughtValidation),
     defaultValues: {
       image: thoughtDetails.image,
-      thought: thoughtDetails.thought,
+      thought: thoughtContent,
       author: JSON.parse(thoughtDetails.authorId),
     },
   });
@@ -133,6 +139,7 @@ export default function PostThought({ thoughtDetails }: Props) {
                   rows={7}
                   className='account-form_input no-focus'
                   {...field}
+                  disabled={repost}
                 />
               </FormControl>
               <FormMessage />
@@ -153,6 +160,7 @@ export default function PostThought({ thoughtDetails }: Props) {
                   accept='image/*'
                   className='cursor-pointer bg-transparent outline-none file:text-blue border border-dark-4'
                   onChange={(e) => handleImage(e, field.onChange)}
+                  disabled={repost}
                 />
               </FormControl>
 
@@ -173,7 +181,7 @@ export default function PostThought({ thoughtDetails }: Props) {
         <Button
           type='submit'
           className='bg-primary-500 mt-2'
-          disabled={submitting || form.getValues().thought.trim().length < 1}
+          disabled={submitting}
         >
           {submitting ? 'Submitting...' : 'Submit'}
         </Button>
