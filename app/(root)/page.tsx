@@ -16,7 +16,7 @@ export default async function Home() {
           <p className='no-result'>No thoughts yet.</p>
         ) : (
           <>
-            {result.thoughts.map((thought) => (
+            {result.thoughts.map((thought: any) => (
               <ThoughtCard
                 key={thought._id}
                 thoughtId={thought._id}

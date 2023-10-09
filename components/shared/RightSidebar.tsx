@@ -9,14 +9,14 @@ export default async function RightSidebar() {
 
   const users = await fetchUsers();
   const orderedUsers = users
-    .filter((user) => !user._id.equals(currentUser_db?._id || ''))
-    .sort((a, b) => b.thoughts.length - a.thoughts.length);
+    .filter((user: any) => !user._id.equals(currentUser_db?._id || ''))
+    .sort((a: any, b: any) => b.thoughts.length - a.thoughts.length);
 
   return (
     <section className='custom-scrollbar rightsidebar'>
       <div className='flex flex-1 flex-col justify-start'>
         <h3 className='text-heading4-medium text-light-1'>Suggested Users</h3>
-        {orderedUsers.slice(0, 10).map((user) => (
+        {orderedUsers.slice(0, 10).map((user: any) => (
           <SmallUserCard
             key={user._id}
             idUser_clerk={user.idUser_clerk}

@@ -34,12 +34,14 @@ export default async function ThoughtsTab({
                       image: result.image,
                       idUser_clerk: result.id,
                       _id: result._id,
+                      username: result.username,
                     }
                   : {
                       name: thought.author.name,
                       image: thought.author.image,
                       idUser_clerk: thought.author.id,
                       _id: thought.author._id,
+                      username: thought.author.username,
                     }
               }
               createdAt={thought.createdAt}

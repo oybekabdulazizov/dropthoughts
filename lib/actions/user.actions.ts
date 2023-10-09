@@ -81,7 +81,7 @@ export async function fetchUserThoughts(author_id: string) {
         {
           path: 'author',
           model: User,
-          select: 'name image idUser_clerk _id',
+          select: 'name image idUser_clerk _id username',
         },
         {
           path: 'likes',
@@ -118,7 +118,7 @@ export async function getReplies(authorId: string) {
 
     const userThoughts = await Thought.find({ author: authorId });
 
-    const childThoughtIds = userThoughts.reduce((acc, thought) => {
+    const childThoughtIds = userThoughts.reduce((acc: any, thought: any) => {
       return acc.concat(thought.childrenThoughts);
     }, []);
 
