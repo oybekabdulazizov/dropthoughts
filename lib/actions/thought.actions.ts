@@ -44,26 +44,26 @@ export async function createThought({
 // ========================================================================================================
 
 interface FetchThoughts_Props {
-  pageNumber: number;
-  pageSize: number;
+  page: number;
+  limit: number;
 }
 
 export async function fetchThoughts({
-  pageNumber = 1,
-  pageSize = 20,
+  page = 1,
+  limit = 20,
 }: FetchThoughts_Props) {
   try {
     connectToDB();
 
-    const skipThoughts = (pageNumber - 1) * pageSize;
+    const skip = (page - 1) * limit;
 
     // Fetching thoughts with no parent thought, i.e. top-level thoughts
-    const thoughtsQuery = Thought.find({
+    const thoughts = await Thought.find({
       parentThoughtId: { $in: [null, undefined] },
     })
       .sort({ createdAt: 'desc' })
-      .skip(skipThoughts)
-      .limit(pageSize)
+      .skip(skip)
+      .limit(limit)
       .populate({ path: 'author', model: User })
       .populate({
         path: 'childrenThoughts',
@@ -89,11 +89,9 @@ export async function fetchThoughts({
       parentId: { $in: [null, undefined] },
     });
 
-    const thoughts = await thoughtsQuery.exec();
+    const hasNext = totalThoughtsCount > skip + thoughts.length;
 
-    const isNext = totalThoughtsCount > skipThoughts * thoughts.length;
-
-    return { thoughts, isNext };
+    return { thoughts, hasNext };
   } catch (error: any) {
     throw new Error(`(fetchThoughts): ${error.message}`);
   }
@@ -107,7 +105,26 @@ export async function fetchAllThoughts() {
 
     const thoughts = await Thought.find({})
       .sort({ createdAt: 'desc' })
-      .populate({ path: 'author', model: User });
+      .populate({ path: 'author', model: User })
+      .populate({
+        path: 'childrenThoughts',
+        populate: {
+          path: 'author',
+          model: User,
+          select: '_id idUser_clerk name image',
+        },
+      })
+      .populate({
+        path: 'likes',
+        populate: [
+          {
+            path: 'user',
+            model: User,
+            select: '_id idUser_clerk name image',
+          },
+          { path: 'thought', model: Thought, select: '_id text' },
+        ],
+      });
 
     return thoughts;
   } catch (error: any) {
