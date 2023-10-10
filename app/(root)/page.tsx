@@ -1,4 +1,5 @@
 import ThoughtCard from '@/components/cards/ThoughtCard';
+import Trigger from '@/components/shared/Trigger';
 import { fetchAllThoughts, fetchThoughts } from '@/lib/actions/thought.actions';
 import { currentUser } from '@clerk/nextjs';
 import Link from 'next/link';
@@ -12,7 +13,7 @@ export default async function Home({ searchParams }: Props) {
   const page =
     typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
   const limit =
-    typeof searchParams.limit === 'string' ? Number(searchParams.limit) : 10;
+    typeof searchParams.limit === 'string' ? Number(searchParams.limit) : 5;
   const currentUser_clerk = await currentUser();
 
   const { thoughts, hasNext } = await fetchThoughts({ page, limit });
@@ -38,10 +39,11 @@ export default async function Home({ searchParams }: Props) {
                 likes={thought.likes}
               />
             ))}
+            <Trigger limit={limit} hasNext={hasNext} route='' />
           </>
         )}
       </section>
-      <div className='flex justify-center items-center gap-4 mt-8'>
+      {/* <div className='flex justify-center items-center gap-4 mt-8'>
         <Link
           href={`?page=${page > 1 ? page - 1 : 1}`}
           className={`text-light-1 bg-dark-2 rounded-md px-4 py-2 text-small-regular ${
@@ -58,7 +60,7 @@ export default async function Home({ searchParams }: Props) {
         >
           Next
         </Link>
-      </div>
+      </div> */}
     </>
   );
 }
