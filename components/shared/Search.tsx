@@ -53,6 +53,9 @@ export default function Search({
         }
       }, 500);
       return () => clearTimeout(search);
+    } else {
+      setFilteredUsers([]);
+      setFilteredThoughts([]);
     }
   }, [searchTerm]);
 
