@@ -1,11 +1,15 @@
 'use client';
 
+import { deleteThought } from '@/lib/actions/thought.actions';
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 export function ThreeDotMenu({ thoughtId }: { thoughtId: string }) {
   const [menuDown, setMenuDown] = useState<boolean>(false);
   const ref = useRef<HTMLButtonElement | null>(null);
+  const router = useRouter();
+  const pathname = usePathname();
 
   const toggleMenuDown = () => setMenuDown(!menuDown);
 
@@ -22,15 +26,21 @@ export function ThreeDotMenu({ thoughtId }: { thoughtId: string }) {
     };
   }, [ref]);
 
+  const handleDelete = async () => {
+    await deleteThought({
+      thoughtId: JSON.parse(thoughtId),
+      pathname,
+    });
+
+    router.push('/');
+  };
+
   return (
     <div className='relative'>
       <button
         ref={ref}
         id='threedotmenu_btn'
-        className={`
-            w-2 inline
-            text-light-1 
-            focus:ring-none focus:outline-none`}
+        className={`w-2 inline text-light-1 focus:ring-none focus:outline-none`}
         onClick={toggleMenuDown}
       >
         <svg
@@ -48,6 +58,9 @@ export function ThreeDotMenu({ thoughtId }: { thoughtId: string }) {
             <Link href={`/thought/${JSON.parse(thoughtId)}/edit`}>
               <li className='block px-4 py-2 hover:bg-dark-3'>Edit</li>
             </Link>
+            <button onClick={handleDelete}>
+              <li className='block px-4 py-2 hover:bg-dark-3'>Delete</li>
+            </button>
           </ul>
         </div>
       )}

@@ -280,3 +280,71 @@ export async function updateThought({
 
   revalidatePath(path);
 }
+
+// ========================================================================================================
+
+interface DeleteThought_Props {
+  thoughtId: string;
+  pathname: string;
+}
+
+export async function deleteThought({
+  thoughtId,
+  pathname,
+}: DeleteThought_Props) {
+  try {
+    // find the thought
+    const thought = await Thought.findById(thoughtId);
+    if (!thought) throw new Error('(deleteThought): Thought not found!');
+
+    // remove the thought from the author's thoughts list
+    await User.findByIdAndUpdate(thought.author, {
+      $pull: { thoughts: { $in: [thought._id] } },
+    });
+
+    // find all the likes of the given thought
+    const likesOfThought = await Like.find({ thought: thought._id });
+
+    // get the user ids and like ids of the likes of the given thought
+    const likesOfThought_ids = likesOfThought.reduce((acc, like) => {
+      return acc.concat({
+        user: like.user,
+        like: like._id,
+      });
+    }, []);
+
+    // remove the likes from the users' liked thoughts list
+    for (const i of likesOfThought_ids) {
+      await User.findByIdAndUpdate(i.user, {
+        $pull: { likedThoughts: { $in: [i.like] } },
+      });
+    }
+
+    // get the like ids of the likes of the given thought
+    const likesOfThought_likeIds = likesOfThought.reduce((acc, like) => {
+      return acc.concat(like._id);
+    }, []);
+
+    // remove the likes of the given thought
+    await Like.deleteMany({ _id: { $in: [...likesOfThought_likeIds] } });
+
+    // remove the comments of the given thought
+    for (const childThought of thought.childrenThoughts) {
+      await deleteThought({ thoughtId: childThought, pathname });
+    }
+
+    // remove the given thought
+    await Thought.findByIdAndDelete(thought._id);
+  } catch (error: any) {
+    if (error.message.includes('Cast to ObjectId failed')) {
+      return {
+        errorCode: 404,
+        errorMessage: 'Thought not found!',
+      };
+    } else {
+      throw new Error(`(deleteThought): ${error.message}`);
+    }
+  }
+
+  revalidatePath(pathname);
+}
