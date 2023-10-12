@@ -99,7 +99,12 @@ export default async function ThoughtCard({
                 <p className='text-gray-1 text-small-regular'>{createdWhen}</p>
               </div>
               {!isComment && (
-                <ThreeDotMenu thoughtId={JSON.stringify(thoughtId)} />
+                <>
+                  {JSON.stringify(author._id) ===
+                    JSON.stringify(currentUser_db._id) && (
+                    <ThreeDotMenu thoughtId={JSON.stringify(thoughtId)} />
+                  )}
+                </>
               )}
             </div>
 
@@ -108,7 +113,7 @@ export default async function ThoughtCard({
                 thoughtId={JSON.stringify(thoughtId)}
                 thought={thought}
                 image={image}
-                authorId={JSON.stringify(currentUser_db._id)}
+                authorId={JSON.stringify(author._id)}
                 currentUserId_db={JSON.stringify(currentUser_db._id)}
               />
             ) : (
