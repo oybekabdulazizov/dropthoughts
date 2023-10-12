@@ -6,7 +6,7 @@ import { fetchUser } from '@/lib/actions/user.actions';
 import LikeButton from '../shared/LikeButton';
 import { currentUser } from '@clerk/nextjs';
 import EditComment from '../forms/EditComment';
-import { ThreeDotMenu } from '../shared/MenuIcons';
+import ThoughtCardMenu from '../shared/ThoughtCardMenu';
 import SharePopover from '../shared/SharePopover';
 
 type Props = {
@@ -102,7 +102,7 @@ export default async function ThoughtCard({
                 <>
                   {JSON.stringify(author._id) ===
                     JSON.stringify(currentUser_db?._id || '') && (
-                    <ThreeDotMenu thoughtId={JSON.stringify(thoughtId)} />
+                    <ThoughtCardMenu thoughtId={JSON.stringify(thoughtId)} />
                   )}
                 </>
               )}

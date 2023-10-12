@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
-export function ThreeDotMenu({ thoughtId }: { thoughtId: string }) {
+export default function ThoughtCardMenu({ thoughtId }: { thoughtId: string }) {
   const [menuDown, setMenuDown] = useState<boolean>(false);
   const ref = useRef<HTMLButtonElement | null>(null);
   const router = useRouter();
