@@ -101,7 +101,7 @@ export default async function ThoughtCard({
               {!isComment && (
                 <>
                   {JSON.stringify(author._id) ===
-                    JSON.stringify(currentUser_db._id) && (
+                    JSON.stringify(currentUser_db?._id || '') && (
                     <ThreeDotMenu thoughtId={JSON.stringify(thoughtId)} />
                   )}
                 </>
