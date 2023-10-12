@@ -119,7 +119,7 @@ export default function AccountProfile({ userDetails, action }: Props) {
 
     user?.reload();
 
-    if (pathname === '/profile/edit') {
+    if (pathname === `/profile/${userDetails.idUser_clerk}/edit`) {
       router.back();
     } else {
       router.push('/');

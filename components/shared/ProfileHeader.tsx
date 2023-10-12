@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import ProfileMenu from './ProfileMenu';
 
 interface Props {
   idUser_clerk: string;
@@ -42,7 +43,12 @@ export default function ProfileHeader({
           </div>
         </div>
 
-        {currentUserId_clerk === idUser_clerk && (
+        <ProfileMenu
+          currentUserId_clerk={currentUserId_clerk}
+          idUser_clerk={idUser_clerk}
+        />
+
+        {/* {currentUserId_clerk === idUser_clerk && (
           <Link
             href='/profile/edit'
             className='relative h-6 w-6 object cover ml-4'
@@ -55,7 +61,7 @@ export default function ProfileHeader({
               className='object-contain'
             />
           </Link>
-        )}
+        )} */}
       </section>
 
       <p className='mt-6 text-light-2 max-w-lg text-base-regular'>{bio}</p>
