@@ -151,3 +151,30 @@ export async function fetchUsers() {
     throw new Error(`(fetchUsers): ${error.message}`);
   }
 }
+
+// ========================================================================================================
+
+export async function fetchUserFollowings(user_id: string) {
+  try {
+    connectToDB();
+
+    const user = await User.findById(user_id);
+    if (!user) throw new Error('(fetchUserFollowings): User not found!');
+
+    const usersWithFollowings = await User.findById(user._id).populate({
+      path: 'following',
+      model: User,
+    });
+
+    return usersWithFollowings;
+  } catch (error: any) {
+    if (error.message.includes('Cast to ObjectId failed')) {
+      return {
+        errorCode: 404,
+        errorMessage: 'User not found!',
+      };
+    } else {
+      throw new Error(`(fetchUserFollowings): ${error.message}`);
+    }
+  }
+}

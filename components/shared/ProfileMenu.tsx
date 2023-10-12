@@ -62,6 +62,12 @@ export default function ProfileMenu({
                 Edit
               </Link>
             )}
+            <Link
+              href={`/profile/${currentUserId_clerk}/following`}
+              className='w-full px-4 py-2 hover:bg-dark-3 text-start'
+            >
+              Following
+            </Link>
           </ul>
         </div>
       )}
