@@ -7,6 +7,7 @@ import LikeButton from '../shared/LikeButton';
 import { currentUser } from '@clerk/nextjs';
 import EditComment from '../forms/EditComment';
 import { ThreeDotMenu } from '../shared/MenuIcons';
+import SharePopover from '../shared/SharePopover';
 
 type Props = {
   thoughtId: string;
@@ -127,8 +128,8 @@ export default async function ThoughtCard({
                 )}
               </div>
             )}
-            <div className='mt-3 flex flex-col gap-2'>
-              <div className='flex gap-3.5'>
+            <div className='mt-4 flex flex-col gap-2'>
+              <div className='flex flex-row items-start gap-3.5'>
                 <LikeButton
                   likedByCurrentUser={likedByCurrentUser}
                   currentUserId_db={
@@ -154,13 +155,11 @@ export default async function ThoughtCard({
                     className='cursor-pointer object-contain'
                   />
                 </Link>
-                {/* <Image
-                  src='/assets/share.svg'
-                  height={24}
-                  width={24}
-                  alt='icon-share'
-                  className='cursor-pointer object-contain'
-                /> */}
+                <SharePopover
+                  thoughtId={JSON.stringify(thoughtId)}
+                  thought={thought}
+                  thoughtImage={image}
+                />
               </div>
               <div
                 className={`flex flex-row gap-3 ${
