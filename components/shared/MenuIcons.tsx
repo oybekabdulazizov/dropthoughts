@@ -54,12 +54,18 @@ export function ThreeDotMenu({ thoughtId }: { thoughtId: string }) {
       </button>
       {menuDown && (
         <div className='z-10 absolute right-4 top-[-2px] bg-dark-4 divide-y rounded-lg shadow-md w-auto'>
-          <ul className='py-2 text-small-regular text-light-2 dark:text-gray-200'>
-            <Link href={`/thought/${JSON.parse(thoughtId)}/edit`}>
-              <li className='block px-4 py-2 hover:bg-dark-3'>Edit</li>
+          <ul className='py-2 text-small-regular text-light-2 flex flex-col justify-start items-start'>
+            <Link
+              href={`/thought/${JSON.parse(thoughtId)}/edit`}
+              className='w-full px-4 py-2 hover:bg-dark-3 text-start'
+            >
+              Edit
             </Link>
-            <button onClick={handleDelete}>
-              <li className='block px-4 py-2 hover:bg-dark-3'>Delete</li>
+            <button
+              onClick={handleDelete}
+              className='w-full px-4 py-2 hover:bg-dark-3 text-start'
+            >
+              Delete
             </button>
           </ul>
         </div>
