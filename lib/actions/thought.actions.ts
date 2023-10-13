@@ -293,6 +293,8 @@ export async function deleteThought({
   pathname,
 }: DeleteThought_Props) {
   try {
+    connectToDB();
+
     // find the thought
     const thought = await Thought.findById(thoughtId);
     if (!thought) throw new Error('(deleteThought): Thought not found!');
