@@ -2,26 +2,36 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import ProfileMenu from './ProfileMenu';
+import FollowUnfollow from './FollowUnfollow';
 
 interface Props {
   idUser_clerk: string;
-  _id: string;
+  userId: string;
   currentUserId_clerk: string;
+  currentUserId_db: string;
   name: string;
   username: string;
   image: string;
   bio: string;
+  followers: Array<any>;
 }
 
 export default function ProfileHeader({
   idUser_clerk,
-  _id,
+  userId,
   currentUserId_clerk,
+  currentUserId_db,
   name,
   username,
   image,
   bio,
+  followers,
 }: Props) {
+  const isFollowing = followers.some(
+    (follower: any) =>
+      JSON.stringify(follower) === JSON.stringify(currentUserId_db)
+  );
+
   return (
     <div className='flex flex-col justify-start w-full'>
       <section className='flex items-center justify-between'>
@@ -36,9 +46,16 @@ export default function ProfileHeader({
             />
           </div>
           <div className='flex-1'>
-            <h2 className='text-left text-heading3-bold text-light-1'>
-              {name}
-            </h2>
+            <div className='flex flex-row gap-2'>
+              <h2 className='text-left text-heading3-bold text-light-1'>
+                {name}
+              </h2>
+              <FollowUnfollow
+                userToBeFollowedId_db={JSON.stringify(userId)}
+                currentUserId_db={JSON.stringify(currentUserId_db)}
+                isFollowing={isFollowing}
+              />
+            </div>
             <p className='text-base-medium text-gray-1'>@{username}</p>
           </div>
         </div>
