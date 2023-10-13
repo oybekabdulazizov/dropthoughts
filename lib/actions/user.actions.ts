@@ -274,3 +274,30 @@ export async function fetchUserFollowings(user_id: string) {
     }
   }
 }
+
+// ========================================================================================================
+
+export async function fetchUserFollowers(user_id: string) {
+  try {
+    connectToDB();
+
+    const user = await User.findById(user_id);
+    if (!user) throw new Error('(fetchUserFollowers): User not found!');
+
+    const usersWithFollowers = await User.findById(user._id).populate({
+      path: 'followers',
+      model: User,
+    });
+
+    return usersWithFollowers;
+  } catch (error: any) {
+    if (error.message.includes('Cast to ObjectId failed')) {
+      return {
+        errorCode: 404,
+        errorMessage: 'User not found!',
+      };
+    } else {
+      throw new Error(`(fetchUserFollowers): ${error.message}`);
+    }
+  }
+}
