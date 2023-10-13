@@ -31,7 +31,7 @@ export default function SimpleThoughtCard({
   const createdWhen = calculateRelativeTimes(createdAt);
 
   return (
-    <article className='flex w-full flex-col rounded-lg bg-dark-2 p-5 md:p-7 mt-6'>
+    <article className='flex w-full flex-col rounded-lg bg-dark-2 p-5 md:p-7 mt-4'>
       <div className='flex items-start justify-between'>
         <div className='flex w-full flex-1 flex-row gap-4'>
           <div className='flex flex-col items-center'>

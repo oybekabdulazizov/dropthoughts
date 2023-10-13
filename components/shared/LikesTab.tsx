@@ -9,7 +9,7 @@ export default async function LikesTab({ currentUserId }: Props) {
   const likesForUserThoughts = await getLikes(JSON.parse(currentUserId));
 
   return (
-    <section className='mt-6 flex flex-col gap-6'>
+    <section className='flex w-full flex-col mt-2'>
       {likesForUserThoughts.length > 0 ? (
         <>
           {likesForUserThoughts.map((like, i) => {
@@ -27,7 +27,7 @@ export default async function LikesTab({ currentUserId }: Props) {
           })}
         </>
       ) : (
-        <p className='!text-base-regular text-light-1'>No likes yet.</p>
+        <p className='no-result mt-4'>No likes yet.</p>
       )}
     </section>
   );

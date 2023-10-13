@@ -25,11 +25,11 @@ export default async function FavouritesTab({
   const favouriteThoughts = await fetchUserLikedThoughts(user_db._id);
 
   return (
-    <section className='mt-6 flex w-full flex-col gap-6'>
+    <section className='mt-2 flex w-full flex-col'>
       {favouriteThoughts.length > 0 ? (
         <>
-          {favouriteThoughts.map((t: any, i: any) => {
-            return (
+          {favouriteThoughts.map((t: any, i: any) => (
+            <div className='mt-4'>
               <ThoughtCard
                 key={t._id}
                 thoughtId={t._id}
@@ -41,11 +41,11 @@ export default async function FavouritesTab({
                 likes={t.likes}
                 createdAt={t.createdAt}
               />
-            );
-          })}
+            </div>
+          ))}
         </>
       ) : (
-        <p className='!text-base-regular text-light-1'>No favourites yet.</p>
+        <p className='no-result mt-4'>No favourites yet.</p>
       )}
     </section>
   );

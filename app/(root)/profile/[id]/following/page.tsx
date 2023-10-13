@@ -28,18 +28,24 @@ export default async function Page({ params }: Props) {
   return (
     <div>
       <h1 className='head-text'>Following</h1>
-      {userWithFollowings.following.map((user: any, i: any) => (
-        <UserCard
-          key={user._id}
-          idUser_clerk={user.idUser_clerk}
-          name={user.name}
-          username={user.username}
-          image={user.image}
-          thoughts={user.thoughts}
-          nth={i}
-          resultLength={userWithFollowings.following.length}
-        />
-      ))}
+      {userWithFollowings.following.length > 0 ? (
+        <>
+          {userWithFollowings.following.map((user: any, i: any) => (
+            <UserCard
+              key={user._id}
+              idUser_clerk={user.idUser_clerk}
+              name={user.name}
+              username={user.username}
+              image={user.image}
+              thoughts={user.thoughts}
+              nth={i}
+              resultLength={userWithFollowings.following.length}
+            />
+          ))}
+        </>
+      ) : (
+        <p className='no-result mt-6'>No following anyone yet.</p>
+      )}
     </div>
   );
 }

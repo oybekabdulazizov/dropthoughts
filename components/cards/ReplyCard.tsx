@@ -28,7 +28,7 @@ export default function ReplyCard({
     <Link
       key={key}
       href={`/thought/${parentThoughtId}`}
-      className='bg-dark-2 py-5 px-5 md:px-8 flex flex-col gap-4 rounded-lg'
+      className='bg-dark-2 py-5 px-5 md:px-8 flex flex-col gap-4 rounded-lg mt-4'
     >
       <section className='flex items-start sm:items-center rounded-md gap-2'>
         <Image

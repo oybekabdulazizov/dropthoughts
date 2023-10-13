@@ -19,7 +19,7 @@ export default function UserCard({
   thoughts,
 }: Props) {
   return (
-    <div className='flex flex-col justify-start w-full bg-dark-2 py-4 px-5 md:p-6 rounded-lg mt-6'>
+    <div className='flex flex-col justify-start w-full bg-dark-2 py-4 px-5 md:p-6 rounded-lg mt-4'>
       <section className='flex items-center justify-between'>
         <div className='flex items-center gap-3'>
           <Link

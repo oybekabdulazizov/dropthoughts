@@ -32,18 +32,24 @@ export default async function Page({ params }: Props) {
   return (
     <div>
       <h1 className='head-text'>Followers</h1>
-      {userWithFollowers.followers.map((follower: any, i: any) => (
-        <UserCard
-          key={follower._id}
-          idUser_clerk={follower.idUser_clerk}
-          name={follower.name}
-          username={follower.username}
-          image={follower.image}
-          thoughts={follower.thoughts}
-          nth={i}
-          resultLength={userWithFollowers.followers.length}
-        />
-      ))}
+      {userWithFollowers.followers.length > 0 ? (
+        <>
+          {userWithFollowers.followers.map((follower: any, i: any) => (
+            <UserCard
+              key={follower._id}
+              idUser_clerk={follower.idUser_clerk}
+              name={follower.name}
+              username={follower.username}
+              image={follower.image}
+              thoughts={follower.thoughts}
+              nth={i}
+              resultLength={userWithFollowers.followers.length}
+            />
+          ))}
+        </>
+      ) : (
+        <p className='no-result mt-6'>No followers yet.</p>
+      )}
     </div>
   );
 }

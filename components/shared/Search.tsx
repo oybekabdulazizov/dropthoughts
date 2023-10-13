@@ -100,7 +100,7 @@ export default function Search({
             })}
           </TabsList>
 
-          <TabsContent value='users' className='w-full text-light-1'>
+          <TabsContent value='users' className='w-full text-light-1 mt-6'>
             {filteredUsers.length > 0 &&
             searchTerm &&
             searchTerm.trim().length > 0 ? (
@@ -119,14 +119,14 @@ export default function Search({
                 ))}
               </>
             ) : (
-              <p className='no-result'>No users found.</p>
+              <p className='no-result mt-6'>No users found.</p>
             )}
           </TabsContent>
-          <TabsContent value='thoughts' className='w-full text-light-1'>
+          <TabsContent value='thoughts' className='w-full text-light-1 mt-6'>
             {filteredThoughts.length > 0 &&
             searchTerm &&
             searchTerm.trim().length > 0 ? (
-              <div className='mt-8'>
+              <>
                 {filteredThoughts.map((thought, i) => (
                   <SimpleThoughtCard
                     key={thought._id}
@@ -138,9 +138,9 @@ export default function Search({
                     likes={thought.likes}
                   />
                 ))}
-              </div>
+              </>
             ) : (
-              <p className='no-result'>No thoughts found.</p>
+              <p className='no-result mt-6'>No thoughts found.</p>
             )}
           </TabsContent>
         </Tabs>

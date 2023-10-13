@@ -35,7 +35,7 @@ export default async function RepliesTab({ idUser_clerk }: Props) {
   }
 
   return (
-    <section className='mt-6 flex w-full flex-col gap-6'>
+    <section className='flex w-full flex-col mt-2'>
       {replies.length > 0 ? (
         <>
           {thoughtReplies.map((t, i) => {
@@ -53,7 +53,7 @@ export default async function RepliesTab({ idUser_clerk }: Props) {
           })}
         </>
       ) : (
-        <p className='!text-base-regular text-light-1'>No replies yet.</p>
+        <p className='no-result mt-4'>No replies yet.</p>
       )}
     </section>
   );

@@ -17,7 +17,7 @@ export default function SmallUserCard({
   thoughts,
 }: Props) {
   return (
-    <div className='flex flex-col justify-start w-full bg-dark-2 rounded-lg mt-6'>
+    <div className='flex flex-col justify-start w-full bg-dark-2 rounded-lg mt-4'>
       <section className='flex items-center justify-between'>
         <div className='flex items-center gap-3'>
           <Link href={`/profile/${idUser_clerk}`}>
