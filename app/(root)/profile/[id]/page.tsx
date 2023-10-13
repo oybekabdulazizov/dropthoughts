@@ -39,12 +39,14 @@ export default async function Page({ params }: Props) {
     <section>
       <ProfileHeader
         idUser_clerk={user_db.idUser_clerk}
-        _id={user_db._id}
+        userId={user_db._id}
         currentUserId_clerk={currentUser_clerk.id}
+        currentUserId_db={currentUser_db._id}
         name={user_db.name}
         username={user_db.username}
         image={user_db.image}
         bio={user_db.bio}
+        followers={user_db.followers}
       />
 
       <div className='mt-6'>

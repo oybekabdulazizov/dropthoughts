@@ -151,3 +151,153 @@ export async function fetchUsers() {
     throw new Error(`(fetchUsers): ${error.message}`);
   }
 }
+
+// ========================================================================================================
+
+interface FollowUser_Props {
+  userToBeFollowedId: string;
+  currentUserId: string;
+  pathname: string;
+}
+
+export async function followUser({
+  userToBeFollowedId,
+  currentUserId,
+  pathname,
+}: FollowUser_Props) {
+  try {
+    connectToDB();
+
+    const userToBeFollowed = await User.findById(userToBeFollowedId);
+    if (!userToBeFollowed)
+      throw new Error('(followUser): Cannot follow as the user is not found!');
+
+    const currentUser_db = await User.findById(currentUserId);
+    if (!currentUser_db)
+      throw new Error(
+        '(followUser): Cannot follow as the current user is not found!'
+      );
+
+    await User.findByIdAndUpdate(currentUser_db._id, {
+      $push: { following: userToBeFollowed._id },
+    });
+
+    await User.findByIdAndUpdate(userToBeFollowed._id, {
+      $push: { followers: currentUser_db._id },
+    });
+  } catch (error: any) {
+    if (error.message.includes('Cast to ObjectId failed')) {
+      return {
+        errorCode: 404,
+        errorMessage: 'User not found!',
+      };
+    } else {
+      throw new Error(`(followUser): ${error.message}`);
+    }
+  }
+
+  revalidatePath(pathname);
+}
+
+// ========================================================================================================
+
+interface UnfollowUser_Props {
+  userToBeUnfollowedId: string;
+  currentUserId: string;
+  pathname: string;
+}
+
+export async function unfollowUser({
+  userToBeUnfollowedId,
+  currentUserId,
+  pathname,
+}: UnfollowUser_Props) {
+  try {
+    connectToDB();
+
+    const userToBeUnfollowed = await User.findById(userToBeUnfollowedId);
+    if (!userToBeUnfollowed)
+      throw new Error(
+        '(unfollowUser): Cannot unfollow as the user is not found!'
+      );
+
+    const currentUser_db = await User.findById(currentUserId);
+    if (!currentUser_db)
+      throw new Error(
+        '(unfollowUser): Cannot unfollow as the current user is not found!'
+      );
+
+    await User.findByIdAndUpdate(currentUser_db._id, {
+      $pull: { following: { $in: [userToBeUnfollowed._id] } },
+    });
+
+    await User.findByIdAndUpdate(userToBeUnfollowed._id, {
+      $pull: { followers: { $in: [currentUser_db._id] } },
+    });
+  } catch (error: any) {
+    if (error.message.includes('Cast to ObjectId failed')) {
+      return {
+        errorCode: 404,
+        errorMessage: 'User not found!',
+      };
+    } else {
+      throw new Error(`(unfollowUser): ${error.message}`);
+    }
+  }
+
+  revalidatePath(pathname);
+}
+
+// ========================================================================================================
+
+export async function fetchUserFollowings(user_id: string) {
+  try {
+    connectToDB();
+
+    const user = await User.findById(user_id);
+    if (!user) throw new Error('(fetchUserFollowings): User not found!');
+
+    const usersWithFollowings = await User.findById(user._id).populate({
+      path: 'following',
+      model: User,
+    });
+
+    return usersWithFollowings;
+  } catch (error: any) {
+    if (error.message.includes('Cast to ObjectId failed')) {
+      return {
+        errorCode: 404,
+        errorMessage: 'User not found!',
+      };
+    } else {
+      throw new Error(`(fetchUserFollowings): ${error.message}`);
+    }
+  }
+}
+
+// ========================================================================================================
+
+export async function fetchUserFollowers(user_id: string) {
+  try {
+    connectToDB();
+
+    const user = await User.findById(user_id);
+    if (!user) throw new Error('(fetchUserFollowers): User not found!');
+
+    const usersWithFollowers = await User.findById(user._id).populate({
+      path: 'followers',
+      model: User,
+    });
+
+    return usersWithFollowers;
+  } catch (error: any) {
+    if (error.message.includes('Cast to ObjectId failed')) {
+      return {
+        errorCode: 404,
+        errorMessage: 'User not found!',
+      };
+    } else {
+      throw new Error(`(fetchUserFollowers): ${error.message}`);
+    }
+  }
+}

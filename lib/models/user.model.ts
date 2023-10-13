@@ -7,6 +7,18 @@ const userSchema = new Schema({
   image: String,
   bio: String,
   thoughts: [{ type: Schema.Types.ObjectId, ref: 'Thought' }],
+  followers: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
+  following: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
   onboarded: { type: Boolean, default: false },
   likedThoughts: [
     {
