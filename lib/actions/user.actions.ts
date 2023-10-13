@@ -201,6 +201,55 @@ export async function followUser({
 
 // ========================================================================================================
 
+interface UnfollowUser_Props {
+  userToBeUnfollowedId: string;
+  currentUserId: string;
+  pathname: string;
+}
+
+export async function unfollowUser({
+  userToBeUnfollowedId,
+  currentUserId,
+  pathname,
+}: UnfollowUser_Props) {
+  try {
+    connectToDB();
+
+    const userToBeUnfollowed = await User.findById(userToBeUnfollowedId);
+    if (!userToBeUnfollowed)
+      throw new Error(
+        '(unfollowUser): Cannot unfollow as the user is not found!'
+      );
+
+    const currentUser_db = await User.findById(currentUserId);
+    if (!currentUser_db)
+      throw new Error(
+        '(unfollowUser): Cannot unfollow as the current user is not found!'
+      );
+
+    await User.findByIdAndUpdate(currentUser_db._id, {
+      $pull: { following: { $in: [userToBeUnfollowed._id] } },
+    });
+
+    await User.findByIdAndUpdate(userToBeUnfollowed._id, {
+      $pull: { followers: { $in: [currentUser_db._id] } },
+    });
+  } catch (error: any) {
+    if (error.message.includes('Cast to ObjectId failed')) {
+      return {
+        errorCode: 404,
+        errorMessage: 'User not found!',
+      };
+    } else {
+      throw new Error(`(unfollowUser): ${error.message}`);
+    }
+  }
+
+  revalidatePath(pathname);
+}
+
+// ========================================================================================================
+
 export async function fetchUserFollowings(user_id: string) {
   try {
     connectToDB();

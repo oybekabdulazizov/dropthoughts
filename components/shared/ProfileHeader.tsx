@@ -51,7 +51,7 @@ export default function ProfileHeader({
                 {name}
               </h2>
               <FollowUnfollow
-                userToBeFollowedId_db={JSON.stringify(userId)}
+                userId={JSON.stringify(userId)}
                 currentUserId_db={JSON.stringify(currentUserId_db)}
                 isFollowing={isFollowing}
               />
