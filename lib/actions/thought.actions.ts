@@ -184,6 +184,57 @@ export async function fetchAllThoughts() {
 
 // ========================================================================================================
 
+export async function fetchUserArchivedThoughts(
+  authorId: string
+): Promise<any> {
+  try {
+    connectToDB();
+
+    const author = await User.findById(authorId);
+    if (!author) throw new Error('User not found!');
+
+    // Fetching thoughts with no parent thought, i.e. top-level thoughts
+    const userThoughts = await Thought.find({
+      author: { $eq: authorId },
+      parentThoughtId: { $in: [null, undefined] },
+      archived: { $eq: true },
+    })
+      .sort({ createdAt: 'desc' })
+      .populate({ path: 'author', model: User })
+      .populate({
+        path: 'childrenThoughts',
+        populate: {
+          path: 'author',
+          model: User,
+          select: '_id idUser_clerk name image',
+        },
+      })
+      .populate({
+        path: 'likes',
+        populate: [
+          {
+            path: 'user',
+            model: User,
+            select: '_id idUser_clerk name image',
+          },
+          { path: 'thought', model: Thought, select: '_id text' },
+        ],
+      });
+
+    return userThoughts;
+  } catch (error: any) {
+    if (error.message.includes('Cast to ObjectId failed')) {
+      return {
+        errorCode: 404,
+      };
+    } else {
+      throw new Error(`(fetchUserThoughts): ${error.message}`);
+    }
+  }
+}
+
+// ========================================================================================================
+
 export async function fetchThought(thoughtId: string) {
   try {
     connectToDB();
