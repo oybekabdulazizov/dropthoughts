@@ -1,9 +1,7 @@
-// import { fetchUserThoughts } from '@/lib/actions/user.actions';
-import {
-  fetchUserArchivedThoughts,
-  fetchUserThoughts,
-} from '@/lib/actions/thought.actions';
 import { redirect } from 'next/navigation';
+
+import { fetchUserArchivedThoughts } from '@/lib/actions/thought.actions';
+
 import ThoughtCard from '../cards/ThoughtCard';
 
 interface Props {

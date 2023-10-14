@@ -3,7 +3,7 @@ import { fetchUser, getReplies } from '@/lib/actions/user.actions';
 import Link from 'next/link';
 import Image from 'next/image';
 import { fetchThought } from '@/lib/actions/thought.actions';
-import { calculateRelativeTimes } from '@/lib/utils';
+
 import ReplyCard from '../cards/ReplyCard';
 
 interface Props {

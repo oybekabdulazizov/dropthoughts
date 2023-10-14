@@ -1,6 +1,5 @@
 import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
+
 import ProfileMenu from './ProfileMenu';
 import FollowUnfollow from './FollowUnfollow';
 
@@ -64,21 +63,6 @@ export default function ProfileHeader({
           currentUserId_clerk={currentUserId_clerk}
           idUser_clerk={idUser_clerk}
         />
-
-        {/* {currentUserId_clerk === idUser_clerk && (
-          <Link
-            href='/profile/edit'
-            className='relative h-6 w-6 object cover ml-4'
-          >
-            <Image
-              src='/assets/edit.svg'
-              alt='edit profile'
-              fill
-              sizes='small'
-              className='object-contain'
-            />
-          </Link>
-        )} */}
       </section>
 
       <p className='mt-6 text-light-2 max-w-lg text-base-regular'>{bio}</p>

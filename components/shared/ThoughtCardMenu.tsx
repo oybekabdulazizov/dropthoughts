@@ -1,13 +1,14 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+
 import {
   archiveThought,
   deleteThought,
   unarchiveThought,
 } from '@/lib/actions/thought.actions';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
 
 interface Props {
   thoughtId: string;

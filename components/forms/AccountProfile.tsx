@@ -1,28 +1,27 @@
 'use client';
 
+import { useUser } from '@clerk/nextjs';
+import Image from 'next/image';
+import { ChangeEvent, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+
+import { UserValidation } from '@/lib/validations/user.validation';
+import { updateUser } from '@/lib/actions/user.actions';
+
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '../ui/input';
-import { UserValidation } from '@/lib/validations/user.validation';
 import { Button } from '../ui/button';
-import * as z from 'zod';
-import Image from 'next/image';
-import { ChangeEvent, useState } from 'react';
 import { Textarea } from '../ui/textarea';
-// import { isBase64Image } from '@/lib/utils';
-// import { useUploadThing } from '@/lib/uploadthing';
-import { usePathname, useRouter } from 'next/navigation';
-import { updateUser } from '@/lib/actions/user.actions';
-import { useUser } from '@clerk/nextjs';
 
 interface Props {
   userDetails: {
@@ -38,7 +37,6 @@ interface Props {
 export default function AccountProfile({ userDetails, action }: Props) {
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [file, setFile] = useState<File>();
-  // const { startUpload } = useUploadThing('media');
   const router = useRouter();
   const pathname = usePathname();
   const { user } = useUser();

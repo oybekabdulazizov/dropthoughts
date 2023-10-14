@@ -1,9 +1,10 @@
 'use client';
 
-import { addLike, removeLike } from '@/lib/actions/like.action';
+import { useState } from 'react';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { useState } from 'react';
+
+import { addLike, removeLike } from '@/lib/actions/like.action';
 
 interface Props {
   likedByCurrentUser: number;

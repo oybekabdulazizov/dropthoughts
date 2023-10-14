@@ -1,12 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
+
+import { searchTabs } from '@/constants';
 import { Input } from '../ui/input';
 import UserCard from '../cards/UserCard';
-import Link from 'next/link';
-import Image from 'next/image';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { searchTabs } from '@/constants';
 import SimpleThoughtCard from '../cards/SimpleThoughtCard';
 
 interface Props {

@@ -1,10 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import React from 'react';
+
 import { calculateRelativeTimes } from '@/lib/utils';
-import { fetchUser } from '@/lib/actions/user.actions';
-import LikeButton from '../shared/LikeButton';
-import { currentUser } from '@clerk/nextjs';
 
 type Props = {
   thoughtId: string;

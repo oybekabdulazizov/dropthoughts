@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import React from 'react';
-import { calculateRelativeTimes } from '@/lib/utils';
+
 import { fetchUser } from '@/lib/actions/user.actions';
+import { calculateRelativeTimes } from '@/lib/utils';
+
 import LikeButton from '../shared/LikeButton';
-import { currentUser } from '@clerk/nextjs';
 import EditComment from '../forms/EditComment';
 import ThoughtCardMenu from '../shared/ThoughtCardMenu';
 import SharePopover from '../shared/SharePopover';

@@ -1,5 +1,6 @@
-import { calculateRelativeTimes } from '@/lib/utils';
 import Image from 'next/image';
+
+import { calculateRelativeTimes } from '@/lib/utils';
 
 interface Props {
   currentUserId: string;

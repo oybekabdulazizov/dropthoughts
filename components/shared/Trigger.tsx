@@ -1,7 +1,7 @@
 'use client';
 
+import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import React, { useCallback } from 'react';
 
 type Props = {
   limit: number;

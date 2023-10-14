@@ -1,6 +1,8 @@
-import { fetchUser, fetchUsers } from '@/lib/actions/user.actions';
-import SmallUserCard from '../cards/SmallUserCard';
 import { currentUser } from '@clerk/nextjs';
+
+import { fetchUser, fetchUsers } from '@/lib/actions/user.actions';
+
+import SmallUserCard from '../cards/SmallUserCard';
 
 export default async function RightSidebar() {
   const currentUser_clerk = await currentUser();

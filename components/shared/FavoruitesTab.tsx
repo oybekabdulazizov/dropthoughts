@@ -1,11 +1,8 @@
 import { redirect } from 'next/navigation';
-import { fetchUser, getReplies } from '@/lib/actions/user.actions';
-import Link from 'next/link';
-import Image from 'next/image';
-import { fetchThought } from '@/lib/actions/thought.actions';
-import { calculateRelativeTimes } from '@/lib/utils';
-import ReplyCard from '../cards/ReplyCard';
+
 import { fetchUserLikedThoughts } from '@/lib/actions/like.action';
+import { fetchUser } from '@/lib/actions/user.actions';
+
 import ThoughtCard from '../cards/ThoughtCard';
 
 interface Props {

@@ -1,10 +1,12 @@
 'use client';
 
-import { sidebarLinks } from '@/constants';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter, usePathname } from 'next/navigation';
 import { SignOutButton, SignedIn, useAuth } from '@clerk/nextjs';
+
+import { sidebarLinks } from '@/constants';
+
 import logout from '@/public/assets/logout.svg';
 
 export default function LeftSidebar() {

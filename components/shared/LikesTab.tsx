@@ -1,4 +1,5 @@
 import { getLikes } from '@/lib/actions/like.action';
+
 import LikedCard from '../cards/LikedCard';
 
 interface Props {

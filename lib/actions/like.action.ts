@@ -1,8 +1,9 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import Like from '../models/like.model';
 import { connectToDB } from '../mongoose';
+
+import Like from '../models/like.model';
 import User from '../models/user.model';
 import Thought from '../models/thought.model';
 

@@ -3,27 +3,18 @@
 import { Popover, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import Image from 'next/image';
-
 import {
   EmailShareButton,
-  FacebookMessengerShareButton,
   FacebookShareButton,
-  LinkedinShareButton,
   PinterestShareButton,
-  TelegramShareButton,
   TwitterShareButton,
   InstapaperShareButton,
 } from 'react-share';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSquareTwitter } from '@fortawesome/free-brands-svg-icons';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
-import { faSquareFacebook } from '@fortawesome/free-brands-svg-icons';
 import { faFacebookF } from '@fortawesome/free-brands-svg-icons';
-import { faSquareInstagram } from '@fortawesome/free-brands-svg-icons';
 import { faInstagram } from '@fortawesome/free-brands-svg-icons';
-import { faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
 import { faPinterestP } from '@fortawesome/free-brands-svg-icons';
-import { faEnvelope as faSolidEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { faCopy, faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
 

@@ -1,13 +1,9 @@
 'use client';
 
-import {
-  fetchUser,
-  fetchUsers,
-  followUser,
-  unfollowUser,
-} from '@/lib/actions/user.actions';
+import { useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+
+import { followUser, unfollowUser } from '@/lib/actions/user.actions';
 
 const buttonClasses =
   'text-primary-500 border border-primary-500 rounded-md py-1 px-2 max-w-sm text-subtle-semibold flex justify-center items-center';
