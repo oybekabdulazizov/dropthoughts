@@ -27,7 +27,11 @@ export default async function Page({ params }: Props) {
 
   return (
     <div>
-      <h1 className='head-text'>Followers</h1>
+      {JSON.stringify(currentUser_db._id) === JSON.stringify(user_db._id) ? (
+        <h1 className='head-text'>Your followers</h1>
+      ) : (
+        <h1 className='head-text'>{user_db.name}'s followers</h1>
+      )}
       {userWithFollowers.followers.length > 0 ? (
         <>
           {userWithFollowers.followers.map((follower: any, i: any) => (
