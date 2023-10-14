@@ -136,9 +136,6 @@ export default function PostThought({ thoughtDetails, repost }: Props) {
           name='thought'
           render={({ field }) => (
             <FormItem className='flex flex-col gap-1 w-full'>
-              <FormLabel className='text-base-semibold text-light-2 pt-3 pb-1'>
-                What's on your mind? 🤔
-              </FormLabel>
               <FormControl>
                 <Textarea
                   rows={7}

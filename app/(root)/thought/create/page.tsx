@@ -21,6 +21,9 @@ export default async function Page() {
   return (
     <div>
       <h1 className='head-text'>Create Thought</h1>
+      <p className='text-base-semibold text-light-2 my-3'>
+        What's on your mind? 🤔
+      </p>
       <PostThought thoughtDetails={thoughtDetails} />
     </div>
   );
