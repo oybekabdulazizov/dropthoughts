@@ -1,5 +1,8 @@
 // import { fetchUserThoughts } from '@/lib/actions/user.actions';
-import { fetchUserThoughts } from '@/lib/actions/thought.actions';
+import {
+  fetchUserArchivedThoughts,
+  fetchUserThoughts,
+} from '@/lib/actions/thought.actions';
 import { redirect } from 'next/navigation';
 import ThoughtCard from '../cards/ThoughtCard';
 
@@ -8,18 +11,18 @@ interface Props {
   authorId: string;
 }
 
-export default async function ThoughtsTab({
+export default async function ArchivesTab({
   currentUserId_clerk,
   authorId,
 }: Props) {
-  const userThoughts = await fetchUserThoughts(authorId);
-  if (userThoughts.errorCode === 404) redirect('/');
+  const userArchivedThoughts = await fetchUserArchivedThoughts(authorId);
+  if (userArchivedThoughts.errorCode === 404) redirect('/');
 
   return (
     <section className='mt-2 w-full flex flex-col'>
-      {userThoughts.length > 0 ? (
+      {userArchivedThoughts.length > 0 ? (
         <>
-          {userThoughts.map((thought: any) => (
+          {userArchivedThoughts.map((thought: any) => (
             <div className='mt-4'>
               <ThoughtCard
                 key={thought._id}

@@ -40,6 +40,7 @@ export default async function FavouritesTab({
                 comments={t.childrenThoughts}
                 likes={t.likes}
                 createdAt={t.createdAt}
+                archived={t.archived}
               />
             </div>
           ))}

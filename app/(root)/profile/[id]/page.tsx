@@ -10,6 +10,11 @@ import ThoughtsTab from '@/components/shared/ThoughtsTab';
 import RepliesTab from '@/components/shared/RepliesTab';
 import FavouritesTab from '@/components/shared/FavoruitesTab';
 import { fetchUserLikedThoughts } from '@/lib/actions/like.action';
+import {
+  fetchUserArchivedThoughts,
+  fetchUserThoughts,
+} from '@/lib/actions/thought.actions';
+import ArchivesTab from '@/components/shared/ArchivesTab';
 
 type Props = {
   params: {
@@ -33,7 +38,11 @@ export default async function Page({ params }: Props) {
     redirect('/');
   }
 
+  const userThoughts = await fetchUserThoughts(user_db._id);
+
   const favouriteThoughts = await fetchUserLikedThoughts(user_db._id);
+
+  const archivedThoughts = await fetchUserArchivedThoughts(user_db._id);
 
   return (
     <section>
@@ -54,25 +63,35 @@ export default async function Page({ params }: Props) {
           <TabsList className='tab'>
             {profileTabs.map((tab) => {
               if (
-                tab.value === 'favourites' &&
+                (tab.value === 'favourites' || tab.value === 'archived') &&
                 currentUser_db.idUser_clerk !== user_db.idUser_clerk
               ) {
                 return;
               }
               return (
                 <TabsTrigger key={tab.label} value={tab.value} className='tab'>
-                  <Image
-                    src={tab.icon}
-                    alt={tab.label}
-                    width={24}
-                    height={24}
-                    className='object-contain'
-                  />
+                  {tab.value === 'archived' ? (
+                    <Image
+                      src={tab.icon}
+                      alt={tab.label}
+                      width={20}
+                      height={20}
+                      className='object-contain'
+                    />
+                  ) : (
+                    <Image
+                      src={tab.icon}
+                      alt={tab.label}
+                      width={24}
+                      height={24}
+                      className='object-contain'
+                    />
+                  )}
                   <p className='max-sm:hidden'>{tab.label}</p>
 
                   {tab.value === 'thoughts' && (
                     <p className='rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2'>
-                      {user_db.thoughts.length}
+                      {userThoughts.length}
                     </p>
                   )}
                   {tab.value === 'favourites' && (
@@ -80,6 +99,15 @@ export default async function Page({ params }: Props) {
                       {currentUser_clerk.id === user_db.idUser_clerk && (
                         <p className='rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2'>
                           {favouriteThoughts.length}
+                        </p>
+                      )}
+                    </>
+                  )}
+                  {tab.value === 'archived' && (
+                    <>
+                      {currentUser_clerk.id === user_db.idUser_clerk && (
+                        <p className='rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2'>
+                          {archivedThoughts.length}
                         </p>
                       )}
                     </>
@@ -99,6 +127,12 @@ export default async function Page({ params }: Props) {
             <FavouritesTab
               idUser_clerk={user_db.idUser_clerk}
               currentUserId_clerk={currentUser_clerk.id}
+            />
+          </TabsContent>
+          <TabsContent value='archived' className='w-full text-light-1'>
+            <ArchivesTab
+              currentUserId_clerk={currentUser_clerk.id}
+              authorId={user_db._id}
             />
           </TabsContent>
         </Tabs>

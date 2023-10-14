@@ -34,6 +34,7 @@ export const sidebarLinks = [
 export const profileTabs = [
   { value: 'thoughts', label: 'Thoughts', icon: '/assets/reply.svg' },
   { value: 'favourites', label: 'Favourites', icon: '/assets/heart-gray.svg' },
+  { value: 'archived', label: 'Archived', icon: '/assets/archive.svg' },
   // { value: 'tagged', label: 'Tagged', icon: '/assets/tag.svg' },
 ];
 

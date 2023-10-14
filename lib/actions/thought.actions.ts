@@ -60,6 +60,7 @@ export async function fetchThoughts({
     // Fetching thoughts with no parent thought, i.e. top-level thoughts
     const thoughts = await Thought.find({
       parentThoughtId: { $in: [null, undefined] },
+      archived: { $eq: false },
     })
       .sort({ createdAt: 'desc' })
       .skip(skip)
@@ -110,6 +111,7 @@ export async function fetchUserThoughts(authorId: string): Promise<any> {
     const userThoughts = await Thought.find({
       author: { $eq: authorId },
       parentThoughtId: { $in: [null, undefined] },
+      archived: { $eq: false },
     })
       .sort({ createdAt: 'desc' })
       .populate({ path: 'author', model: User })
@@ -151,7 +153,7 @@ export async function fetchAllThoughts() {
   try {
     connectToDB();
 
-    const thoughts = await Thought.find({})
+    const thoughts = await Thought.find({ archived: false })
       .sort({ createdAt: 'desc' })
       .populate({ path: 'author', model: User })
       .populate({
@@ -177,6 +179,57 @@ export async function fetchAllThoughts() {
     return thoughts;
   } catch (error: any) {
     throw new Error(`(fetchAllThoughts): ${error.message}`);
+  }
+}
+
+// ========================================================================================================
+
+export async function fetchUserArchivedThoughts(
+  authorId: string
+): Promise<any> {
+  try {
+    connectToDB();
+
+    const author = await User.findById(authorId);
+    if (!author) throw new Error('User not found!');
+
+    // Fetching thoughts with no parent thought, i.e. top-level thoughts
+    const userThoughts = await Thought.find({
+      author: { $eq: authorId },
+      parentThoughtId: { $in: [null, undefined] },
+      archived: { $eq: true },
+    })
+      .sort({ createdAt: 'desc' })
+      .populate({ path: 'author', model: User })
+      .populate({
+        path: 'childrenThoughts',
+        populate: {
+          path: 'author',
+          model: User,
+          select: '_id idUser_clerk name image',
+        },
+      })
+      .populate({
+        path: 'likes',
+        populate: [
+          {
+            path: 'user',
+            model: User,
+            select: '_id idUser_clerk name image',
+          },
+          { path: 'thought', model: Thought, select: '_id text' },
+        ],
+      });
+
+    return userThoughts;
+  } catch (error: any) {
+    if (error.message.includes('Cast to ObjectId failed')) {
+      return {
+        errorCode: 404,
+      };
+    } else {
+      throw new Error(`(fetchUserThoughts): ${error.message}`);
+    }
   }
 }
 
@@ -393,6 +446,74 @@ export async function deleteThought({
       };
     } else {
       throw new Error(`(deleteThought): ${error.message}`);
+    }
+  }
+
+  revalidatePath(pathname);
+}
+
+// ========================================================================================================
+
+interface ArchiveThought_Props {
+  thoughtId: string;
+  pathname: string;
+}
+
+export async function archiveThought({
+  thoughtId,
+  pathname,
+}: ArchiveThought_Props) {
+  try {
+    connectToDB();
+
+    const thought = await Thought.findById(thoughtId);
+    if (!thought) throw new Error('Thought not found!');
+
+    await Thought.findByIdAndUpdate(thought._id, {
+      archived: true,
+    });
+  } catch (error: any) {
+    if (error.message.includes('Cast to ObjectId failed')) {
+      return {
+        errorCode: 404,
+        errorMessage: 'Thought not found!',
+      };
+    } else {
+      throw new Error(`(archiveThought): ${error.message}`);
+    }
+  }
+
+  revalidatePath(pathname);
+}
+
+// ========================================================================================================
+
+interface UnarchiveThought_Props {
+  thoughtId: string;
+  pathname: string;
+}
+
+export async function unarchiveThought({
+  thoughtId,
+  pathname,
+}: UnarchiveThought_Props) {
+  try {
+    connectToDB();
+
+    const thought = await Thought.findById(thoughtId);
+    if (!thought) throw new Error('Thought not found!');
+
+    await Thought.findByIdAndUpdate(thought._id, {
+      archived: false,
+    });
+  } catch (error: any) {
+    if (error.message.includes('Cast to ObjectId failed')) {
+      return {
+        errorCode: 404,
+        errorMessage: 'Thought not found!',
+      };
+    } else {
+      throw new Error(`(unarchiveThought): ${error.message}`);
     }
   }
 
