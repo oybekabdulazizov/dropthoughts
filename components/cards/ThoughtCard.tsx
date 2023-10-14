@@ -123,6 +123,11 @@ export default async function ThoughtCard({
               />
             ) : (
               <div>
+                {archived && (
+                  <p className='text-logout-btn border border-logout-btn rounded-md my-2 py-1 px-2 w-fit text-tiny-medium'>
+                    Archived
+                  </p>
+                )}
                 <p className='text-light-2 mt-2 text-small-regular text-start mb-2 pr-4'>
                   {thought}
                 </p>
