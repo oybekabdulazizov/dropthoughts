@@ -12,7 +12,6 @@ import logout from '@/public/assets/logout.svg';
 export default function LeftSidebar() {
   const router = useRouter();
   const pathname = usePathname();
-
   const { userId } = useAuth();
 
   return (
@@ -23,8 +22,8 @@ export default function LeftSidebar() {
             (pathname.includes(link.route) && link.route.length > 1) ||
             pathname === link.route;
 
-          if (link.route === '/profile' && userId)
-            link.route = `/profile/${userId}`;
+          if (link.route === '/profile') link.route = `/profile/${userId}`;
+
           return (
             <Link
               href={link.route}
