@@ -34,6 +34,7 @@ export default async function ArchivesTab({
                 createdAt={thought.createdAt}
                 comments={thought.childrenThoughts}
                 likes={thought.likes}
+                archived={thought.archived}
               />
             </div>
           ))}

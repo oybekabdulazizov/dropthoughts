@@ -1,11 +1,20 @@
 'use client';
 
-import { archiveThought, deleteThought } from '@/lib/actions/thought.actions';
+import {
+  archiveThought,
+  deleteThought,
+  unarchiveThought,
+} from '@/lib/actions/thought.actions';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
-export default function ThoughtCardMenu({ thoughtId }: { thoughtId: string }) {
+interface Props {
+  thoughtId: string;
+  archived: boolean;
+}
+
+export default function ThoughtCardMenu({ thoughtId, archived }: Props) {
   const [menuDown, setMenuDown] = useState<boolean>(false);
   const ref = useRef<HTMLButtonElement | null>(null);
   const router = useRouter();
@@ -40,8 +49,13 @@ export default function ThoughtCardMenu({ thoughtId }: { thoughtId: string }) {
       thoughtId: JSON.parse(thoughtId),
       pathname,
     });
+  };
 
-    router.push('/');
+  const handleUnarchive = async () => {
+    await unarchiveThought({
+      thoughtId: JSON.parse(thoughtId),
+      pathname,
+    });
   };
 
   return (
@@ -76,12 +90,21 @@ export default function ThoughtCardMenu({ thoughtId }: { thoughtId: string }) {
             >
               Delete
             </button>
-            <button
-              onClick={handleArchive}
-              className='w-full px-4 py-2 hover:bg-dark-3 text-start'
-            >
-              Archive
-            </button>
+            {archived ? (
+              <button
+                onClick={handleUnarchive}
+                className='w-full px-4 py-2 hover:bg-dark-3 text-start'
+              >
+                Unarchive
+              </button>
+            ) : (
+              <button
+                onClick={handleArchive}
+                className='w-full px-4 py-2 hover:bg-dark-3 text-start'
+              >
+                Archive
+              </button>
+            )}
           </ul>
         </div>
       )}

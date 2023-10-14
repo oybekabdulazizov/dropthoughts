@@ -44,6 +44,7 @@ export default async function Page({ params }: Props) {
           createdAt={thought.createdAt}
           comments={thought.childrenThoughts}
           likes={thought.likes}
+          archived={thought.archived}
         />
       </div>
       <div>
@@ -67,6 +68,7 @@ export default async function Page({ params }: Props) {
             comments={childThought.childrenThoughts}
             isComment={true}
             likes={childThought.likes}
+            archived={childThought.archived}
           />
         ))}
       </div>

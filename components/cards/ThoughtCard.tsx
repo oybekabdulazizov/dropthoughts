@@ -29,6 +29,7 @@ type Props = {
   }>;
   isComment?: boolean;
   likes: any;
+  archived: boolean;
 };
 
 export default async function ThoughtCard({
@@ -41,6 +42,7 @@ export default async function ThoughtCard({
   comments,
   isComment,
   likes,
+  archived,
 }: Props) {
   const createdWhen = calculateRelativeTimes(createdAt);
 
@@ -102,7 +104,10 @@ export default async function ThoughtCard({
                 <>
                   {JSON.stringify(author._id) ===
                     JSON.stringify(currentUser_db?._id || '') && (
-                    <ThoughtCardMenu thoughtId={JSON.stringify(thoughtId)} />
+                    <ThoughtCardMenu
+                      thoughtId={JSON.stringify(thoughtId)}
+                      archived={archived}
+                    />
                   )}
                 </>
               )}

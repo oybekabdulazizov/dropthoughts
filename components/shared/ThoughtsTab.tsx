@@ -31,6 +31,7 @@ export default async function ThoughtsTab({
                 createdAt={thought.createdAt}
                 comments={thought.childrenThoughts}
                 likes={thought.likes}
+                archived={thought.archived}
               />
             </div>
           ))}

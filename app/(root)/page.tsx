@@ -37,6 +37,7 @@ export default async function Home({ searchParams }: Props) {
                 createdAt={thought.createdAt}
                 comments={thought.childrenThoughts}
                 likes={thought.likes}
+                archived={thought.archived}
               />
             ))}
             <Trigger limit={limit} hasNext={hasNext} route='' />

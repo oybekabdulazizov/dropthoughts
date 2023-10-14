@@ -479,7 +479,41 @@ export async function archiveThought({
         errorMessage: 'Thought not found!',
       };
     } else {
-      throw new Error(`(deleteThought): ${error.message}`);
+      throw new Error(`(archiveThought): ${error.message}`);
+    }
+  }
+
+  revalidatePath(pathname);
+}
+
+// ========================================================================================================
+
+interface UnarchiveThought_Props {
+  thoughtId: string;
+  pathname: string;
+}
+
+export async function unarchiveThought({
+  thoughtId,
+  pathname,
+}: UnarchiveThought_Props) {
+  try {
+    connectToDB();
+
+    const thought = await Thought.findById(thoughtId);
+    if (!thought) throw new Error('Thought not found!');
+
+    await Thought.findByIdAndUpdate(thought._id, {
+      archived: false,
+    });
+  } catch (error: any) {
+    if (error.message.includes('Cast to ObjectId failed')) {
+      return {
+        errorCode: 404,
+        errorMessage: 'Thought not found!',
+      };
+    } else {
+      throw new Error(`(unarchiveThought): ${error.message}`);
     }
   }
 
