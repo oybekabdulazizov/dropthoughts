@@ -88,6 +88,7 @@ export async function fetchThoughts({
 
     const totalThoughtsCount = await Thought.countDocuments({
       parentThoughtId: { $in: [null, undefined] },
+      archived: false,
     });
 
     const hasNext = totalThoughtsCount > skip + thoughts.length;
