@@ -18,7 +18,9 @@ import { faPinterestP } from '@fortawesome/free-brands-svg-icons';
 import { faCopy, faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
 
-const iconClasses = 'text-primary-500 w-[1.5rem] h-[1.5rem]';
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL!;
+
+const iconClasses = 'text-primary-500 w-4 h-4';
 
 type Props = {
   thoughtId: string;
@@ -67,27 +69,31 @@ export default function SharePopover({
                 </button>
                 <button
                   onClick={() => {
-                    navigator.clipboard.writeText(JSON.parse(thoughtId));
+                    navigator.clipboard.writeText(
+                      `${APP_URL}/${JSON.parse(thoughtId)}`
+                    );
                   }}
                 >
                   <FontAwesomeIcon icon={faLink} className={iconClasses} />
                 </button>
-                <EmailShareButton url={`/thought/${JSON.parse(thoughtId)}`}>
+                <EmailShareButton url={`${APP_URL}/${JSON.parse(thoughtId)}`}>
                   <FontAwesomeIcon icon={faEnvelope} className={iconClasses} />
                 </EmailShareButton>
-                <TwitterShareButton url={`/thought/${JSON.parse(thoughtId)}`}>
+                <TwitterShareButton url={`${APP_URL}/${JSON.parse(thoughtId)}`}>
                   <FontAwesomeIcon icon={faTwitter} className={iconClasses} />
                 </TwitterShareButton>
-                <FacebookShareButton url={`/thought/${JSON.parse(thoughtId)}`}>
+                <FacebookShareButton
+                  url={`${APP_URL}/${JSON.parse(thoughtId)}`}
+                >
                   <FontAwesomeIcon icon={faFacebookF} className={iconClasses} />
                 </FacebookShareButton>
                 <InstapaperShareButton
-                  url={`/thought/${JSON.parse(thoughtId)}`}
+                  url={`${APP_URL}/${JSON.parse(thoughtId)}`}
                 >
                   <FontAwesomeIcon icon={faInstagram} className={iconClasses} />
                 </InstapaperShareButton>
                 <PinterestShareButton
-                  url={`/thought/${JSON.parse(thoughtId)}`}
+                  url={`${APP_URL}/${JSON.parse(thoughtId)}`}
                   media={thoughtImage}
                 >
                   <FontAwesomeIcon
