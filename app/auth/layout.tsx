@@ -2,6 +2,7 @@ import { Inter } from 'next/font/google';
 import type { Metadata } from 'next';
 import '../globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
+import { Analytics } from '@vercel/analytics/react';
 
 export const metadata: Metadata = {
   title: 'DropThoughts',
@@ -23,6 +24,7 @@ export default function RootLayout({
           className={`${inter.className} bg-dark-1 w-[full] h-[100vh] flex justify-center items-center`}
         >
           {children}
+          <Analytics />
         </body>
       </html>
     </ClerkProvider>
