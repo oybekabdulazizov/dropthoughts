@@ -92,8 +92,7 @@ export default async function Page({ params }: Props) {
           <TabsContent value='thoughts' className='w-full text-light-1'>
             <ThoughtsTab
               currentUserId_clerk={currentUser_clerk.id}
-              authorId={JSON.stringify(user_db._id)}
-              accountType='User'
+              authorId={user_db._id}
             />
           </TabsContent>
           <TabsContent value='favourites' className='w-full text-light-1'>
