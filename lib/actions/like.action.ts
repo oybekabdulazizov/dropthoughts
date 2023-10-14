@@ -133,9 +133,13 @@ export async function fetchUserLikedThoughts(userId: string) {
       ],
     });
 
-    const userLikedThoughts = userLikes.reduce((acc, item) => {
-      return acc.concat(item.thought);
-    }, []);
+    const userLikedThoughts: any = userLikes
+      .filter((like) => like.thought.archived === false)
+      .reduce((acc, item) => {
+        if (!item.thought.archived) {
+          return acc.concat(item.thought);
+        }
+      }, []);
 
     return userLikedThoughts;
   } catch (error: any) {

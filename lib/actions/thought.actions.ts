@@ -60,6 +60,7 @@ export async function fetchThoughts({
     // Fetching thoughts with no parent thought, i.e. top-level thoughts
     const thoughts = await Thought.find({
       parentThoughtId: { $in: [null, undefined] },
+      archived: { $eq: false },
     })
       .sort({ createdAt: 'desc' })
       .skip(skip)
@@ -110,6 +111,7 @@ export async function fetchUserThoughts(authorId: string): Promise<any> {
     const userThoughts = await Thought.find({
       author: { $eq: authorId },
       parentThoughtId: { $in: [null, undefined] },
+      archived: { $eq: false },
     })
       .sort({ createdAt: 'desc' })
       .populate({ path: 'author', model: User })
@@ -151,7 +153,7 @@ export async function fetchAllThoughts() {
   try {
     connectToDB();
 
-    const thoughts = await Thought.find({})
+    const thoughts = await Thought.find({ archived: false })
       .sort({ createdAt: 'desc' })
       .populate({ path: 'author', model: User })
       .populate({
@@ -385,6 +387,40 @@ export async function deleteThought({
 
     // remove the given thought
     await Thought.findByIdAndDelete(thought._id);
+  } catch (error: any) {
+    if (error.message.includes('Cast to ObjectId failed')) {
+      return {
+        errorCode: 404,
+        errorMessage: 'Thought not found!',
+      };
+    } else {
+      throw new Error(`(deleteThought): ${error.message}`);
+    }
+  }
+
+  revalidatePath(pathname);
+}
+
+// ========================================================================================================
+
+interface ArchiveThought_Props {
+  thoughtId: string;
+  pathname: string;
+}
+
+export async function archiveThought({
+  thoughtId,
+  pathname,
+}: ArchiveThought_Props) {
+  try {
+    connectToDB();
+
+    const thought = await Thought.findById(thoughtId);
+    if (!thought) throw new Error('Thought not found!');
+
+    await Thought.findByIdAndUpdate(thought._id, {
+      archived: true,
+    });
   } catch (error: any) {
     if (error.message.includes('Cast to ObjectId failed')) {
       return {

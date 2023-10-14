@@ -10,6 +10,7 @@ import ThoughtsTab from '@/components/shared/ThoughtsTab';
 import RepliesTab from '@/components/shared/RepliesTab';
 import FavouritesTab from '@/components/shared/FavoruitesTab';
 import { fetchUserLikedThoughts } from '@/lib/actions/like.action';
+import { fetchUserThoughts } from '@/lib/actions/thought.actions';
 
 type Props = {
   params: {
@@ -32,6 +33,8 @@ export default async function Page({ params }: Props) {
   if (!user_db) {
     redirect('/');
   }
+
+  const userThoughts = await fetchUserThoughts(user_db._id);
 
   const favouriteThoughts = await fetchUserLikedThoughts(user_db._id);
 
@@ -72,7 +75,7 @@ export default async function Page({ params }: Props) {
 
                   {tab.value === 'thoughts' && (
                     <p className='rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2'>
-                      {user_db.thoughts.length}
+                      {userThoughts.length}
                     </p>
                   )}
                   {tab.value === 'favourites' && (

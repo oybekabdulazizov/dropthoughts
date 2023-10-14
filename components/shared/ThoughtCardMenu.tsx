@@ -1,6 +1,6 @@
 'use client';
 
-import { deleteThought } from '@/lib/actions/thought.actions';
+import { archiveThought, deleteThought } from '@/lib/actions/thought.actions';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -28,6 +28,15 @@ export default function ThoughtCardMenu({ thoughtId }: { thoughtId: string }) {
 
   const handleDelete = async () => {
     await deleteThought({
+      thoughtId: JSON.parse(thoughtId),
+      pathname,
+    });
+
+    router.push('/');
+  };
+
+  const handleArchive = async () => {
+    await archiveThought({
       thoughtId: JSON.parse(thoughtId),
       pathname,
     });
@@ -66,6 +75,12 @@ export default function ThoughtCardMenu({ thoughtId }: { thoughtId: string }) {
               className='w-full px-4 py-2 hover:bg-dark-3 text-start'
             >
               Delete
+            </button>
+            <button
+              onClick={handleArchive}
+              className='w-full px-4 py-2 hover:bg-dark-3 text-start'
+            >
+              Archive
             </button>
           </ul>
         </div>
