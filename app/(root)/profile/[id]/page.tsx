@@ -1,20 +1,20 @@
-import ProfileHeader from '@/components/shared/ProfileHeader';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { profileTabs } from '@/constants';
-import { fetchUser, getReplies } from '@/lib/actions/user.actions';
 import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
-import React from 'react';
 import Image from 'next/image';
+
+import { profileTabs } from '@/constants';
+import ProfileHeader from '@/components/shared/ProfileHeader';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ThoughtsTab from '@/components/shared/ThoughtsTab';
-import RepliesTab from '@/components/shared/RepliesTab';
 import FavouritesTab from '@/components/shared/FavoruitesTab';
+import ArchivesTab from '@/components/shared/ArchivesTab';
+
+import { fetchUser } from '@/lib/actions/user.actions';
 import { fetchUserLikedThoughts } from '@/lib/actions/like.action';
 import {
   fetchUserArchivedThoughts,
   fetchUserThoughts,
 } from '@/lib/actions/thought.actions';
-import ArchivesTab from '@/components/shared/ArchivesTab';
 
 type Props = {
   params: {

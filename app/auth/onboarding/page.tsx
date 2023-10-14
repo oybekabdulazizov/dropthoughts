@@ -1,6 +1,7 @@
-import AccountProfile from '@/components/forms/AccountProfile';
 import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
+
+import AccountProfile from '@/components/forms/AccountProfile';
 
 export default async function Page() {
   const currentUser_clerk = await currentUser();

@@ -1,12 +1,14 @@
+import { currentUser } from '@clerk/nextjs';
+import Image from 'next/image';
+import { redirect } from 'next/navigation';
+
 import LikesTab from '@/components/shared/LikesTab';
 import RepliesTab from '@/components/shared/RepliesTab';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { activityTabs } from '@/constants';
+
 import { getLikes } from '@/lib/actions/like.action';
 import { fetchUser, getReplies } from '@/lib/actions/user.actions';
-import { currentUser } from '@clerk/nextjs';
-import Image from 'next/image';
-import { redirect } from 'next/navigation';
 
 export default async function Page() {
   const currentUser_clerk = await currentUser();

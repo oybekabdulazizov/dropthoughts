@@ -1,10 +1,11 @@
-import ThoughtCard from '@/components/cards/ThoughtCard';
-import React from 'react';
 import { currentUser } from '@clerk/nextjs';
-import { fetchUser } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
-import { fetchThought } from '@/lib/actions/thought.actions';
+
+import ThoughtCard from '@/components/cards/ThoughtCard';
 import NewComment from '@/components/forms/NewComment';
+
+import { fetchUser } from '@/lib/actions/user.actions';
+import { fetchThought } from '@/lib/actions/thought.actions';
 
 type Props = {
   params: {

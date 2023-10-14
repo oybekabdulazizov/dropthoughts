@@ -1,12 +1,8 @@
-import UserCard from '@/components/cards/UserCard';
-import {
-  fetchUser,
-  fetchUserFollowers,
-  fetchUserFollowings,
-} from '@/lib/actions/user.actions';
 import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
-import React from 'react';
+import UserCard from '@/components/cards/UserCard';
+
+import { fetchUser, fetchUserFollowers } from '@/lib/actions/user.actions';
 
 type Props = {
   params: {

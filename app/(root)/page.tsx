@@ -1,9 +1,9 @@
+import { currentUser } from '@clerk/nextjs';
+
 import ThoughtCard from '@/components/cards/ThoughtCard';
 import Trigger from '@/components/shared/Trigger';
-import { fetchAllThoughts, fetchThoughts } from '@/lib/actions/thought.actions';
-import { currentUser } from '@clerk/nextjs';
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
+
+import { fetchThoughts } from '@/lib/actions/thought.actions';
 
 interface Props {
   searchParams: { [key: string]: string | string[] | undefined };

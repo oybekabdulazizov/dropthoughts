@@ -1,9 +1,10 @@
-import PostThought from '@/components/forms/PostThought';
-import { fetchThought } from '@/lib/actions/thought.actions';
-import { fetchUser } from '@/lib/actions/user.actions';
 import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
-import React from 'react';
+
+import PostThought from '@/components/forms/PostThought';
+
+import { fetchThought } from '@/lib/actions/thought.actions';
+import { fetchUser } from '@/lib/actions/user.actions';
 
 type Props = {
   params: {

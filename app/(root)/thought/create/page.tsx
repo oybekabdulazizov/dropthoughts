@@ -1,7 +1,9 @@
-import PostThought from '@/components/forms/PostThought';
-import { fetchUser } from '@/lib/actions/user.actions';
 import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
+
+import PostThought from '@/components/forms/PostThought';
+
+import { fetchUser } from '@/lib/actions/user.actions';
 
 export default async function Page() {
   const currentUser_clerk = await currentUser();
