@@ -31,6 +31,10 @@ const thoughtSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  archived: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Thought = models.Thought || model('Thought', thoughtSchema);
